@@ -1,0 +1,443 @@
+{
+  "schema_version": "1.0",
+  "id": "nmt-attention",
+  "title": "From sentence vectors to attention",
+  "question": "How did neural machine translation progress from fixed-length encoding through learned attention to the Transformer?",
+  "scope": {
+    "summary": "A six-paper reading map of architectural changes in neural machine translation, 2014–2017. It distinguishes phrase scoring, fixed-vector translation, recurrent attention, convolutional attention, and the Transformer.",
+    "cutoff": "2017-12-31",
+    "coverage": "Six selected primary papers, seven recorded source versions, six results, and six proposed relationships. Full-text sections were checked on 2026-10-17; no scholarly reviewer has signed off.",
+    "search_strategy": "On 2026-10-17, used Neubig's tutorial (arXiv:1703.01619v1, sections 8.2–8.4) for orientation, then followed references in the six primary papers. Read pinned arXiv PDFs and checked their submission histories. Selected architectural changes relevant to the question; this is targeted reference tracing, not an exhaustive database search. ConvS2S v2 is pinned because Transformer v1 cites it explicitly.",
+    "exclusions": [
+      "Earlier statistical MT and neural language models are background, not mapped comprehensively.",
+      "ByteNet, GNMT, Neural GPU, subword methods, and attention outside translation are omitted from this small map.",
+      "No post-2017 architectures, training reproduction, or cross-paper BLEU leaderboard."
+    ],
+    "gaps": [
+      "Selection and relationship interpretation remain proposed and need a domain review.",
+      "Experimental data, tokenization, language pairs, model sizes, and decoding settings differ; numeric performance superiority is not inferred.",
+      "The teaching route places fixed-vector models together; it is not a priority claim. The timeline uses actual first-submission dates."
+    ]
+  },
+  "lanes": [
+    {
+      "id": "fixed",
+      "label": "Fixed-vector encoding",
+      "color": "teal"
+    },
+    {
+      "id": "align",
+      "label": "Learned alignment",
+      "color": "blue"
+    },
+    {
+      "id": "parallel",
+      "label": "Parallel representations",
+      "color": "violet"
+    }
+  ],
+  "works": [
+    {
+      "id": "cho",
+      "title": "Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation",
+      "authors": [
+        "Kyunghyun Cho",
+        "Bart van Merrienboer",
+        "Caglar Gulcehre",
+        "Fethi Bougares",
+        "Holger Schwenk",
+        "Yoshua Bengio"
+      ],
+      "first_published": "2014-06-03",
+      "versions": [
+        {
+          "id": "cho-v1",
+          "label": "arXiv v1",
+          "published": "2014-06-03",
+          "url": "https://arxiv.org/pdf/1406.1078v1"
+        }
+      ]
+    },
+    {
+      "id": "bahdanau",
+      "title": "Neural Machine Translation by Jointly Learning to Align and Translate",
+      "authors": [
+        "Dzmitry Bahdanau",
+        "Kyunghyun Cho",
+        "Yoshua Bengio"
+      ],
+      "first_published": "2014-09-01",
+      "versions": [
+        {
+          "id": "bahdanau-v1",
+          "label": "arXiv v1",
+          "published": "2014-09-01",
+          "url": "https://arxiv.org/pdf/1409.0473v1"
+        }
+      ]
+    },
+    {
+      "id": "sutskever",
+      "title": "Sequence to Sequence Learning with Neural Networks",
+      "authors": [
+        "Ilya Sutskever",
+        "Oriol Vinyals",
+        "Quoc V. Le"
+      ],
+      "first_published": "2014-09-10",
+      "versions": [
+        {
+          "id": "sutskever-v1",
+          "label": "arXiv v1",
+          "published": "2014-09-10",
+          "url": "https://arxiv.org/pdf/1409.3215v1"
+        }
+      ]
+    },
+    {
+      "id": "luong",
+      "title": "Effective Approaches to Attention-based Neural Machine Translation",
+      "authors": [
+        "Minh-Thang Luong",
+        "Hieu Pham",
+        "Christopher D. Manning"
+      ],
+      "first_published": "2015-08-17",
+      "versions": [
+        {
+          "id": "luong-v1",
+          "label": "arXiv v1",
+          "published": "2015-08-17",
+          "url": "https://arxiv.org/pdf/1508.04025v1"
+        }
+      ]
+    },
+    {
+      "id": "convs2s",
+      "title": "Convolutional Sequence to Sequence Learning",
+      "authors": [
+        "Jonas Gehring",
+        "Michael Auli",
+        "David Grangier",
+        "Denis Yarats",
+        "Yann N. Dauphin"
+      ],
+      "first_published": "2017-05-08",
+      "versions": [
+        {
+          "id": "convs2s-v1",
+          "label": "arXiv v1",
+          "published": "2017-05-08",
+          "url": "https://arxiv.org/pdf/1705.03122v1"
+        },
+        {
+          "id": "convs2s-v2",
+          "label": "arXiv v2",
+          "published": "2017-05-12",
+          "url": "https://arxiv.org/pdf/1705.03122v2"
+        }
+      ]
+    },
+    {
+      "id": "transformer",
+      "title": "Attention Is All You Need",
+      "authors": [
+        "Ashish Vaswani",
+        "Noam Shazeer",
+        "Niki Parmar",
+        "Jakob Uszkoreit",
+        "Llion Jones",
+        "Aidan N. Gomez",
+        "Lukasz Kaiser",
+        "Illia Polosukhin"
+      ],
+      "first_published": "2017-06-12",
+      "versions": [
+        {
+          "id": "transformer-v1",
+          "label": "arXiv v1",
+          "published": "2017-06-12",
+          "url": "https://arxiv.org/pdf/1706.03762v1"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "r-cho",
+      "work_id": "cho",
+      "version_id": "cho-v1",
+      "label": "RNN phrase encoding",
+      "summary": "A gated recurrent encoder compresses a phrase into a fixed-size vector. Its decoder scores target phrases as an additional feature for statistical translation.",
+      "lane": "fixed",
+      "kind": "foundation",
+      "settings": {
+        "input": "English–French phrase pairs and statistical machine translation.",
+        "assumptions": "Fixed-size phrase representation; gated recurrent encoder and decoder; phrase-based SMT integration.",
+        "cost": null,
+        "error": "Translation evaluation is task-specific; no comparable numeric error or BLEU claim is extracted here."
+      },
+      "evidence": [
+        "ev-cho"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-bahdanau",
+      "work_id": "bahdanau",
+      "version_id": "bahdanau-v1",
+      "label": "Joint alignment",
+      "summary": "A decoder learns a different weighted source context for each output step, reducing reliance on one fixed-length sentence representation.",
+      "lane": "align",
+      "kind": "framework",
+      "settings": {
+        "input": "English–French sentence translation.",
+        "assumptions": "Bidirectional recurrent encoding; learned soft alignment; autoregressive decoding.",
+        "cost": null,
+        "error": "Translation evaluation is task-specific; no comparable numeric error or BLEU claim is extracted here."
+      },
+      "evidence": [
+        "ev-bahdanau"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-sutskever",
+      "work_id": "sutskever",
+      "version_id": "sutskever-v1",
+      "label": "LSTM sequence mapping",
+      "summary": "A multilayer LSTM encodes a sentence into a vector for a second LSTM to decode. Reversing source token order is part of the reported setup.",
+      "lane": "fixed",
+      "kind": "framework",
+      "settings": {
+        "input": "WMT 2014 English–French sentence translation.",
+        "assumptions": "Stacked LSTM encoder and decoder; fixed vector; reversed source order.",
+        "cost": null,
+        "error": "Translation evaluation is task-specific; no comparable numeric error or BLEU claim is extracted here."
+      },
+      "evidence": [
+        "ev-sutskever"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-luong",
+      "work_id": "luong",
+      "version_id": "luong-v1",
+      "label": "Global & local attention",
+      "summary": "Studies global attention over all source positions and local attention over a selected window, with several alignment score functions.",
+      "lane": "align",
+      "kind": "framework",
+      "settings": {
+        "input": "English–German and German–English translation experiments.",
+        "assumptions": "Stacked recurrent encoder-decoder; global or local alignment; score-function choices.",
+        "cost": null,
+        "error": "Translation evaluation is task-specific; no comparable numeric error or BLEU claim is extracted here."
+      },
+      "evidence": [
+        "ev-luong"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-convs2s",
+      "work_id": "convs2s",
+      "version_id": "convs2s-v2",
+      "label": "Convolutional attention",
+      "summary": "Convolutions replace recurrent state updates. Each decoder layer attends to source representations, allowing attention computation to be batched during training.",
+      "lane": "parallel",
+      "kind": "framework",
+      "settings": {
+        "input": "WMT English–Romanian, English–German and English–French; summarization experiments excluded from this map.",
+        "assumptions": "Convolutional encoder-decoder; gated linear units; position embeddings; multi-step attention.",
+        "cost": null,
+        "error": "Translation evaluation is task-specific; no comparable numeric error or BLEU claim is extracted here."
+      },
+      "evidence": [
+        "ev-convs2s"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-transformer",
+      "work_id": "transformer",
+      "version_id": "transformer-v1",
+      "label": "The Transformer",
+      "summary": "Self-attention and feed-forward layers replace recurrence and convolution. Multi-head encoder-decoder attention retains access to source representations.",
+      "lane": "parallel",
+      "kind": "framework",
+      "settings": {
+        "input": "WMT 2014 English–German and English–French translation.",
+        "assumptions": "Multi-head attention; positional encodings; masked autoregressive decoder.",
+        "cost": "Table 1: self-attention layer O(n^2 d), O(1) sequential operations. This is a layer comparison, not total training or autoregressive decoding cost.",
+        "error": "Translation evaluation is task-specific; no comparable numeric error or BLEU claim is extracted here."
+      },
+      "evidence": [
+        "ev-transformer"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-cho",
+      "work_id": "cho",
+      "version_id": "cho-v1",
+      "url": "https://arxiv.org/pdf/1406.1078v1",
+      "locator": "Sections 2.2 and 3.1, PDF pages 2–4",
+      "kind": "full_text",
+      "summary": "Defines the conditional encoder-decoder model and its use in scoring phrase pairs. This version's author list has six names.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "ev-bahdanau",
+      "work_id": "bahdanau",
+      "version_id": "bahdanau-v1",
+      "url": "https://arxiv.org/pdf/1409.0473v1",
+      "locator": "Sections 1, 2.1 and 3, PDF pages 1–4",
+      "kind": "full_text",
+      "summary": "Identifies the fixed-vector bottleneck, describes the Cho-style model on which the architecture builds, and introduces learned alignment with a bidirectional encoder.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "ev-sutskever",
+      "work_id": "sutskever",
+      "version_id": "sutskever-v1",
+      "url": "https://arxiv.org/pdf/1409.3215v1",
+      "locator": "Abstract and Section 1, PDF pages 1–2",
+      "kind": "full_text",
+      "summary": "Describes sequence-to-sequence LSTMs and states that the model was developed in parallel with Cho et al.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "ev-luong",
+      "work_id": "luong",
+      "version_id": "luong-v1",
+      "url": "https://arxiv.org/pdf/1508.04025v1",
+      "locator": "Sections 3.1–3.2, PDF pages 3–4",
+      "kind": "full_text",
+      "summary": "Section 3.1 explicitly describes simplifying and generalizing Bahdanau-style attention; Section 3.2 introduces a local source window.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "ev-convs2s",
+      "work_id": "convs2s",
+      "version_id": "convs2s-v2",
+      "url": "https://arxiv.org/pdf/1705.03122v2",
+      "locator": "Sections 2 and 3.3, PDF pages 2–4; Section 4.1, pages 4–5",
+      "kind": "full_text",
+      "summary": "Contrasts its multiple attention hops with single-step recurrent attention, including Luong et al.; describes dot-product attention at each decoder layer.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "ev-transformer",
+      "work_id": "transformer",
+      "version_id": "transformer-v1",
+      "url": "https://arxiv.org/pdf/1706.03762v1",
+      "locator": "Sections 2, 3.2.3 and 4; PDF pages 2, 4–6; reference 9 on page 10",
+      "kind": "full_text",
+      "summary": "Motivates shorter paths than convolutional models, cites ConvS2S v2, and explicitly connects encoder-decoder attention to Bahdanau-style models. Table 1 compares layer costs.",
+      "checked": "2026-10-17"
+    }
+  ],
+  "relations": [
+    {
+      "id": "fixed-to-align",
+      "source": "r-cho",
+      "target": "r-bahdanau",
+      "type": "addresses",
+      "summary": "Bahdanau et al. address the fixed-vector bottleneck in the encoder-decoder formulation described in Section 2.1.",
+      "evidence": [
+        "ev-bahdanau"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "parallel-fixed",
+      "source": "r-cho",
+      "target": "r-sutskever",
+      "type": "independent_parallel",
+      "summary": "Sutskever et al. state that their model was developed in parallel with Cho et al.; this is not a claim of derivation.",
+      "evidence": [
+        "ev-sutskever"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "alignment-variants",
+      "source": "r-bahdanau",
+      "target": "r-luong",
+      "type": "simplifies",
+      "summary": "Luong et al. explicitly describe a simpler attention path and additional alignment functions relative to Bahdanau et al.",
+      "evidence": [
+        "ev-luong"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "layer-attention",
+      "source": "r-luong",
+      "target": "r-convs2s",
+      "type": "generalizes",
+      "summary": "Editorial interpretation: per-layer multi-hop attention extends the single-step pattern discussed alongside Luong et al. This is not a formal containment theorem.",
+      "evidence": [
+        "ev-convs2s"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "shorter-paths",
+      "source": "r-convs2s",
+      "target": "r-transformer",
+      "type": "addresses",
+      "summary": "Transformer Section 2 addresses distance-dependent convolutional paths using attention; the claim concerns architectural paths, not universal speed or accuracy.",
+      "evidence": [
+        "ev-transformer"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "retain-cross-attention",
+      "source": "r-bahdanau",
+      "target": "r-transformer",
+      "type": "uses_result",
+      "summary": "Transformer Section 3.2.3 describes its encoder-decoder attention as following the source-attention pattern of earlier sequence models, explicitly including Bahdanau et al.",
+      "evidence": [
+        "ev-transformer"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "reading_route": [
+    "r-cho",
+    "r-sutskever",
+    "r-bahdanau",
+    "r-luong",
+    "r-convs2s",
+    "r-transformer"
+  ]
+}

@@ -1,6 +1,8 @@
 """Local IO, comparison, change proposals, and inspectable review reports."""
 
 import json
+import html
+import re
 from pathlib import Path
 
 from .contract import validate
@@ -51,6 +53,14 @@ def write_text(path, text):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8", newline="\n")
+
+
+def same_file(left, right):
+    """Account for path aliases and existing hard links before writing output."""
+    left, right = Path(left), Path(right)
+    return left.resolve() == right.resolve() or (
+        left.exists() and right.exists() and left.samefile(right)
+    )
 
 
 def compare(data, left, right):
@@ -104,6 +114,12 @@ def diff_maps(before, after):
                 for key in sorted(a.keys() & b.keys())
                 if a[key] != b[key]
             ],
+            "order": {
+                "before": [item["id"] for item in before[collection]],
+                "after": [item["id"] for item in after[collection]],
+            }
+            if list(a) != list(b)
+            else None,
         }
     metadata = {
         key: {"before": before[key], "after": after[key]}
@@ -118,36 +134,93 @@ def diff_maps(before, after):
     }
 
 
-def review_report(data):
-    check = validate(data)
-    lines = [
-        f"# {data['title']} — Review report",
-        "",
-        data["question"],
-        "",
-        f"Scope cutoff: {data['scope']['cutoff']}. Chronology is not a historical snapshot.",
-        "",
-        "Structural validation does not certify scientific correctness or reviewer identity.",
-        "",
-        "## Coverage",
-        "",
-        data["scope"]["coverage"],
-        "",
-        "## Known gaps",
-        "",
+def review_sections(data):
+    """Shared readable provenance for Markdown, CLI SVG, and browser SVG."""
+    sections = [
+        (
+            "Scope",
+            [
+                data["question"],
+                data["scope"]["summary"],
+                f"Scope cutoff: {data['scope']['cutoff']}. Chronology is not a historical snapshot.",
+                "Structural validation does not certify scientific correctness or reviewer identity.",
+            ],
+        ),
+        ("Coverage", [data["scope"]["coverage"]]),
+        ("Search strategy", [data["scope"]["search_strategy"]]),
+        ("Exclusions", data["scope"]["exclusions"] or ["None recorded."]),
+        ("Known gaps", data["scope"]["gaps"]),
     ]
-    lines += [f"- {gap}" for gap in data["scope"]["gaps"]]
-    lines += ["", "## Review queue", ""]
+    sources = []
+    for work in data["works"]:
+        sources.append(
+            f"{work['id']}: {work['title']} — {', '.join(work['authors'])}. First published {work['first_published']}."
+        )
+        for version in work["versions"]:
+            sources.append(
+                f"{version['id']}: {version['label']} — {version['published']} — {version['url']}"
+            )
+    sections.append(("Source index", sources))
+    queue = []
     for item in data["results"] + data["relations"]:
-        lines += [
-            f"- `{item['id']}`: {item['review_status']} — {item.get('summary', '')}"
-        ]
-    lines += ["", "## Evidence", ""]
-    for item in data["evidence"]:
-        lines += [
-            f"- `{item['id']}`: {item['url']} — {item['locator']} ({item['kind']}, {item['version_id']}; checked {item['checked']}). {item['summary']}"
-        ]
-    lines += ["", "## Diagnostics", ""] + [
-        f"- {warning}" for warning in check["warnings"]
+        queue.append(f"{item['id']}: {item['review_status']} — {item['summary']}")
+        if "work_id" in item:
+            queue.append(
+                f"{item['label']} | {item['work_id']} | {item['version_id']} | {item['kind']} | lane {item['lane']}"
+            )
+            queue.extend(
+                f"{key}: {value if value is not None else 'Not extracted'}"
+                for key, value in item["settings"].items()
+            )
+        else:
+            queue.append(
+                f"{item['target']} {item['type']} {item['source']} | basis: {item['basis']} | comparability: {item['comparability']}"
+            )
+        queue.append("Evidence: " + ", ".join(item["evidence"]))
+        queue.extend(
+            f"Recorded review (identity not authenticated): {review['name']} — {review['url']}"
+            for review in item["reviews"]
+        )
+    sections.append(("Review queue", queue))
+    sections.append(
+        (
+            "Evidence",
+            [
+                f"{item['id']}: {item['url']} — {item['locator']} ({item['kind']}, {item['work_id']}, {item['version_id']}; checked {item['checked']}). {item['summary']}"
+                for item in data["evidence"]
+            ],
+        )
+    )
+    sections.append(
+        ("Reading route", [" → ".join(data["reading_route"]) or "No route recorded."])
+    )
+    sections.append(
+        ("Diagnostics", validate(data)["warnings"] or ["No structural warnings."])
+    )
+    return sections
+
+
+def export_notes(data):
+    return [
+        data["title"],
+        *[
+            line
+            for heading, lines in review_sections(data)
+            for line in (heading.upper(), *lines)
+        ],
     ]
+
+
+def _markdown_text(value):
+    # Input remains literal text even in Markdown renderers that allow raw HTML.
+    escaped = html.escape(value, quote=False)
+    return re.sub(r"([\\`*_{}\[\]#!|])", r"\\\1", escaped)
+
+
+def review_report(data):
+    lines = [f"# {_markdown_text(data['title'])} — Review report", ""]
+    for heading, content in review_sections(data):
+        lines += [f"## {heading}", ""]
+        for line in content:
+            lines.extend([_markdown_text(line), ""])
     return "\n".join(lines) + "\n"

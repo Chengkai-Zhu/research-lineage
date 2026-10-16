@@ -7,9 +7,10 @@ from datetime import date
 from pathlib import Path
 
 from .contract import validate
-from .core import MapError, dump, review_report, write_text
+from .core import MapError, dump, export_notes, review_report, write_text
 
 ASSETS = Path(__file__).parent / "assets"
+OUTPUT_NAMES = ("map.json", "map.html", "map.svg", "review.md")
 PALETTE = {
     "teal": "#147d70",
     "blue": "#426dad",
@@ -122,7 +123,6 @@ def render_svg(data):
     svg.append(
         f'<text x="30" y="{height - 14}" class="year">RESEARCH LINEAGE · Cutoff {data["scope"]["cutoff"]} · {sum(result["review_status"] == "proposed" for result in data["results"])} draft results · Consult the scope and evidence before reuse</text></svg>'
     )
-    # Standalone SVG includes readable coverage, gaps, and the complete source index.
     return "".join(svg)
 
 
@@ -130,19 +130,7 @@ def export_svg(data):
     chart = render_svg(data)
     height = layout(data)[2]
     esc = html.escape
-    lines = [
-        "COVERAGE",
-        data["scope"]["coverage"],
-        "EXCLUSIONS",
-        *data["scope"]["exclusions"],
-        "KNOWN GAPS",
-        *data["scope"]["gaps"],
-        "SOURCE INDEX",
-    ]
-    lines += [
-        f"{item['id']} | {item['version_id']} | {item['locator']} | {item['url']}"
-        for item in data["evidence"]
-    ]
+    lines = export_notes(data)
     wrapped = [part for line in lines for part in textwrap.wrap(line, 145)]
     extra = "".join(
         f'<text x="30" y="{height + 30 + i * 18}" fill="#43594d" font-size="12">{esc(line)}</text>'
@@ -151,7 +139,12 @@ def export_svg(data):
     return chart.replace(
         f'viewBox="0 0 1240 {height}"',
         f'viewBox="0 0 1240 {height + 60 + len(wrapped) * 18}"',
-    ).replace("</svg>", extra + "</svg>")
+    ).replace(
+        "</svg>",
+        f'<metadata id="research-lineage-data">{esc(dump(data))}</metadata>'
+        + extra
+        + "</svg>",
+    )
 
 
 def render_html(data):
@@ -168,12 +161,18 @@ def render_html(data):
         "JS": (ASSETS / "viewer.js").read_text(encoding="utf-8"),
         "DATA": serialized,
         "SVG": render_svg(data),
+        "EXPORT_NOTES": json.dumps(export_notes(data), ensure_ascii=False)
+        .replace("<", "\\u003c")
+        .replace(">", "\\u003e")
+        .replace("&", "\\u0026"),
     }
     # One pass prevents user text that resembles a template token being interpreted.
     import re
 
     return re.sub(
-        r"@@(TITLE|CSS|JS|DATA|SVG)@@", lambda match: values[match[1]], template
+        r"@@(TITLE|CSS|JS|DATA|SVG|EXPORT_NOTES)@@",
+        lambda match: values[match[1]],
+        template,
     )
 
 
@@ -186,7 +185,7 @@ def build(data, destination, force=False):
             "This draft has no results. Add evidence-linked results before building."
         )
     destination = Path(destination)
-    names = ("map.json", "map.html", "map.svg", "review.md")
+    names = OUTPUT_NAMES
     if not force and any((destination / name).exists() for name in names):
         raise MapError(
             "Output already exists; choose a new folder or use --force to replace generated files."

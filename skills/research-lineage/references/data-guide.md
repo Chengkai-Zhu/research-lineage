@@ -43,9 +43,13 @@ settings and a supported comparability assessment.
 ## Review and scope
 
 Default `review_status` is `proposed`, with `reviews: []`. `reviewed` requires
-full-text evidence and a real external reference `{ "name": "Reviewer name",
+full-text evidence from the result's pinned work and version, plus a real external
+reference `{ "name": "Reviewer name",
 "url": "https://..." }`. Critiques, refutations, and bound improvements require
-two distinct reviewers and links. The validator cannot authenticate identities or
+two distinct reviewers and links. A reviewed relationship requires full-text
+evidence from its target result's pinned work and version. An unrelated paper or
+another version cannot supply this evidence, even when abstract evidence for the
+correct version is also present. The validator cannot authenticate identities or
 independence; the viewer calls these **recorded reviews**, never verified experts.
 
 All version dates must be between first publication and the scope cutoff. Evidence

@@ -3,5 +3,6 @@ graft scripts
 graft skills
 graft tests
 graft schema
+graft examples
 recursive-include docs *.md *.json
 global-exclude __pycache__ *.py[cod]

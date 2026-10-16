@@ -3,6 +3,8 @@ import os
 import subprocess
 import sys
 import zipfile
+import html
+import re
 from copy import deepcopy
 from pathlib import Path
 from xml.etree import ElementTree
@@ -18,7 +20,7 @@ from research_lineage.core import (
     load_map,
     review_report,
 )
-from research_lineage.render import build, export_svg, render_html
+from research_lineage.render import OUTPUT_NAMES, build, export_svg, render_html
 
 ROOT = Path(__file__).parents[1]
 
@@ -63,6 +65,46 @@ def test_html_and_svg_treat_imported_text_as_data(sample):
     assert "@@JS@@" in page  # literal user text is not reinterpreted as a template slot
     root = ElementTree.fromstring(export_svg(sample))
     assert not root.findall(".//{http://www.w3.org/2000/svg}script")
+    report = review_report(sample)
+    assert "<img" not in report and "</script>" not in report
+    assert "&lt;img" in report
+
+
+def test_static_exports_retain_scope_evidence_and_review_provenance(sample):
+    sample["scope"]["summary"] = "UNIQUE SCOPE SUMMARY"
+    sample["scope"]["search_strategy"] = "UNIQUE SEARCH STRATEGY"
+    sample["scope"]["exclusions"] = ["UNIQUE EXCLUSION"]
+    sample["evidence"][0]["summary"] = "UNIQUE EVIDENCE SUMMARY"
+    sample["evidence"][0]["kind"] = "full_text"
+    sample["results"][0]["settings"]["cost"] = "UNIQUE COST CONDITION"
+    sample["results"][0]["review_status"] = "reviewed"
+    sample["results"][0]["reviews"] = [
+        {"name": "Audit fixture", "url": "https://example.org/audit-review"}
+    ]
+    svg = ElementTree.fromstring(export_svg(sample))
+    text = " ".join(svg.itertext())
+    report = html.unescape(review_report(sample)).replace("\\_", "_")
+    for output in (text, report):
+        for marker in (
+            "UNIQUE SCOPE SUMMARY",
+            "UNIQUE SEARCH STRATEGY",
+            "UNIQUE EXCLUSION",
+            "UNIQUE EVIDENCE SUMMARY",
+            "UNIQUE COST CONDITION",
+            "full_text",
+            "author_explicit",
+            "not_assessed",
+            "Audit fixture",
+            "https://example.org/audit-review",
+        ):
+            assert marker in output
+        assert "not authenticated" in output
+    metadata = svg.find("{http://www.w3.org/2000/svg}metadata")
+    assert json.loads(metadata.text) == sample
+    # The browser receives the same readable appendix, not a second lossy implementation.
+    page = render_html(sample)
+    notes = re.search(r'id="export-notes">\s*(.*?)\s*</script>', page, re.DOTALL)
+    assert "UNIQUE EVIDENCE SUMMARY" in " ".join(json.loads(notes[1]))
 
 
 def test_viewer_has_no_remote_runtime_dependencies(sample):
@@ -96,6 +138,50 @@ def test_diff_preserves_removals_and_changed_settings(sample):
     newer["id"] = "different-map"
     with pytest.raises(MapError):
         diff_maps(sample, newer)
+
+
+@pytest.mark.parametrize(
+    "collection", ["lanes", "works", "results", "evidence", "relations"]
+)
+def test_diff_records_collection_order(sample, collection):
+    newer = deepcopy(sample)
+    newer[collection].reverse()
+    order = diff_maps(sample, newer)["changes"][collection]["order"]
+    assert order["before"] == [item["id"] for item in sample[collection]]
+    assert order["after"] == list(reversed(order["before"]))
+    assert diff_maps(sample, sample)["changes"][collection]["order"] is None
+
+
+@pytest.mark.parametrize("filename", OUTPUT_NAMES)
+def test_build_never_overwrites_any_input_filename(sample, tmp_path, capsys, filename):
+    source = tmp_path / filename
+    source.write_text(dump(sample), encoding="utf-8")
+    original = source.read_bytes()
+    assert main(["build", str(source), "--out", str(tmp_path), "--force"]) == 2
+    assert source.read_bytes() == original
+    assert list(tmp_path.iterdir()) == [source]
+    assert "overwrite its input" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("command", ["build", "review", "diff"])
+def test_output_hardlink_cannot_overwrite_input(sample, tmp_path, command):
+    source = tmp_path / "input.json"
+    source.write_text(dump(sample), encoding="utf-8")
+    alias = tmp_path / "map.html"
+    try:
+        alias.hardlink_to(source)
+    except OSError as exc:
+        pytest.skip(f"Hard links unavailable on this filesystem: {exc}")
+    original = source.read_bytes()
+    arguments = [command, str(source)]
+    if command == "build":
+        arguments += ["--out", str(tmp_path), "--force"]
+    elif command == "review":
+        arguments += ["--out", str(alias)]
+    else:
+        arguments += [str(source), "--out", str(alias)]
+    assert main(arguments) == 2
+    assert source.read_bytes() == original
 
 
 @pytest.mark.parametrize("raw", ['{"id":"a","id":"b"}', "NaN", "\ud800", "{broken"])
@@ -212,3 +298,19 @@ def test_unreviewed_example_has_no_claimed_certification(sample):
     )
     assert all(item["kind"] == "abstract" for item in sample["evidence"])
     assert dump(sample).endswith("\n")
+
+
+def test_new_question_builds_without_the_builtin_demo(tmp_path):
+    source = ROOT / "examples/nmt-attention/map.json"
+    data = load_map(source)
+    assert data["id"] == "nmt-attention"
+    assert len(data["works"]) == len(data["results"]) == 6
+    output = tmp_path / "new-question"
+    assert main(["build", str(source), "--out", str(output)]) == 0
+    assert load_map(output / "map.json") == data
+    comparison = compare(data, "r-convs2s", "r-transformer")
+    assert comparison["fields"][2]["status"] == "unknown"
+    assert all(
+        item["review_status"] == "proposed"
+        for item in data["results"] + data["relations"]
+    )

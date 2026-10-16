@@ -322,6 +322,7 @@
     )
       showResult(visible[0].id);
     else if (selectedType === "result") showResult(selected, false);
+    else if (selectedType === "relation") showRelation(selected, false);
     $("announcement").textContent = visible.length + " matching results.";
   }
   function resetFilters() {
@@ -370,10 +371,20 @@
       body.append(list);
     });
     body.append(element("h3", "", "Source index"));
+    const citedVersions = new Set([
+      ...data.results.map((item) => item.version_id),
+      ...data.evidence.map((item) => item.version_id),
+    ]);
     data.works.forEach((work) => {
-      const p = element("p");
-      p.append(link(work.title + " ↗", work.versions[0].url));
-      body.append(p);
+      body.append(element("h4", "", work.title));
+      work.versions.forEach((version) => {
+        const p = element("p");
+        p.append(link(version.label + " · " + version.published + " ↗", version.url));
+        p.append(element("span", "", citedVersions.has(version.id)
+          ? " — Cited in this map"
+          : " — Recorded version; not cited"));
+        body.append(p);
+      });
     });
   }
   function showCompare(left, right) {
@@ -487,25 +498,11 @@
       root = doc.documentElement;
     const box = root.getAttribute("viewBox").split(" ").map(Number),
       height = box[3];
-    const raw = [
-      "COVERAGE",
-      data.scope.coverage,
-      "EXCLUSIONS",
-      ...data.scope.exclusions,
-      "KNOWN GAPS",
-      ...data.scope.gaps,
-      "SOURCE INDEX",
-      ...data.evidence.map(
-        (item) =>
-          item.id +
-          " | " +
-          item.version_id +
-          " | " +
-          item.locator +
-          " | " +
-          item.url,
-      ),
-    ];
+    const raw = JSON.parse($("export-notes").textContent);
+    const metadata = doc.createElementNS("http://www.w3.org/2000/svg", "metadata");
+    metadata.id = "research-lineage-data";
+    metadata.textContent = JSON.stringify(data);
+    root.append(metadata);
     const lines = raw.flatMap((text) => {
       const words = text.split(" "),
         rows = [""];

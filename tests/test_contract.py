@@ -113,6 +113,63 @@ def test_high_risk_review_needs_distinct_people_and_links(sample):
     assert validate(sample)["valid"]
 
 
+@pytest.mark.parametrize("collection", ["results", "relations"])
+@pytest.mark.parametrize(
+    "full_text_source", ["own_version", "other_version", "other_work"]
+)
+def test_review_requires_full_text_for_the_pinned_target(
+    sample, collection, full_text_source
+):
+    item = sample[collection][0]
+    target = (
+        item
+        if collection == "results"
+        else next(
+            result for result in sample["results"] if result["id"] == item["target"]
+        )
+    )
+    own_evidence = next(
+        evidence
+        for evidence in sample["evidence"]
+        if evidence["version_id"] == target["version_id"]
+    )
+    item["review_status"] = "reviewed"
+    item["reviews"] = [{"name": "Audit fixture", "url": "https://example.org/audit"}]
+    item["evidence"] = [own_evidence["id"]]
+    full_text = deepcopy(own_evidence)
+    full_text["id"] = "audit-full-text"
+    full_text["kind"] = "full_text"
+    if full_text_source == "other_version":
+        work = next(work for work in sample["works"] if work["id"] == target["work_id"])
+        version = deepcopy(work["versions"][0])
+        version.update(
+            id="audit-other-version", url="https://example.org/other-version"
+        )
+        work["versions"].append(version)
+        full_text.update(version_id=version["id"], url=version["url"])
+    elif full_text_source == "other_work":
+        unrelated = next(
+            evidence
+            for evidence in sample["evidence"]
+            if evidence["work_id"] != target["work_id"]
+        )
+        full_text.update(
+            work_id=unrelated["work_id"],
+            version_id=unrelated["version_id"],
+            url=unrelated["url"],
+            checked=unrelated["checked"],
+        )
+    sample["evidence"].append(full_text)
+    item["evidence"].append(full_text["id"])
+    check = validate(sample)
+    assert check["valid"] == (full_text_source == "own_version")
+    if not check["valid"]:
+        assert any(
+            "full-text evidence for its own source version" in error
+            for error in check["errors"]
+        )
+
+
 def test_unknown_settings_cannot_support_improvement(sample):
     edge = sample["relations"][0]
     edge["type"] = "improves_bound"

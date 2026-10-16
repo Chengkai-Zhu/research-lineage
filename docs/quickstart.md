@@ -20,7 +20,7 @@ The output contains `map.html`, `map.svg`, `map.json`, and `review.md`.
 
 ## Use the standalone skill
 
-Download `research-lineage-skill-0.1.0.zip` from the release. Extract the contained
+Download `research-lineage-skill-0.1.1.zip` from the release. Extract the contained
 `research-lineage` directory into your host's skills directory, for example
 `~/.agents/skills/` for Codex or `~/.claude/skills/` for Claude Code. On Windows,
 use the equivalent folder under your user profile. Preserve existing skills.
