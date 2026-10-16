@@ -2,6 +2,8 @@
 
 **Ideas have a history. Follow it.**
 
+[![CI](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml/badge.svg)](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml)
+
 Turn a research question into an interactive map of results, assumptions, and the
 evidence connecting them. An agent skill plus a small Python toolkit. Local files,
 no account, no runtime dependencies, and no external assets in your exported map.

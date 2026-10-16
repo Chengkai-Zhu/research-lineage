@@ -27,8 +27,10 @@ Python 3.11+ is required for CLI/skill commands. The exported viewer does not ne
 ## Verification and limitations
 
 62 automated tests pass locally, with 96% Python line coverage. The portable ZIP
-is tested outside the checkout. The actual viewer was inspected for result and
-relationship selection, comparison, route navigation, empty search, and narrow screens.
+and installed wheel are tested outside the checkout. GitHub CI passes on Windows
+and Linux with Python 3.11 and 3.14. The actual viewer was inspected for result and
+relationship selection, comparison, route navigation, empty search, narrow screens,
+and exported files. See the repository's verification record for the test boundaries.
 
 The software is usable; the sample is still an abstract-grounded research draft.
 No expert certification, comprehensive literature retrieval, automatic full-text
