@@ -279,9 +279,16 @@ def validate(data):
                 errors.append(
                     f"{item['id']}: needs {required} distinct named reviewer(s)"
                 )
-            if not any(ref["kind"] == "full_text" for ref in refs):
+            review_target = item if "work_id" in item else results.get(item["target"])
+            if review_target and not any(
+                ref["kind"] == "full_text"
+                and ref["work_id"] == review_target["work_id"]
+                and ref["version_id"] == review_target["version_id"]
+                for ref in refs
+            ):
                 errors.append(
-                    f"{item['id']}: reviewed content requires full-text evidence"
+                    f"{item['id']}: reviewed content requires full-text evidence "
+                    "for its own source version (the target version for a relationship)"
                 )
         if "work_id" in item:
             if item["lane"] not in indexes["lanes"]:
