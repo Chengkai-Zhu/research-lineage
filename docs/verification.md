@@ -29,6 +29,10 @@ sandbox. The three skips are hard-link creation restrictions; the corresponding
 checks remain enabled on ordinary filesystems. Measured Python line coverage is
 **97%**. This is not JavaScript interaction coverage or scientific certification.
 
+The [patch PR CI](https://github.com/Chengkai-Zhu/research-lineage/actions/runs/38935542860)
+then passed **all 82 tests on each of Windows/Linux and Python 3.11/3.14**, including
+the three hard-link cases that the local sandbox could not create.
+
 The [new-question feature test](test-reports/test-feature-20261017-nmt.md) records
 the full NMT authoring and browser run, including 6/6 route steps, keyboard access,
 actual 389 CSS px layout, multi-version links, and downloads after filtering to
