@@ -32,6 +32,11 @@ The first example follows eight QSP/QSVT papers and six proposed relationships.
 It is an **abstract-grounded draft**, not an expert-certified or complete history.
 See [source checks and limitations](docs/sources.md).
 
+A second worked map follows [neural machine translation from fixed vectors to
+attention](examples/nmt-attention/README.md): six primary papers checked at
+section level, including an explicit multi-version source. See the
+[new-question end-to-end test](docs/test-reports/test-feature-20261017-nmt.md).
+
 ## Try it in a minute
 
 Requires Python 3.11+. No model key or network is needed to run the demo.
@@ -59,7 +64,8 @@ See [installation and usage](docs/quickstart.md).
 
 The skill uses the search/document capabilities of your host agent. It does not
 provide credentials, a hosted research agent, or automatic scientific verification.
-You can use the same format for other questions; this release's worked example is quantum.
+You can use the same format for other questions; worked examples cover quantum
+algorithms and neural machine translation.
 
 ```sh
 research-lineage init "How did this research question evolve?" --id my-question --out map.json

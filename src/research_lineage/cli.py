@@ -15,9 +15,10 @@ from .core import (
     dump,
     load_map,
     review_report,
+    same_file,
     write_text,
 )
-from .render import build
+from .render import OUTPUT_NAMES, build
 
 DATA = Path(__file__).parent / "data"
 
@@ -102,9 +103,8 @@ def main(argv=None):
             output = dump(SCHEMA)
             write_text(args.out, output) if args.out else print(output)
         elif args.command == "diff":
-            if args.out and Path(args.out).resolve() in (
-                Path(args.before).resolve(),
-                Path(args.after).resolve(),
+            if args.out and any(
+                same_file(args.out, path) for path in (args.before, args.after)
             ):
                 raise MapError("Diff output cannot overwrite either input revision.")
             output = dump(diff_maps(load_map(args.before), load_map(args.after)))
@@ -114,14 +114,15 @@ def main(argv=None):
             if args.command == "validate":
                 print(dump(validate(data)))
             elif args.command == "build":
-                output = Path(args.out).resolve() / "map.json"
-                if output == Path(args.map).resolve():
+                if any(
+                    same_file(Path(args.out) / name, args.map) for name in OUTPUT_NAMES
+                ):
                     raise MapError(
                         "Build output would overwrite its input. Choose a separate output folder."
                     )
                 print(dump({"created": build(data, args.out, args.force)}))
             elif args.command == "review":
-                if Path(args.out).resolve() == Path(args.map).resolve():
+                if same_file(args.out, args.map):
                     raise MapError("Review output cannot overwrite its input.")
                 write_text(args.out, review_report(data))
                 print(f"Wrote review report: {args.out}")
