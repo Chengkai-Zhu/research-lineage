@@ -1,0 +1,180 @@
+{
+  "milestones": [
+    {
+      "title": "v0.1 — Usable local research workflow",
+      "description": "Installable skill, evidence-linked map contract, offline interactive viewer, grounded draft example, reproducible tests and first release. Software readiness does not imply scientific certification."
+    },
+    {
+      "title": "v0.2 — Auditable discovery and assisted authoring",
+      "description": "Bounded retrieval, explicit provider failures, identity/version reconciliation, and independently evaluated extraction. No unsupported automatic semantic claims."
+    },
+    {
+      "title": "v0.3 — Reviewed maps and accountable updates",
+      "description": "Real external review, source-version-aware updates, and transfer beyond the flagship example. Requires actual review and user-study evidence."
+    }
+  ],
+  "issues": [
+    {
+      "key": 1,
+      "title": "Define an honest product baseline and release scope",
+      "milestone": 0,
+      "problem": "The supplied plans combine a small local tool with unstaffed expert certification and describe unavailable artifacts as complete.",
+      "deliverable": "Publish a source-grounded design, product audit, and 28-task disposition with a separate software release gate.",
+      "acceptance": "Read docs/product-audit.md, docs/design/research-lineage.md, and docs/roadmap.md. Every RL-001 through RL-028 must have a disposition and no prior test counts may be presented as current results.",
+      "negative": "An unavailable expert review or user study must remain future work.",
+      "original": "RL-001",
+      "dependencies": []
+    },
+    {
+      "key": 2,
+      "title": "Validate version-bound results and evidence",
+      "milestone": 0,
+      "problem": "A valid JSON object can still falsely imply scientific inheritance or bind evidence to the wrong paper revision.",
+      "deliverable": "Implement the canonical map schema and deterministic reference, date, review, comparability, and dependency checks.",
+      "acceptance": "Run `python -m pytest tests/test_contract.py -q`. Valid sample passes with review warnings. All specified invalid maps fail with actionable diagnostics.",
+      "negative": "A citation-only generalization, abstract-only reviewed claim, version mismatch, or unknown-setting improvement must fail.",
+      "original": "RL-002, RL-015, RL-018",
+      "dependencies": [
+        1
+      ]
+    },
+    {
+      "key": 3,
+      "title": "Build deterministic portable research bundles",
+      "milestone": 0,
+      "problem": "A beautiful map is not shareable if it requires an account, external runtime assets, or silently drops evidence.",
+      "deliverable": "Build map.html, map.svg, map.json, and review.md; preserve scope, versions, uncertainties, and source links. Provide comparison and revision diff.",
+      "acceptance": "Run `python -m pytest tests/test_workflow.py -q` and `python -m research_lineage demo --out output/acceptance`. Repeated builds in distinct directories must be byte-identical.",
+      "negative": "Reject unsafe links, malicious executable markup, oversized input, empty drafts, and output paths that overwrite input maps.",
+      "original": "RL-003, RL-020 (diff only), RL-021 (proposal only), RL-023",
+      "dependencies": [
+        2
+      ]
+    },
+    {
+      "key": 4,
+      "title": "Deliver an inspectable and accessible map experience",
+      "milestone": 0,
+      "problem": "Researchers need to understand the story and check a connection without reading raw JSON.",
+      "deliverable": "Implement chronology lanes, evidence inspection, settings comparison, a reading route, search/filters, reading list, and offline exports.",
+      "acceptance": "Build the demo, open map.html, click a result and a relationship, compare two settings, complete route navigation, and export HTML/SVG/JSON. Verify keyboard access and a 390 px viewport; record observations in docs/verification.md.",
+      "negative": "Zero search hits must show an actionable empty state. Filtering must not silently remove results from exported data. A recorded review must not be labeled authenticated.",
+      "original": "RL-003, RL-009 (usability mechanics), RL-022, RL-023",
+      "dependencies": [
+        3
+      ]
+    },
+    {
+      "key": 5,
+      "title": "Ground the QSP/QSVT example in primary sources",
+      "milestone": 0,
+      "problem": "The existing prototype is an abstract-level draft, not a source-complete or expert-reviewed gold standard.",
+      "deliverable": "Recheck each included primary record and version. Preserve result settings, targeted critiques, coverage omissions, and proposed status.",
+      "acceptance": "Run `python -m research_lineage validate src/research_lineage/data/qsp-qsvt.json`. Cross-check all eight versioned URLs and dates in docs/sources.md. The example contains eight results and six evidence-linked relations.",
+      "negative": "Do not promote a result to reviewed, infer dates from an arXiv ID, or present a critique as refuting an entire field.",
+      "original": "RL-005, RL-006, RL-007 (bounded sample)",
+      "dependencies": [
+        2
+      ]
+    },
+    {
+      "key": 6,
+      "title": "Package a self-contained research-lineage skill",
+      "milestone": 0,
+      "problem": "A SKILL.md that depends on a missing checkout cannot be installed and used reliably.",
+      "deliverable": "Ship a host-neutral skill, data guide, behavioral cases, and a ZIP with the canonical Python runtime and example.",
+      "acceptance": "Run `python scripts/package_skill.py --out dist` and `python -m pytest tests/test_workflow.py -k isolated -q`. Extract elsewhere and run `python -I <extracted>/research-lineage/scripts/lineage.py demo --out <new-output>`.",
+      "negative": "A copied SKILL.md without runtime must not claim installation success. A new user question must create an empty draft, not silently substitute the bundled example.",
+      "original": "RL-013, RL-026",
+      "dependencies": [
+        3,
+        5
+      ]
+    },
+    {
+      "key": 7,
+      "title": "Verify and publish the first usable release",
+      "milestone": 0,
+      "problem": "A repository without working installation, evidence of tests, and an immediate demo does not deliver the first user outcome.",
+      "deliverable": "Provide English README/docs, Apache-2.0 license, Windows/Linux CI, coverage, portable artifacts, and a v0.1.0 GitHub release.",
+      "acceptance": "Run Ruff, pytest with coverage, `python -m build`, and the isolated skill test. Confirm CI passes on Python 3.11 and 3.14 on Windows and Linux. Attach the wheel, skill ZIP, and offline demo ZIP to the release.",
+      "negative": "Do not claim expert review, automated discovery, two-host certification, or a promised star count. Do not ship caches, credentials, or source PDFs.",
+      "original": "RL-004, RL-027, RL-028",
+      "dependencies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "key": 8,
+      "title": "Add bounded discovery with auditable failure states",
+      "milestone": 1,
+      "problem": "Host research tools are currently the only retrieval route; provider behavior is not captured in a reusable log.",
+      "deliverable": "Add a no-paid-default Crossref/arXiv adapter with explicit candidate/request limits, pagination, query logs, and partial-result status.",
+      "acceptance": "Implement and run `python -m pytest tests/test_discovery.py -q`. A fixture with two pages and a candidate cap must stop at the cap, preserving queries, timestamps, truncation, and rejected candidates.",
+      "negative": "Inject timeout, HTTP 429, and malformed data. Preserve available results and a failure record; do not synthesize missing papers.",
+      "original": "RL-010, RL-014",
+      "dependencies": [
+        7
+      ]
+    },
+    {
+      "key": 9,
+      "title": "Reconcile source identities and evaluate assisted extraction",
+      "milestone": 1,
+      "problem": "Title similarity and LLM confidence are insufficient for version reconciliation or semantic relation acceptance.",
+      "deliverable": "Add identifier-based reconciliation and an explicitly bounded assisted-extraction interface. Evaluate on independently labeled positive and incomparable cases.",
+      "acceptance": "Implement `tests/test_identity.py` and `tests/test_extraction.py`; publish the evaluation manifest, source access status, per-type precision/coverage/abstention, and reviewer provenance.",
+      "negative": "Same-title different-DOI works must not merge automatically. Unknown cost units must not become an accepted bound improvement. Unavailable full text must remain unavailable.",
+      "original": "RL-011, RL-012, RL-016, RL-017, RL-018, RL-019",
+      "dependencies": [
+        8
+      ]
+    },
+    {
+      "key": 10,
+      "title": "Run an independent map review and reading-task pilot",
+      "milestone": 2,
+      "problem": "The flagship example has no external scholarly review or measured user outcomes.",
+      "deliverable": "Recruit real independent reviewers, document conflicts and disagreements, and run bounded reading tasks that measure source-checking accuracy and time.",
+      "acceptance": "Publish actual review references and anonymized study results with consent. Document participant counts, methods, failures, and baseline comparisons; do not replace missing observations with estimates.",
+      "negative": "Agent-generated reviewer names and self-assessed precision do not satisfy acceptance.",
+      "original": "RL-008, RL-009, RL-019, RL-024",
+      "dependencies": [
+        7
+      ]
+    },
+    {
+      "key": 11,
+      "title": "Propose source-version-aware frontier updates",
+      "milestone": 2,
+      "problem": "Current diffs compare map files but cannot reconstruct what was known at a historical cutoff.",
+      "deliverable": "Specify temporal semantics and implement update proposals that preserve source-version availability and unresolved conflicts.",
+      "acceptance": "Implement `tests/test_temporal_updates.py`; a revision published after a historical cutoff must be excluded or explicitly make reconstruction unavailable. Proposals must preserve old map files.",
+      "negative": "Filtering nodes by first publication alone must not be presented as an as-of snapshot. A critique must not automatically invalidate every descendant.",
+      "original": "RL-020, RL-021",
+      "dependencies": [
+        8,
+        9
+      ]
+    },
+    {
+      "key": 12,
+      "title": "Evaluate transfer beyond the flagship map",
+      "milestone": 2,
+      "problem": "One quantum example does not establish that the workflow generalizes to other questions.",
+      "deliverable": "Produce a second quantum map and one non-quantum map with actual source checks, domain-specific settings, and recorded review effort.",
+      "acceptance": "Publish both maps, source records, validation reports, review limitations, and measured authoring/review effort. Run each through the same build and browser workflow.",
+      "negative": "Do not copy QSVT-specific settings into another domain or claim cross-domain quality from synthetic data.",
+      "original": "RL-025, RL-028",
+      "dependencies": [
+        9,
+        10
+      ]
+    }
+  ]
+}

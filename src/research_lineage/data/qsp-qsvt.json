@@ -1,0 +1,531 @@
+{
+  "schema_version": "1.0",
+  "id": "qsp-qsvt",
+  "title": "From quantum signals to singular values",
+  "question": "How did single-qubit signal processing grow into a framework for quantum algorithms—and what changes when more than one variable enters the story?",
+  "scope": {
+    "summary": "A selected route through QSP, qubitization, QSVT, and two generalization branches. Eight works illustrate evidence-linked research history; this is not a complete review.",
+    "cutoff": "2026-10-16",
+    "coverage": "Eight primary arXiv records and pinned-version abstracts checked on 2026-10-16. All eight results and six semantic relationships remain proposed. No independent expert review has taken place.",
+    "search_strategy": "Started from the eight works in the supplied prototype. Rechecked each primary arXiv record, its version history, and abstract. This release does not report systematic database retrieval or recall.",
+    "exclusions": [
+      "Applications not needed for this selected reading route.",
+      "A comprehensive history of Hamiltonian simulation and polynomial synthesis.",
+      "Claims of priority, optimality across cost models, or the current complete frontier."
+    ],
+    "gaps": [
+      "Abstract-level evidence does not independently verify mathematical proofs.",
+      "Earlier prerequisites, alternative constructions, and intervening results are omitted.",
+      "First-publication placement may predate the cited revision; the timeline is not an as-of snapshot.",
+      "Independent domain review and source-complete theorem mapping remain future work."
+    ]
+  },
+  "lanes": [
+    {
+      "id": "foundations",
+      "label": "Foundations",
+      "color": "teal"
+    },
+    {
+      "id": "unification",
+      "label": "Unification",
+      "color": "blue"
+    },
+    {
+      "id": "extensions",
+      "label": "New dimensions",
+      "color": "violet"
+    },
+    {
+      "id": "debate",
+      "label": "Conditions & answers",
+      "color": "amber"
+    }
+  ],
+  "works": [
+    {
+      "id": "qsp",
+      "title": "Optimal Hamiltonian Simulation by Quantum Signal Processing",
+      "authors": [
+        "Guang Hao Low",
+        "Isaac L. Chuang"
+      ],
+      "first_published": "2016-06-08",
+      "versions": [
+        {
+          "id": "qsp-v2",
+          "label": "arXiv:1606.02685v2",
+          "published": "2016-12-20",
+          "url": "https://arxiv.org/abs/1606.02685v2"
+        }
+      ]
+    },
+    {
+      "id": "qubitization",
+      "title": "Hamiltonian Simulation by Qubitization",
+      "authors": [
+        "Guang Hao Low",
+        "Isaac L. Chuang"
+      ],
+      "first_published": "2016-10-20",
+      "versions": [
+        {
+          "id": "qubitization-v3",
+          "label": "arXiv:1610.06546v3",
+          "published": "2019-07-11",
+          "url": "https://arxiv.org/abs/1610.06546v3"
+        }
+      ]
+    },
+    {
+      "id": "qsvt",
+      "title": "Quantum singular value transformation and beyond: exponential improvements for quantum matrix arithmetics",
+      "authors": [
+        "András Gilyén",
+        "Yuan Su",
+        "Guang Hao Low",
+        "Nathan Wiebe"
+      ],
+      "first_published": "2018-06-05",
+      "versions": [
+        {
+          "id": "qsvt-v1",
+          "label": "arXiv:1806.01838v1",
+          "published": "2018-06-05",
+          "url": "https://arxiv.org/abs/1806.01838v1"
+        }
+      ]
+    },
+    {
+      "id": "tutorial",
+      "title": "A Grand Unification of Quantum Algorithms",
+      "authors": [
+        "John M. Martyn",
+        "Zane M. Rossi",
+        "Andrew K. Tan",
+        "Isaac L. Chuang"
+      ],
+      "first_published": "2021-05-06",
+      "versions": [
+        {
+          "id": "tutorial-v5",
+          "label": "arXiv:2105.02859v5",
+          "published": "2021-12-10",
+          "url": "https://arxiv.org/abs/2105.02859v5"
+        }
+      ]
+    },
+    {
+      "id": "mqsp",
+      "title": "Multivariable quantum signal processing (M-QSP): prophecies of the two-headed oracle",
+      "authors": [
+        "Zane M. Rossi",
+        "Isaac L. Chuang"
+      ],
+      "first_published": "2022-05-12",
+      "versions": [
+        {
+          "id": "mqsp-v2",
+          "label": "arXiv:2205.06261v2",
+          "published": "2022-09-14",
+          "url": "https://arxiv.org/abs/2205.06261v2"
+        }
+      ]
+    },
+    {
+      "id": "comment",
+      "title": "Comment on \"Multivariable quantum signal processing (M-QSP): prophecies of the two-headed oracle\"",
+      "authors": [
+        "Hitomi Mori",
+        "Kaoru Mizuta",
+        "Keisuke Fujii"
+      ],
+      "first_published": "2023-10-02",
+      "versions": [
+        {
+          "id": "comment-v2",
+          "label": "arXiv:2310.00918v2",
+          "published": "2024-10-22",
+          "url": "https://arxiv.org/abs/2310.00918v2"
+        }
+      ]
+    },
+    {
+      "id": "un",
+      "title": "Quantum Signal Processing and Quantum Singular Value Transformation on U(N)",
+      "authors": [
+        "Xi Lu",
+        "Yuan Liu",
+        "Hongwei Lin"
+      ],
+      "first_published": "2024-07-19",
+      "versions": [
+        {
+          "id": "un-v4",
+          "label": "arXiv:2408.01439v4",
+          "published": "2026-03-25",
+          "url": "https://arxiv.org/abs/2408.01439v4"
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "title": "Polynomial time constructive decision algorithm for multivariable quantum signal processing",
+      "authors": [
+        "Yuki Ito",
+        "Hitomi Mori",
+        "Kazuki Sakamoto",
+        "Keisuke Fujii"
+      ],
+      "first_published": "2024-10-03",
+      "versions": [
+        {
+          "id": "decision-v3",
+          "label": "arXiv:2410.02332v3",
+          "published": "2026-05-07",
+          "url": "https://arxiv.org/abs/2410.02332v3"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "r-qsp",
+      "work_id": "qsp",
+      "version_id": "qsp-v2",
+      "label": "Quantum signal processing",
+      "summary": "Single-qubit rotations become a tool for Hamiltonian simulation. This is the starting point of the selected reading route.",
+      "lane": "foundations",
+      "kind": "foundation",
+      "settings": {
+        "input": "Sparse Hamiltonian access",
+        "assumptions": "Sparsity and access conditions of the cited work",
+        "cost": "Oracle queries; no end-to-end cost comparison",
+        "error": "Simulation error epsilon"
+      },
+      "evidence": [
+        "e-qsp"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-qubitization",
+      "work_id": "qubitization",
+      "version_id": "qubitization-v3",
+      "label": "Qubitization",
+      "summary": "Embedding a Hamiltonian in an invariant two-dimensional subspace provides another key ingredient for operator transformations.",
+      "lane": "foundations",
+      "kind": "foundation",
+      "settings": {
+        "input": "A unitary oracle and a state-preparation oracle",
+        "assumptions": "Hamiltonian is a projection of the supplied unitary",
+        "cost": "Queries to both specified oracles",
+        "error": "Time-evolution approximation error epsilon"
+      },
+      "evidence": [
+        "e-qubitization"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-qsvt",
+      "work_id": "qsvt",
+      "version_id": "qsvt-v1",
+      "label": "Singular value transformation",
+      "summary": "Polynomial transformations extend to the singular values of a unitary subblock, bringing several quantum algorithms into one framework.",
+      "lane": "unification",
+      "kind": "framework",
+      "settings": {
+        "input": "A linear operator embedded in a unitary",
+        "assumptions": "Full polynomial constraints not extracted",
+        "cost": null,
+        "error": null
+      },
+      "evidence": [
+        "e-qsvt"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-tutorial",
+      "work_id": "tutorial",
+      "version_id": "tutorial-v5",
+      "label": "A unified reading guide",
+      "summary": "A pedagogical path connects signal processing, eigenvalue transformations, and QSVT with familiar quantum algorithms.",
+      "lane": "unification",
+      "kind": "tutorial",
+      "settings": {
+        "input": "QSP, eigenvalue transformation, then QSVT",
+        "assumptions": "Pedagogical overview; not a new priority claim",
+        "cost": null,
+        "error": null
+      },
+      "evidence": [
+        "e-tutorial"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-mqsp",
+      "work_id": "mqsp",
+      "version_id": "mqsp-v2",
+      "label": "Multivariable QSP",
+      "summary": "Multiple signal oracles introduce a new branch. Its proposed characterizations must be read alongside later critiques.",
+      "lane": "extensions",
+      "kind": "extension",
+      "settings": {
+        "input": "Multiple signal oracles",
+        "assumptions": "Some characterizations depend on a stated conjecture",
+        "cost": null,
+        "error": null
+      },
+      "evidence": [
+        "e-mqsp"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-comment",
+      "work_id": "comment",
+      "version_id": "comment-v2",
+      "label": "Revisiting the conditions",
+      "summary": "A targeted critique questions Theorem 2.3 and its assumptions. This is not a rejection of the entire research direction.",
+      "lane": "debate",
+      "kind": "challenge",
+      "settings": {
+        "input": "The M-QSP theorem and conjecture",
+        "assumptions": "Targets Theorem 2.3 and Conjecture 2.1",
+        "cost": null,
+        "error": null
+      },
+      "evidence": [
+        "e-comment"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-un",
+      "work_id": "un",
+      "version_id": "un-v4",
+      "label": "QSP on U(N)",
+      "summary": "A larger auxiliary space enables a framework for simultaneous polynomial transformations of a block-encoded input.",
+      "lane": "extensions",
+      "kind": "extension",
+      "settings": {
+        "input": "A block-encoded input and U(N) auxiliary space",
+        "assumptions": "Distinct from arbitrary access to multiple oracles",
+        "cost": null,
+        "error": null
+      },
+      "evidence": [
+        "e-un"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-decision",
+      "work_id": "decision",
+      "version_id": "decision-v3",
+      "label": "Constructive M-QSP",
+      "summary": "A classical decision algorithm addresses realizability for specified multivariable Laurent-polynomial pairs, with a constructive output.",
+      "lane": "debate",
+      "kind": "result",
+      "settings": {
+        "input": "A pair of multivariable Laurent polynomials",
+        "assumptions": "The paper's M-QSP representation and operator model",
+        "cost": "Polynomial in variables and signal operators",
+        "error": null
+      },
+      "evidence": [
+        "e-decision"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "e-qsp",
+      "work_id": "qsp",
+      "version_id": "qsp-v2",
+      "url": "https://arxiv.org/abs/1606.02685v2",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "The abstract describes eigenvalue transduction, a rotation sequence, and ancilla projection for Hamiltonian simulation.",
+      "checked": "2026-10-16"
+    },
+    {
+      "id": "e-qubitization",
+      "work_id": "qubitization",
+      "version_id": "qubitization-v3",
+      "url": "https://arxiv.org/abs/1610.06546v3",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "The abstract constructs an invariant SU(2) subspace using controlled access to the specified oracles.",
+      "checked": "2026-10-16"
+    },
+    {
+      "id": "e-qsvt",
+      "work_id": "qsvt",
+      "version_id": "qsvt-v1",
+      "url": "https://arxiv.org/abs/1806.01838v1",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "The authors describe a generalization of Low–Chuang Hamiltonian simulation and applications to quantum matrix operations.",
+      "checked": "2026-10-16"
+    },
+    {
+      "id": "e-tutorial",
+      "work_id": "tutorial",
+      "version_id": "tutorial-v5",
+      "url": "https://arxiv.org/abs/2105.02859v5",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "The tutorial explicitly builds its explanation around the Gilyén–Su–Low–Wiebe QSVT framework.",
+      "checked": "2026-10-16"
+    },
+    {
+      "id": "e-mqsp",
+      "work_id": "mqsp",
+      "version_id": "mqsp-v2",
+      "url": "https://arxiv.org/abs/2205.06261v2",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "The authors introduce multivariable signal processing and discuss conditional characterizations of achievable transformations.",
+      "checked": "2026-10-16"
+    },
+    {
+      "id": "e-comment",
+      "work_id": "comment",
+      "version_id": "comment-v2",
+      "url": "https://arxiv.org/abs/2310.00918v2",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "The comment reports inconsistencies and revised necessary conditions; it also argues those conditions are not sufficient.",
+      "checked": "2026-10-16"
+    },
+    {
+      "id": "e-un",
+      "work_id": "un",
+      "version_id": "un-v4",
+      "url": "https://arxiv.org/abs/2408.01439v4",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "The authors generalize U(2)-based frameworks to U(N) and characterize achievable polynomial matrices.",
+      "checked": "2026-10-16"
+    },
+    {
+      "id": "e-decision",
+      "work_id": "decision",
+      "version_id": "decision-v3",
+      "url": "https://arxiv.org/abs/2410.02332v3",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "The abstract states a necessary-and-sufficient decision test and a method to construct the required signal-processing parameters.",
+      "checked": "2026-10-16"
+    }
+  ],
+  "relations": [
+    {
+      "id": "connection-1",
+      "source": "r-qsp",
+      "target": "r-qsvt",
+      "type": "generalizes",
+      "summary": "The QSVT abstract explicitly generalizes Low–Chuang Hamiltonian simulation. The precise theorem correspondence awaits full-text review.",
+      "evidence": [
+        "e-qsvt"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "connection-2",
+      "source": "r-qsvt",
+      "target": "r-tutorial",
+      "type": "surveys",
+      "summary": "The tutorial identifies QSVT and its original authors as its central teaching framework.",
+      "evidence": [
+        "e-tutorial"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "connection-3",
+      "source": "r-qsp",
+      "target": "r-mqsp",
+      "type": "generalizes",
+      "summary": "The abstract proposes a multivariable counterpart to QSP; achievable transformations still have conditions.",
+      "evidence": [
+        "e-mqsp"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "connection-4",
+      "source": "r-mqsp",
+      "target": "r-comment",
+      "type": "critiques",
+      "summary": "This comment targets Theorem 2.3 and Conjecture 2.1 of the M-QSP work, not every result in the field.",
+      "evidence": [
+        "e-comment"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "connection-5",
+      "source": "r-qsvt",
+      "target": "r-un",
+      "type": "generalizes",
+      "summary": "The U(N) work explicitly generalizes the U(2) frameworks; detailed technical matching is not yet reviewed.",
+      "evidence": [
+        "e-un"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "connection-6",
+      "source": "r-mqsp",
+      "target": "r-decision",
+      "type": "addresses",
+      "summary": "The later work addresses an M-QSP realizability problem. This connection denotes problem continuity, not a certified proof dependency.",
+      "evidence": [
+        "e-decision"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "reading_route": [
+    "r-qsp",
+    "r-qubitization",
+    "r-qsvt",
+    "r-tutorial",
+    "r-mqsp",
+    "r-comment",
+    "r-un",
+    "r-decision"
+  ]
+}

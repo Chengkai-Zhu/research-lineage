@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "research-lineage"
+version = "0.1.0"
+description = "Evidence-linked research maps, setting comparisons, and an offline-first agent skill."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Chengkai Zhu" }]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+    "ruff==0.17.1",
+    "build==1.6.1",
+    "jsonschema==4.26.0",
+]
+
+[project.scripts]
+research-lineage = "research_lineage.cli:main"
+
+[project.urls]
+Repository = "https://github.com/Chengkai-Zhu/research-lineage"
+Issues = "https://github.com/Chengkai-Zhu/research-lineage/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+research_lineage = ["assets/*", "data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "RUF100"]

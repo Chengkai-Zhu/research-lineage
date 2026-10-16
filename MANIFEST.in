@@ -1,0 +1,7 @@
+include AGENTS.md CLAUDE.md Makefile
+graft scripts
+graft skills
+graft tests
+graft schema
+recursive-include docs *.md *.json
+global-exclude __pycache__ *.py[cod]
