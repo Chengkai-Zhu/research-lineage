@@ -161,7 +161,7 @@
       panel.hidden = true;
       $("explorer").classList.remove("has-selection");
       highlights();
-      try { history.replaceState(null, "", "#explore"); } catch (_) {}
+      updateHash("explore");
       $(type + "-" + old)?.focus();
     }, "inspector-close"));
     panel.hidden = false;

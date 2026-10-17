@@ -79,3 +79,30 @@ test("a restored location survives another save with an empty browser fragment",
   assert.equal(extract(explore, "reading-preference").mode, "explore");
   assert.equal(extract(explore, "reading-preference").fragment, "#explore");
 });
+
+test("closing the production inspector clears its saved result even when history is restricted", () => {
+  const source = fs.readFileSync(path.join(__dirname, "../../src/research_lineage/assets/viewer.js"), "utf8");
+  const helper = source.match(/function updateHash\(type[\s\S]*?\n  }/)[0];
+  const handler = source.match(/panel\.prepend\(button\("Close details ×", \(\) => \{([\s\S]*?)\n    \}, "inspector-close"\)\);/)[1];
+  for (const restricted of [false, true]) {
+    const focused = [], removed = [];
+    const state = {
+      selected: "r-attention", selectedType: "result",
+      panel: { hidden: false }, readingState: { fragment: "#result=r-attention" },
+      highlights() {},
+      history: { replaceState(_a, _b, hash) {
+        if (restricted) throw new Error("History writes are restricted");
+        state.url = hash;
+      } },
+      $(id) { return { classList: { remove(name) { removed.push(name); } },
+        focus() { focused.push(id); } }; },
+    };
+    vm.runInNewContext(helper + "\n" + handler, state);
+    assert.equal(state.panel.hidden, true);
+    assert.equal(state.selected, null);
+    assert.equal(state.readingState.fragment, "#explore");
+    assert.deepEqual(focused, ["result-r-attention"]);
+    assert.deepEqual(removed, ["has-selection"]);
+    assert.equal(state.url, restricted ? undefined : "#explore");
+  }
+});
