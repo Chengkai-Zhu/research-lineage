@@ -14,11 +14,13 @@ function readReadingPreference(text, urlFragment = "") {
   };
 }
 
-function exportViewPreferences(original, colors, reading) {
+function exportViewPreferences(original, colors, reading, collection) {
   // The color preference owns a saved author/team focus. Replaying the entry
   // link would override a different name or mode chosen after opening that link.
   if (/^#(?:author|team)=/.test(reading.fragment)) reading = { ...reading, fragment: "#explore" };
-  for (const [id, value] of [["color-preference", colors], ["reading-preference", reading]]) {
+  const preferences = [["color-preference", colors], ["reading-preference", reading]];
+  if (collection !== undefined) preferences.push(["collection-preference", collection]);
+  for (const [id, value] of preferences) {
     const serialized = JSON.stringify(value).replaceAll("<", "\\u003c").replaceAll(">", "\\u003e").replaceAll("&", "\\u0026");
     const selector = new RegExp('(<script type="application/json" id="' + id + '">)[\\s\\S]*?(<\\/script>)');
     original = original.replace(selector, (_whole, start, end) => start + serialized + end);

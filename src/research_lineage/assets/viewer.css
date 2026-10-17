@@ -780,7 +780,7 @@ dialog ul {
   .top-actions {
     gap: 14px;
   }
-  .text-button {
+  #scope-button {
     display: none;
   }
   main {
@@ -1131,13 +1131,33 @@ h1 { font-size: clamp(38px, 5.1vw, 68px); max-width: 990px; line-height: 1.06; l
 .comparison-actions { display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding-top: 22px; margin-top: 26px; }
 .comparison-actions button { font-size: 11px; }
 .brief-actions { display: flex; gap: 12px; margin: 20px 0 10px; }
+.brief-actions { flex-wrap: wrap; }
+#reading-count { display: inline-block; min-width: 19px; padding: 2px 5px; margin-left: 4px; border-radius: 4px; background: #e7eee4; color: var(--green); font: 10px ui-monospace, monospace; }
+.reading-toggle { margin-bottom: 14px; font-size: 11px; }
+.reading-toggle[aria-pressed="true"] { background: #edf3e9; color: var(--green); }
+.reading-intro { color: var(--muted); }
+.reading-collection { padding-left: 24px; margin: 26px 0; }
+dialog .reading-item { padding: 19px 0 20px 10px; border-bottom: 1px solid var(--line); }
+.reading-item::marker { color: #7c8d80; font: 11px ui-monospace, monospace; }
+.reading-item-title { display: block; background: none; border: 0; padding: 0; text-align: left; color: var(--ink); font: 400 22px/1.35 var(--serif); overflow-wrap: anywhere; }
+dialog .reading-citation { font-size: 11px; color: var(--muted); margin: 9px 0 13px; }
+.reading-item-controls { display: flex; flex-wrap: wrap; gap: 18px; }
+.reading-item-controls button { font-size: 11px; }
+.reading-item-controls button:disabled { opacity: .35; cursor: default; }
+.reading-checks { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.reading-check-list { padding-left: 20px; }
+.reading-check-list li { margin-bottom: 24px; }
+dialog .reading-check-list p { font-size: 12px; margin: 8px 0; overflow-wrap: anywhere; }
+dialog .reading-privacy { margin-top: 24px; font-size: 11px; }
 .brief-preview { display: block; width: 100%; height: 310px; resize: vertical; padding: 15px; border: 1px solid var(--line); border-radius: 5px; background: white; font: 11px/1.8 ui-monospace, monospace; color: var(--ink); }
 .comparing .page-footer { margin-top: 45px; }
 @media (max-width: 850px) {
+  .top-actions { flex-wrap: wrap; gap: 12px; }
   .comparison-reader { grid-template-columns: 205px minmax(0, 1fr); gap: 28px; }
   .comparison-context>div { grid-template-columns: 1fr; gap: 3px; }
 }
 @media (max-width: 650px) {
+  .reading-actions { flex-direction: column; align-items: stretch; }
   .reading-nav { gap: 23px; }
   .comparing main { padding-top: 12px; }
   .comparison-reader { display: block; }
