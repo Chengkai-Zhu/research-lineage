@@ -1,7 +1,11 @@
 import json
+import re
 from copy import deepcopy
 from html import unescape
+from pathlib import Path
 from xml.etree import ElementTree as ET
+
+import pytest
 
 from research_lineage.contract import validate
 from research_lineage.core import diff_maps, review_report
@@ -47,3 +51,22 @@ def test_story_text_is_literal_not_markup(sample):
     html = render_html(sample)
     assert "<img src=x" not in html and "<script>alert(2)" not in html
     assert "&lt;script&gt;alert(2)&lt;/script&gt;" in html
+
+
+@pytest.mark.parametrize("source", [
+    "src/research_lineage/data/qsp-qsvt.json",
+    "src/research_lineage/data/attention-comparisons.json",
+    "docs/test-reports/surface-code-rerun/map.json",
+])
+def test_reading_workspace_bundles_offline_without_reducing_map(source):
+    data = json.loads((Path(__file__).parents[1] / source).read_text(encoding="utf-8"))
+    html = render_html(data)
+    embedded = re.search(r'id="map-data">(.*?)</script>', html, re.S)[1]
+    assert json.loads(embedded) == data
+    assert 'id="reading-button"' in html
+    assert 'id="collection-preference">[]</script>' in html
+    assert html.index("function noteText(") < html.index("function comparisonBrief(")
+    assert html.index("function createReadingCollection(") < html.index("function createReadingWorkspace(")
+    assert html.index("function createReadingWorkspace(") < html.index("const readingWorkspace =")
+    assert "Export research note" in html and "Prepare evidence check" in html
+    assert "connect-src 'none'" in html

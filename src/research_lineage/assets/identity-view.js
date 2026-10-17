@@ -150,7 +150,7 @@ function createIdentityView(data, element, button) {
   apply();
   return {
     exportSvg,
-    exportHtml: (original, reading) => exportViewPreferences(original, preference, reading),
+    exportHtml: (original, reading, collection) => exportViewPreferences(original, preference, reading, collection),
     follow,
   };
 }

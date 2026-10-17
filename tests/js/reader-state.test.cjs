@@ -112,6 +112,7 @@ test("a personalized request copies or falls back to selected text and clearing 
 
 test("saved explanations preserve conditional evidence, source versions and uncertainty without executable Markdown", () => {
   const sandbox = vm.createContext({ URL });
+  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../src/research_lineage/assets/note-format.js"), "utf8"), sandbox);
   vm.runInContext(fs.readFileSync(path.join(__dirname, "../../src/research_lineage/assets/comparison-brief.js"), "utf8"), sandbox);
   const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../../src/research_lineage/data/attention-comparisons.json"), "utf8"));
   const before = JSON.stringify(data);

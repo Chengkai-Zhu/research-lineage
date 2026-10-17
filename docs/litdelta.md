@@ -67,6 +67,32 @@ scientific review. The full HTML/JSON exports remain available. Imported strings
 are escaped as Markdown data; they are never inserted as executable HTML. Saving
 does not publish a map or create a shared account.
 
+## Keep a personal reading collection
+
+Open any result and choose **Add to My reading**. From a comparison, **Add both
+to My reading** keeps its two results; repeated additions do not duplicate them.
+The **My reading** button shows your count. An empty collection can start with
+the authored reading route. Move items up/down, remove them, or select their
+titles to inspect the exact source in the map. **List view** in the explorer is
+the complete searchable map, separate from your personal collection.
+
+**Export research note** previews and downloads Markdown containing your order,
+conditions, pinned source versions, evidence locators, review status and scope.
+Related comparison questions point back to their complete authored assessments.
+**Prepare evidence check** creates a request to give your research agent, with
+the same source-linked note as data. It asks for a task-by-task report on missing
+conditions, abstract/metadata-only support, unresolved excerpt checks and the
+map's recorded limits. These follow-ups are not automatically scientific open
+questions; neither action resolves them or upgrades scholarly review.
+
+The collection has no paper limit and does not change the research corpus.
+There is no automatic storage: reloading discards unsaved changes. To keep your
+selection, choose **Export map → Interactive HTML**. Reopening that full file
+restores the order, and subsequent HTML exports retain it. Canonical JSON and
+all full-map exports still contain every result and source. The browser never
+starts research or uploads the collection. The standalone skill builds the same
+reader for new maps; no new agent or API is required.
+
 ## Author and check records
 
 Use the [data guide](../skills/research-lineage/references/data-guide.md) for the

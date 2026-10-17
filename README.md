@@ -55,6 +55,7 @@ The workflow below is available on `main`; **0.2 is not released yet**. The late
 - **Begin with the story.** A short overview and source-linked turning points explain what changed.
 - **Know what to read next.** Follow a suggested route, then explore the complete map.
 - **Check the reasoning.** Open a connection, its exact paper version, evidence and assumptions when you need them.
+- **Turn reading into action.** Keep an ordered **My reading** collection, export source-linked research notes, and hand unfinished evidence checks to your agent. [Reader workflow](docs/litdelta.md#keep-a-personal-reading-collection)
 - **Keep the whole result.** One offline HTML, plus SVG, JSON and a review report. Filters never discard exported evidence.
 
 The host agent does the research using its search and document tools. The bundled Python toolkit prepares inputs, validates records and builds the reading experience. No account or paid service is required by the local core. Python 3.11+ is needed for the skill; the exported HTML needs only a browser.
@@ -125,7 +126,7 @@ Correct an assumption, improve a source anchor, or add a carefully checked readi
 python -m pip install -e ".[dev]"
 python -m pytest
 python -m ruff check src tests scripts skills
-node --test tests/js/reader-state.test.cjs
+node --test tests/js/reader-state.test.cjs tests/js/reading-workspace.test.cjs
 python scripts/package_skill.py --out dist
 ```
 

@@ -32,6 +32,12 @@
   const originalHtml = "<!doctype html>\n" + document.documentElement.outerHTML;
   const readingState = readReadingPreference($("reading-preference").textContent, location.hash);
   const identityView = createIdentityView(data, element, button);
+  const readingWorkspace = createReadingWorkspace({
+    data, saved: $("collection-preference").textContent, element, button, link, modal,
+    exportText: showTextExport,
+    inspect: (id) => { $("modal").close(); resetFilters(); showResult(id); },
+    announce: (text) => { $("announcement").textContent = text; },
+  });
   let selected = null,
     selectedType = "result",
     routeStep = -1,
@@ -188,6 +194,7 @@
     panel.append(
       element("span", "status", reviewLabel(result)),
       element("p", "summary", result.summary),
+      readingWorkspace.resultButton(id),
     );
     panel.append(
       element(
@@ -697,27 +704,32 @@
   }
   function saveExplanation() {
     if (!activeComparison) return;
-    const note = comparisonBrief(data, activeComparison),
-      body = modal("Take this explanation to your notes"),
+    showTextExport("Take this explanation to your notes", comparisonBrief(data, activeComparison),
+      "Comparison note in Markdown", "comparison-" + activeComparison + ".md",
+      "The selected question, conditions and sources travel together. Review status and map gaps stay in the note.");
+  }
+  function showTextExport(name, note, label, filename, description) {
+    const body = modal(name),
       preview = element("textarea", "brief-preview"),
       status = element("p", "source-meta");
     preview.readOnly = true;
     preview.value = note;
-    preview.setAttribute("aria-label", "Comparison note in Markdown");
+    preview.setAttribute("aria-label", label);
     status.setAttribute("role", "status");
-    body.append(element("p", "", "The selected question, conditions and sources travel together. Review status and map gaps stay in the note."));
+    body.append(element("p", "", description));
     const actions = element("div", "brief-actions");
-    actions.append(button("Copy Markdown", async () => {
+    actions.append(button(filename.endsWith(".md") ? "Copy Markdown" : "Copy request", async () => {
       try {
         await navigator.clipboard.writeText(note);
-        status.textContent = "Copied. Paste it into your notes or journal-club outline.";
+        status.textContent = "Copied. Paste it into your notes or research agent.";
       } catch (_) {
         preview.focus();
         preview.select();
         status.textContent = "Note selected. Copy it with Ctrl+C or ⌘C.";
       }
-    }, "button primary"), downloadLink("Markdown ↓", "comparison-" + activeComparison + ".md", note, "text/markdown;charset=utf-8"));
+    }, "button primary"), downloadLink(filename.endsWith(".md") ? "Markdown ↓" : "Request ↓", filename, note, "text/plain;charset=utf-8"));
     body.append(actions, status, preview);
+    return body;
   }
   function svgExport() {
     const doc = new DOMParser().parseFromString(originalSvg, "image/svg+xml"),
@@ -769,7 +781,7 @@
         mode: readingState.mode,
         view: $("list-view").hidden ? "map" : "list",
         fragment: readingState.fragment,
-      }), "text/html;charset=utf-8"),
+      }, readingWorkspace.ids()), "text/html;charset=utf-8"),
       downloadLink("Editable SVG  ↓", "map.svg", svgExport(), "image/svg+xml"),
       downloadLink("Structured JSON  ↓", "map.json", JSON.stringify(data, null, 2) + "\n", "application/json"),
     );
@@ -833,6 +845,10 @@
     if (record) showCompare(record.left, record.right, record.id);
   });
   $("save-explanation").addEventListener("click", saveExplanation);
+  $("collect-comparison").addEventListener("click", () => {
+    const record = comparisons[activeComparison];
+    if (record) { readingWorkspace.add([record.left, record.right]); readingWorkspace.open(); }
+  });
   $("comparison-map").addEventListener("click", () => {
     const record = comparisons[activeComparison];
     if (record) { resetFilters(); showResult(record.right); }
