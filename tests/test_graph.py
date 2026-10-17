@@ -21,7 +21,7 @@ NS = {"svg": "http://www.w3.org/2000/svg"}
 
 def test_dense_chronology_has_no_overlapping_or_lost_results():
     data = json.loads(
-        (ROOT / "docs/test-reports/surface-code-rerun/map.json").read_text()
+        (ROOT / "docs/test-reports/surface-code-rerun/map.json").read_text(encoding="utf-8")
     )
     before = deepcopy(data)
     positions, periods, height, _, _ = timeline_layout(data)
@@ -85,7 +85,7 @@ def test_same_paper_results_remain_separate_and_addressable(sample):
 
 def test_browser_and_cli_svg_share_the_cjk_safe_appendix():
     data = json.loads(
-        (ROOT / "docs/test-reports/surface-code-rerun/map.json").read_text()
+        (ROOT / "docs/test-reports/surface-code-rerun/map.json").read_text(encoding="utf-8")
     )
     lines = export_lines(data)
     assert all(text_width(line) <= 185 for line in lines)
