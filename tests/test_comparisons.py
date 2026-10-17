@@ -2,6 +2,7 @@
 
 import json
 import re
+import runpy
 from copy import deepcopy
 from pathlib import Path
 from xml.etree import ElementTree as ET
@@ -323,3 +324,60 @@ def test_quote_checks_reject_empty_selector_and_oversized_text(comparison_map):
     evidence["quote"]["exact"] = "result"
     with pytest.raises(ValueError, match="5 MB"):
         check_anchor(evidence, "a" * 5_000_001)
+
+
+def test_recorded_team_assignments_need_version_bound_evidence(
+    comparison_map, tmp_path
+):
+    for suffix, work in zip(("a", "b"), comparison_map["works"]):
+        work["groups"] = [
+            {
+                "id": "team",
+                "label": "Synthetic team label",
+                "version_id": "v-" + suffix,
+                "evidence": ["e-" + suffix],
+            }
+        ]
+    assert validate(comparison_map)["valid"]
+    build(comparison_map, tmp_path)
+    assert load_map(tmp_path / "map.json")["works"] == comparison_map["works"]
+    assert "Recorded team team: Synthetic team label" in review_report(comparison_map)
+    comparison_map["works"][0]["groups"][0]["evidence"] = ["e-b"]
+    assert any(
+        "group assignment needs evidence" in error
+        for error in validate(comparison_map)["errors"]
+    )
+
+
+def test_team_identity_conflicts_and_duplicates_are_not_silently_merged(comparison_map):
+    comparison_map["works"][0]["groups"] = [
+        {"id": "team", "label": "One team", "version_id": "v-a", "evidence": ["e-a"]}
+    ]
+    comparison_map["works"][1]["groups"] = [
+        {
+            "id": "team",
+            "label": "Different team",
+            "version_id": "v-b",
+            "evidence": ["e-b"],
+        }
+    ]
+    assert any(
+        "conflicting labels" in error for error in validate(comparison_map)["errors"]
+    )
+    comparison_map["works"][1]["groups"][0]["label"] = "One team"
+    assert validate(comparison_map)["valid"]
+    comparison_map["works"][0]["groups"] *= 2
+    assert any(
+        "duplicate group" in error for error in validate(comparison_map)["errors"]
+    )
+
+
+def test_actual_research_integration_preserves_partial_and_rejects_curated_manifest():
+    integration = runpy.run_path(str(ROOT / "scripts/verify_litdelta.py"))[
+        "research_integration"
+    ]
+    actual = integration(ROOT / "docs/test-reports/surface-code-rerun/manifest.json")
+    assert actual["adapter_status"] == "PASS" and actual["status"] == "PARTIAL"
+    assert actual["observed"]["checks"]["research_completion"]["status"] == "PARTIAL"
+    curated = integration(ROOT / "src/research_lineage/data/attention-comparisons.json")
+    assert curated["status"] == "FAIL"

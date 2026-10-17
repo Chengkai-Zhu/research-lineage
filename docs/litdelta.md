@@ -32,6 +32,13 @@ not that one result is better. `conditional`, `incomparable`, and `unknown` reta
 their distinct reasons. Equal text does not turn an unknown pair into a comparable
 one. All annotations remain proposed until real reviews are recorded.
 
+In **Explore map**, switch **Color by** between research threads, authors, and
+recorded teams. Multiple color marks show collaboration. Click a legend name or
+use **Follow a name** to trace that label across papers; other work stays visible
+in gray. Team mode uses explicit version-bound assignments from the data guide.
+It never infers a team from shared coauthors. Recorded names may be ambiguous.
+HTML downloads retain the selected mode; SVG downloads include its legend.
+
 ## Author and check records
 
 Use the [data guide](../skills/research-lineage/references/data-guide.md) for the
@@ -98,10 +105,13 @@ the research-integration, browser, publication, and participant evidence states.
 Exit zero means the software controls pass; it does not mean those other streams
 are complete. `--require-integration` exits nonzero until actual integration passes.
 
-`--research-manifest <path>` delegates to the actual `verify_research_run.py`
-provided by #12 when present. It retains the checker output and requires its four
-PASS outcomes without PARTIAL/FAIL. It never manufactures a fresh run from the
-comparison fixture. Research corpus size, cutoff, backward/forward searches,
+The default integration manifest is the actual committed #12 surface-code rerun;
+`--research-manifest <path>` can select another recorded run. The script uses the
+canonical `audit_run` API, preserves every component outcome, and distinguishes
+adapter/provenance/source-trail success from research completion. The committed
+run has a central access gap and remains PARTIAL; issue closure does not change
+that evidence. It never manufactures a fresh run from the comparison fixture.
+Research corpus size, cutoff, backward/forward searches,
 coverage, and stopping decisions belong to #14/#12. Display size never limits them.
 
 Engineering fixtures and browser walkthroughs are not independent scholarly

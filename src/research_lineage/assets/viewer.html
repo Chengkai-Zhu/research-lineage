@@ -101,6 +101,19 @@
             ><button id="clear-filters" class="inline-button">Reset</button
             ><span id="visible-count" class="muted"></span>
           </div>
+          <div class="identity-controls">
+            <label>Color by
+              <select id="color-mode">
+                <option value="thread">Research thread</option>
+                <option value="authors">Authors</option>
+                <option value="groups">Recorded teams</option>
+              </select>
+            </label>
+            <label id="identity-focus-label" hidden>Follow a name
+              <select id="identity-focus"><option value="all">All names</option></select>
+            </label>
+          </div>
+          <div id="identity-legend" class="identity-legend" aria-label="Author or team color legend" hidden></div>
           <div id="route-bar" class="route-bar" hidden>
             <span id="route-progress"></span
             ><button id="route-prev" class="inline-button">← Previous</button
@@ -177,6 +190,7 @@
     <script type="application/json" id="export-notes">
       @@EXPORT_NOTES@@
     </script>
+    <script type="application/json" id="color-preference">{"mode":"thread","focus":"all"}</script>
     <script>
       @@JS@@
     </script>

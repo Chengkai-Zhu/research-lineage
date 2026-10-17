@@ -18,6 +18,13 @@ Report software, research integration, browser, and publication outcomes separat
 Reconcile shared data-guide/README/CI edits before merge; do not close #20 while
 its required integration or public-preview acceptance remains pending.
 
+The owner additionally requested author/team colors while implementation was in
+progress. The explorer keeps thread colors as default and adds recorded-name and
+explicit-team modes, collaboration marks, a named legend, and a focus selector.
+Team assignments require evidence for their exact work/version. Color labels are
+metadata for following work, not proof of influence or inferred group membership.
+HTML/SVG exports retain the chosen view while preserving the complete map data.
+
 ## Decision and need
 
 On 2026-10-17 the owner selected the name **LitDelta** and features A, B, C, E,

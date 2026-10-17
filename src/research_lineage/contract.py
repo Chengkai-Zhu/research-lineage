@@ -163,6 +163,9 @@ SCHEMA_1_1.update(
     }
 )
 SCHEMA_1_1["properties"]["schema_version"] = choice("1.1")
+SCHEMA_1_1["properties"]["works"]["items"]["properties"]["groups"] = array(
+    obj(id=ID, label=text(100), version_id=ID, evidence=array(ID, 1, 30)), maximum=30
+)
 NULLABLE_TEXT = {"type": ["string", "null"], "minLength": 1, "maxLength": 2000}
 SHA256 = {**text(64), "pattern": "^[a-f0-9]{64}$"}
 evidence_1_1 = SCHEMA_1_1["properties"]["evidence"]["items"]
@@ -353,6 +356,34 @@ def validate(data):
             errors.extend(
                 f"{item['id']}: {message}" for message in anchor_report_errors(item)
             )
+
+    group_labels = {}
+    for work in data["works"]:
+        seen_groups = set()
+        for group in work.get("groups", []):
+            key = (group["id"], group["version_id"])
+            if key in seen_groups:
+                errors.append(
+                    f"{work['id']}: duplicate group assignment for one version"
+                )
+            seen_groups.add(key)
+            if (
+                group["id"] in group_labels
+                and group_labels[group["id"]] != group["label"]
+            ):
+                errors.append(
+                    f"{group['id']}: conflicting labels for the same group identity"
+                )
+            group_labels[group["id"]] = group["label"]
+            if len(set(group["evidence"])) != len(group["evidence"]) or any(
+                eid not in evidence
+                or evidence[eid]["work_id"] != work["id"]
+                or evidence[eid]["version_id"] != group["version_id"]
+                for eid in group["evidence"]
+            ):
+                errors.append(
+                    f"{work['id']}: group assignment needs evidence for its own work/version"
+                )
 
     for item in data["results"] + data["relations"]:
         refs = [evidence[eid] for eid in item["evidence"] if eid in evidence]

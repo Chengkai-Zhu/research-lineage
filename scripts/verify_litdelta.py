@@ -20,6 +20,7 @@ from research_lineage.contract import validate  # noqa: E402
 from research_lineage.core import compare, diff_maps, dump, load_map, write_text  # noqa: E402
 from research_lineage.extraction import assess  # noqa: E402
 from research_lineage.render import build  # noqa: E402
+from research_lineage.research_scope import audit_run  # noqa: E402
 from research_lineage.temporal import update_proposal  # noqa: E402
 
 
@@ -252,36 +253,31 @@ def alias_result(name, fixture_path):
 
 
 def research_integration(manifest):
-    checker = ROOT / "scripts/verify_research_run.py"
     report = {
         "status": "PARTIAL",
-        "reason": "Awaiting the corrected #14 contract and actual #12 fresh-run evidence.",
+        "reason": "Research completion is separate from rendering and adapter checks.",
         "issues": [14, 12],
         "manifest": str(manifest) if manifest else None,
     }
-    if manifest and checker.exists():
+    if manifest:
         try:
-            result = subprocess.run(
-                [sys.executable, str(checker), str(manifest.resolve())],
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                timeout=120,
-            )
-        except (OSError, subprocess.SubprocessError) as exc:
+            audit = audit_run(manifest)
+        except (OSError, ValueError) as exc:
             return {**report, "status": "FAIL", "reason": str(exc)}
-        output = result.stdout + result.stderr
-        passing = (
-            result.returncode == 0
-            and len(re.findall(r"\bPASS\b", output)) >= 4
-            and not re.search(r"\b(?:PARTIAL|FAIL)\b", output)
-        )
         report.update(
-            status="PASS" if passing else "FAIL",
-            checker=str(checker.relative_to(ROOT)),
-            exit_code=result.returncode,
-            observed=output,
-            reason="Delegated to the actual #12 checker; this is not independent scholarly review.",
+            status=audit["status"],
+            adapter_status="PASS"
+            if all(
+                audit["checks"][key]["status"] == "PASS"
+                for key in (
+                    "execution_provenance",
+                    "cutoff_consistency",
+                    "source_trail",
+                )
+            )
+            else "FAIL",
+            observed=audit,
+            reason="The actual #12 audit is preserved, including partial coverage; this is not independent scholarly review.",
         )
     return report
 
@@ -302,12 +298,19 @@ def publish_report(destination, report):
             + "".join("<td>" + html.escape(value) + "</td>" for value in cells)
             + "</tr>"
         )
+    research_link = (
+        ' · <a href="research-map/map.html">Actual fresh-run map in the new reader</a>'
+        if report["research_integration"].get("rendered_map")
+        else ""
+    )
     content = (
         "<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'>"
         "<title>LitDelta acceptance evidence</title><style>body{font:16px system-ui;max-width:1200px;margin:40px auto;padding:20px;line-height:1.6}"
         "table{border-collapse:collapse;width:100%}td,th{padding:12px;border:1px solid #ccc;text-align:left;overflow-wrap:anywhere}pre{white-space:pre-wrap}</style>"
         "<h1>LitDelta acceptance evidence</h1><p>Engineering controls do not establish research coverage or scientific truth.</p>"
-        "<p><a href='flagship/map.html'>Open the real reading example</a> · <a href='report.json'>JSON report</a></p>"
+        "<p><a href='flagship/map.html'>Open the real reading example</a> · <a href='report.json'>JSON report</a>"
+        + research_link
+        + "</p>"
         "<h2>Evidence streams</h2><pre>"
         + html.escape(
             dump({key: value for key, value in report.items() if key != "checks"})
@@ -326,7 +329,11 @@ def main(argv=None):
     parser.add_argument(
         "--fixture", type=Path, default=ROOT / "tests/fixtures/comparison-map.json"
     )
-    parser.add_argument("--research-manifest", type=Path)
+    parser.add_argument(
+        "--research-manifest",
+        type=Path,
+        default=ROOT / "docs/test-reports/surface-code-rerun/manifest.json",
+    )
     parser.add_argument("--require-integration", action="store_true")
     args = parser.parse_args(argv)
     if args.out.exists():
@@ -377,6 +384,25 @@ def main(argv=None):
     )
     software = "PASS" if all(row["status"] == "PASS" for row in checks.rows) else "FAIL"
     integration = research_integration(args.research_manifest)
+    if integration.get("adapter_status") == "PASS":
+        manifest_data = json.loads(
+            args.research_manifest.read_text(encoding="utf-8-sig")
+        )
+        source_map = (
+            args.research_manifest.parent / manifest_data["artifacts"]["map"]["path"]
+        )
+        research_map = load_map(source_map)
+        build(research_map, args.out / "research-map")
+        checks.check(
+            "actual-fresh-run-rendering",
+            "research-map/map.json",
+            True,
+            lambda: load_map(args.out / "research-map/map.json") == research_map,
+        )
+        software = (
+            "PASS" if all(row["status"] == "PASS" for row in checks.rows) else "FAIL"
+        )
+        integration["rendered_map"] = "research-map/map.html"
     report = dict(
         software={"status": software, "checks": len(checks.rows)},
         research_integration=integration,
@@ -401,6 +427,7 @@ def main(argv=None):
     return (
         2
         if software != "PASS"
+        or integration["status"] == "FAIL"
         or (args.require_integration and integration["status"] != "PASS")
         else 0
     )

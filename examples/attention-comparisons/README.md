@@ -42,5 +42,7 @@ not assert an unconditional improvement in training, inference, or total work.
 This curated example tests whether the reader can inspect a narrow comparison.
 It does not establish search completeness, independent scientific validity, or
 benefit to real users. The #14 contract and #12 fresh host execution supply the
-research-workflow evidence; #10 remains the independent review/user-study work.
+research-workflow evidence. The actual surface-code run is now integrated, with
+its recorded completion still PARTIAL due to an access gap; #10 remains the
+independent review/user-study work.
 The implementation report records actual agent authoring and browser-check effort.

@@ -131,3 +131,22 @@ The host authors these records for the user; end users still provide a topic or
 paper. Research completeness and cutoff/stopping guidance are owned by #14, and
 fresh execution evidence by #12. The viewer's small set of overview/comparison
 cards never limits the research corpus or establishes completed field coverage.
+
+## Author and team colors
+
+The explorer can color by research thread, recorded author labels, or recorded
+teams. Multiple color marks indicate collaboration. The legend colors up to eight
+frequent labels; the name selector can follow any other recorded label. Names are
+used exactly as recorded, with no automatic person disambiguation or inference
+that coauthors belong to one team.
+
+Format 1.1 works may add `groups`, a list of `{id, label, version_id, evidence}`.
+The ID identifies the same team across works, and must have a consistent label.
+Each assignment needs evidence from that exact work/version; the viewer applies
+it only to results using that version. Missing assignments remain uncolored in
+team mode. An affiliation or team label is recorded metadata, not a scholarly
+relationship or an authenticated membership assertion.
+
+Current color preferences are preserved in downloaded HTML; SVG downloads include
+the complete map and a color legend. These are view preferences, not new scientific
+data. JSON retains the author/team metadata and all original evidence.

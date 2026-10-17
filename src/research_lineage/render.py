@@ -211,7 +211,9 @@ def render_html(data):
     values = {
         "TITLE": html.escape(data["title"]),
         "CSS": (ASSETS / "viewer.css").read_text(encoding="utf-8"),
-        "JS": (ASSETS / "viewer.js").read_text(encoding="utf-8"),
+        "JS": (ASSETS / "identity-view.js").read_text(encoding="utf-8")
+        + "\n"
+        + (ASSETS / "viewer.js").read_text(encoding="utf-8"),
         "DATA": serialized,
         "SVG": render_svg(data),
         "STORY": render_story(data),

@@ -214,6 +214,10 @@ def review_sections(data):
             sources.append(
                 f"{version['id']}: {version['label']} — {version['published']} — {version['url']}"
             )
+        for group in work.get("groups", []):
+            sources.append(
+                f"Recorded team {group['id']}: {group['label']} | {group['version_id']} | Evidence: {', '.join(group['evidence'])}"
+            )
     sections.append(("Source index", sources))
     queue = []
     for item in data["results"] + data["relations"]:

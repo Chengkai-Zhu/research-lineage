@@ -30,6 +30,7 @@
   };
   const originalSvg = $("lineage-map").outerHTML;
   const originalHtml = "<!doctype html>\n" + document.documentElement.outerHTML;
+  const identityView = createIdentityView(data, element, button);
   let selected = null,
     selectedType = "result",
     routeStep = -1,
@@ -241,6 +242,18 @@
       panel.append(title("WHAT CHANGES BETWEEN RESULTS?"));
       relatedComparisons.forEach((record) => panel.append(button(record.question,
         () => showCompare(record.left, record.right, record.id), "relation-link")));
+    }
+    const groups = (work.groups || []).filter((group) => group.version_id === result.version_id);
+    if (groups.length) {
+      panel.append(title("RECORDED TEAMS"));
+      groups.forEach((group) => {
+        panel.append(element("p", "summary", group.label));
+        group.evidence.forEach((eid) => {
+          const source = evidence[eid], paragraph = element("p", "source-meta");
+          paragraph.append(link(source.locator + " · " + source.version_id + " ↗", source.url));
+          panel.append(paragraph);
+        });
+      });
     }
     appendReviews(panel, result);
     finishInspector();
@@ -643,6 +656,7 @@
     metadata.id = "research-lineage-data";
     metadata.textContent = JSON.stringify(data);
     root.append(metadata);
+    const identityHeight = identityView.exportSvg(root, height);
     const lines = raw.flatMap((text) => {
       const words = text.split(" "),
         rows = [""];
@@ -654,12 +668,12 @@
     });
     root.setAttribute(
       "viewBox",
-      "0 0 1240 " + (height + 60 + lines.length * 18),
+      "0 0 1240 " + (height + identityHeight + 60 + lines.length * 18),
     );
     lines.forEach((line, index) => {
       const node = doc.createElementNS("http://www.w3.org/2000/svg", "text");
       node.setAttribute("x", "30");
-      node.setAttribute("y", String(height + 30 + index * 18));
+      node.setAttribute("y", String(height + identityHeight + 30 + index * 18));
       node.setAttribute("fill", "#43594d");
       node.setAttribute("font-size", "12");
       node.textContent = line;
@@ -678,7 +692,7 @@
     );
     const grid = element("div", "download-grid");
     grid.append(
-      downloadLink("Interactive HTML  ↓", "map.html", originalHtml, "text/html;charset=utf-8"),
+      downloadLink("Interactive HTML  ↓", "map.html", identityView.exportHtml(originalHtml), "text/html;charset=utf-8"),
       downloadLink("Editable SVG  ↓", "map.svg", svgExport(), "image/svg+xml"),
       downloadLink("Structured JSON  ↓", "map.json", JSON.stringify(data, null, 2) + "\n", "application/json"),
     );
