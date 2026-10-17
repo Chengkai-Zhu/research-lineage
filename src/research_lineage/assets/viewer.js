@@ -30,6 +30,7 @@
   };
   const originalSvg = $("lineage-map").outerHTML;
   const originalHtml = "<!doctype html>\n" + document.documentElement.outerHTML;
+  const readingState = readReadingPreference($("reading-preference").textContent, location.hash);
   const identityView = createIdentityView(data, element, button);
   let selected = null,
     selectedType = "result",
@@ -64,8 +65,9 @@
     item.review_status === "proposed"
       ? "Awaiting scholarly review"
       : "Review recorded · identity not verified";
-  function updateHash(type, id) {
-    const hash = "#" + type + "=" + encodeURIComponent(id);
+  function updateHash(type, id = null) {
+    const hash = "#" + type + (id === null ? "" : "=" + encodeURIComponent(id));
+    readingState.fragment = hash;
     try {
       history.replaceState(null, "", hash);
     } catch (_) {
@@ -695,7 +697,7 @@
       downloadLink("Interactive HTML  ↓", "map.html", identityView.exportHtml(originalHtml, {
         mode: $("explorer").hidden ? "overview" : "explore",
         view: $("list-view").hidden ? "map" : "list",
-        fragment: location.hash,
+        fragment: readingState.fragment,
       }), "text/html;charset=utf-8"),
       downloadLink("Editable SVG  ↓", "map.svg", svgExport(), "image/svg+xml"),
       downloadLink("Structured JSON  ↓", "map.json", JSON.stringify(data, null, 2) + "\n", "application/json"),
@@ -719,9 +721,12 @@
     : "No reading route recorded · explore the map instead";
   $("mode-overview").addEventListener("click", () => {
     showMode("overview");
-    try { history.replaceState(null, "", "#overview"); } catch (_) {}
+    updateHash("overview");
   });
-  $("mode-explore").addEventListener("click", () => showMode("explore"));
+  $("mode-explore").addEventListener("click", () => {
+    showMode("explore");
+    updateHash("explore");
+  });
   document.querySelectorAll(".story-source").forEach((node) => {
     node.addEventListener("click", () => {
       resetFilters();
@@ -820,6 +825,7 @@
   $("zoom-fit").addEventListener("click", () => setZoom(1));
   function restoreHash(fragment = location.hash) {
     try {
+      readingState.fragment = fragment;
       const [type, id] = fragment.slice(1).split("=");
       if (type === "relation" && relations[decodeURIComponent(id)])
         showRelation(decodeURIComponent(id), false);
@@ -845,10 +851,9 @@
     }
   }
   showMode("overview");
-  const saved = readReadingPreference($("reading-preference").textContent);
-  showMode(saved.mode);
-  view(saved.view);
-  restoreHash(location.hash || saved.fragment);
+  showMode(readingState.mode);
+  view(readingState.view);
+  restoreHash(readingState.fragment);
   filter();
   window.addEventListener("hashchange", () => restoreHash());
 })();

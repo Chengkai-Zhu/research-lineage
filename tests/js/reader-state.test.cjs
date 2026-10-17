@@ -63,3 +63,19 @@ test("malformed saved state falls back without losing the reader", () => {
   assert.deepEqual(read('{"mode":"explore","view":"list","fragment":"#author=Ada%20Lovelace"}'),
     { mode: "explore", view: "list", fragment: "#author=Ada%20Lovelace" });
 });
+
+test("a restored location survives another save with an empty browser fragment", () => {
+  const original = slot("color-preference", {}) + slot("reading-preference", {});
+  const colors = { mode: "thread", focus: "all" };
+  const first = context.exportViewPreferences(original, colors,
+    { mode: "overview", view: "map", fragment: "#comparison=c-quality" });
+  const restored = context.readReadingPreference(JSON.stringify(extract(first, "reading-preference")), "");
+  const second = context.exportViewPreferences(original, colors, restored);
+  assert.equal(extract(second, "reading-preference").fragment, "#comparison=c-quality");
+  const explicit = context.readReadingPreference(JSON.stringify(restored), "#result=r-attention");
+  assert.equal(explicit.fragment, "#result=r-attention");
+  const explore = context.exportViewPreferences(original, colors,
+    { mode: "explore", view: "map", fragment: "#explore" });
+  assert.equal(extract(explore, "reading-preference").mode, "explore");
+  assert.equal(extract(explore, "reading-preference").fragment, "#explore");
+});

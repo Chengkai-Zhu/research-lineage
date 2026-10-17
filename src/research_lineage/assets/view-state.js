@@ -1,6 +1,6 @@
 "use strict";
 
-function readReadingPreference(text) {
+function readReadingPreference(text, urlFragment = "") {
   let saved = {};
   try {
     const parsed = JSON.parse(text);
@@ -9,8 +9,8 @@ function readReadingPreference(text) {
   return {
     mode: saved.mode === "explore" ? "explore" : "overview",
     view: saved.view === "list" ? "list" : "map",
-    fragment: typeof saved.fragment === "string" && saved.fragment.startsWith("#") && saved.fragment.length <= 2048
-      ? saved.fragment : "",
+    fragment: urlFragment || (typeof saved.fragment === "string" && saved.fragment.startsWith("#") && saved.fragment.length <= 2048
+      ? saved.fragment : ""),
   };
 }
 
