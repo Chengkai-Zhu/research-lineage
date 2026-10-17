@@ -2,6 +2,12 @@
 
 ## Open the example
 
+Try [LitDelta online](https://chengkaizhu.site/research-lineage/) without installing
+anything, or [download all three reading examples](https://chengkaizhu.site/research-lineage/offline.zip).
+Extract the archive and open `START-HERE.html`. Choose a focused comparison,
+follow shared author names, or inspect the actual research run with its PARTIAL
+status intact. Every example also has its own standalone `map.html`.
+
 Build the current example using the checkout commands below, then open
 `output/demo/map.html`. It works offline, with no server or account.
 The sample is a bounded, abstract-grounded research draft, not an expert-certified review.
@@ -23,6 +29,10 @@ The output contains `map.html`, `map.svg`, `map.json`, and `review.md`.
 `python -m research_lineage` is equivalent to `research-lineage`.
 
 ## Use the standalone skill
+
+You can [download the current preview skill](https://chengkaizhu.site/research-lineage/downloads/research-lineage-skill-0.2.0.zip)
+directly from the product page. It includes its Python runtime and comparison
+sample; this preview is not a tagged package release.
 
 Build the current skill from the repository root using Python 3.11+:
 

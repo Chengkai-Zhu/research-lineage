@@ -1,12 +1,37 @@
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-# Research Lineage
+# LitDelta
 
-**Start with a topic. Understand how the ideas developed.**
+**See how research moves forward.**
 
 [![CI](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml/badge.svg)](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml)
 
-An **agent skill** that turns a research topic or one paper into a clear, source-grounded reading history. Give your agent one sentence; receive an interactive map you can keep, inspect and share offline.
+An **agent skill** that turns a research topic or one paper into a clear, source-grounded reading history. Explore what each result changes, under which conditions, and where the evidence comes from. Give your agent one sentence; receive an interactive map you can keep, inspect and share offline.
+
+LitDelta is the product name. Installation continues to use `research-lineage`;
+both `litdelta` and `research-lineage` invoke the same local tools. The existing
+skill name and `python -m research_lineage` remain supported.
+
+[Try LitDelta in your browser](https://chengkaizhu.site/research-lineage/) ·
+[Download the complete offline collection](https://chengkaizhu.site/research-lineage/offline.zip) ·
+[Get the current preview skill](https://chengkaizhu.site/research-lineage/downloads/research-lineage-skill-0.2.0.zip)
+
+The browser entry offers a focused result comparison, an author-linked reading
+history, and the actual 52-paper research run with its PARTIAL status intact.
+Reading needs no installation. The preview skill is built from the same source;
+it is separate from the latest tagged release.
+
+Try the new, explicitly scoped result-comparison example after installing the
+checkout (it is not a completed field-history search):
+
+```sh
+litdelta demo --example comparisons --out output/comparisons
+```
+
+Open `output/comparisons/map.html` to compare parallel layer depth, total work,
+generation dependencies, and translation quality. [Source notes and reader tasks](examples/attention-comparisons/README.md)
+explain the distinction. [Preview build and verification](docs/litdelta.md#browser-preview)
+documents how to reproduce the site and check downloaded files against its manifest.
 
 > Please trace the development of quantum signal processing.
 
@@ -93,12 +118,16 @@ Correct an assumption, improve a source anchor, or add a carefully checked readi
 python -m pip install -e ".[dev]"
 python -m pytest
 python -m ruff check src tests scripts skills
+node --test tests/js/reader-state.test.cjs
 python scripts/package_skill.py --out dist
 ```
 
 [Design](docs/design/skill-first-reading.md) · [Verification](docs/test-reports/skill-first-workflow.md) · [Roadmap](docs/roadmap.md) · [Contributing](CONTRIBUTING.md)
 
 If it helps you understand a field, sharing your map or starring the repository helps others find it.
+
+Viewer development tests use Node.js 18+ built-ins. Node is a development tool;
+the offline Python core and exported reader do not require it.
 
 ## License
 

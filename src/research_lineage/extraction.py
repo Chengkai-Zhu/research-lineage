@@ -1,12 +1,14 @@
 """Gate host-authored candidates; this module does not extract or certify claims."""
 
-from .contract import RELATIONS, safe_url
+from .contract import RELATIONS, safe_url, validate
 from .core import MapError
 
 
 def assess(candidate):
     if not isinstance(candidate, dict) or not isinstance(candidate.get("id"), str):
         raise MapError("Each extraction candidate needs a string id.")
+    if "map" in candidate:
+        return assess_map_relation(candidate)
     kind = candidate.get("type")
     if kind not in ("result", *RELATIONS):
         raise MapError(
@@ -39,6 +41,9 @@ def assess(candidate):
         if basis == "citation_only" and kind != "cites":
             reasons.append("A citation cannot support a semantic relationship.")
     if kind == "improves_bound":
+        reasons.append(
+            "Bound improvements need a complete 1.1 map and relation_id so intake and final validation use the same gate."
+        )
         comparison = candidate.get("comparison", {})
         if not isinstance(comparison, dict):
             raise MapError("Comparison must be an object.")
@@ -68,4 +73,36 @@ def assess(candidate):
         "review_status": "proposed",
         "source_access": access,
         "meaning": "Evidence gate only; a proposal is not an accepted scientific claim.",
+    }
+
+
+def assess_map_relation(candidate):
+    """Assess an exact relation in its full context using the canonical map gate."""
+    data = candidate["map"]
+    check = validate(data)
+    relation = (
+        next(
+            (
+                item
+                for item in data["relations"]
+                if item["id"] == candidate.get("relation_id")
+            ),
+            None,
+        )
+        if check["valid"]
+        else None
+    )
+    reasons = list(check["errors"])
+    if not isinstance(data, dict) or data.get("schema_version") != "1.1":
+        reasons.append("Map-backed candidates require format 1.1.")
+    if relation is None:
+        reasons.append("relation_id must select an existing map relationship.")
+    return {
+        "id": candidate["id"],
+        "type": relation.get("type", "result") if relation else "result",
+        "decision": "abstain" if reasons else "propose",
+        "reasons": reasons,
+        "review_status": "proposed",
+        "source_access": "map_bound_evidence",
+        "meaning": "Canonical evidence gate only; no scientific claim or reviewer identity is certified.",
     }

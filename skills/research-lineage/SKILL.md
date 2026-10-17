@@ -155,6 +155,11 @@ It does not reconstruct historical knowledge or monitor literature in the backgr
 python <skill-directory>/scripts/lineage.py demo --out output/example
 ```
 
+For the focused LitDelta comparison reader, use
+`demo --example comparisons --out output/comparisons`. It shows several distinct
+results from one paper, supported and incomparable questions, and expandable
+condition/source evidence. This is a reading example, not a completed research run.
+
 This produces the bundled QSP/QSVT sample; it must never be substituted for a map
 of the user's own question. See [evaluation cases](references/evaluation.md) for
 meaningful checks of this workflow.

@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.1",
+  "id": "engineering-comparisons",
+  "title": "Engineering comparison controls",
+  "question": "Does the software preserve and gate declared comparisons?",
+  "scope": {
+    "summary": "Artificial software fixture; no research findings.",
+    "cutoff": "2026-10-17",
+    "coverage": "Two synthetic sources.",
+    "search_strategy": "No research performed; hand-checkable controls.",
+    "exclusions": [
+      "All scientific inference."
+    ],
+    "gaps": [
+      "No scientific validation is implied."
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Engineering controls",
+      "color": "teal"
+    }
+  ],
+  "works": [
+    {
+      "id": "w-a",
+      "title": "Synthetic source a",
+      "authors": [
+        "Engineering fixture"
+      ],
+      "first_published": "2020-01-01",
+      "versions": [
+        {
+          "id": "v-a",
+          "label": "Synthetic v1",
+          "published": "2020-01-01",
+          "url": "https://example.org/engineering-a/v1"
+        }
+      ]
+    },
+    {
+      "id": "w-b",
+      "title": "Synthetic source b",
+      "authors": [
+        "Engineering fixture"
+      ],
+      "first_published": "2020-01-01",
+      "versions": [
+        {
+          "id": "v-b",
+          "label": "Synthetic v1",
+          "published": "2020-01-01",
+          "url": "https://example.org/engineering-b/v1"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "a",
+      "work_id": "w-a",
+      "version_id": "v-a",
+      "label": "Synthetic method a",
+      "summary": "100 calls in the fixture.",
+      "lane": "main",
+      "kind": "result",
+      "settings": {
+        "input": "Same finite task",
+        "assumptions": "Same oracle model",
+        "cost": "100 calls",
+        "error": "Exact output"
+      },
+      "evidence": [
+        "e-a"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "b",
+      "work_id": "w-b",
+      "version_id": "v-b",
+      "label": "Synthetic method b",
+      "summary": "50 calls in the fixture.",
+      "lane": "main",
+      "kind": "result",
+      "settings": {
+        "input": "Same finite task",
+        "assumptions": "Same oracle model",
+        "cost": "50 calls",
+        "error": "Exact output"
+      },
+      "evidence": [
+        "e-b"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "e-a",
+      "work_id": "w-a",
+      "version_id": "v-a",
+      "url": "https://example.org/engineering-a/v1",
+      "locator": "Synthetic specification",
+      "kind": "full_text",
+      "summary": "Engineering oracle only; not a scientific source.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "e-b",
+      "work_id": "w-b",
+      "version_id": "v-b",
+      "url": "https://example.org/engineering-b/v1",
+      "locator": "Synthetic specification",
+      "kind": "full_text",
+      "summary": "Engineering oracle only; not a scientific source.",
+      "checked": "2026-10-17"
+    }
+  ],
+  "relations": [
+    {
+      "id": "edge",
+      "source": "a",
+      "target": "b",
+      "type": "improves_bound",
+      "summary": "Synthetic count control.",
+      "evidence": [
+        "e-a",
+        "e-b"
+      ],
+      "basis": "editorial_inference",
+      "comparison_id": "c-improvement",
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "c-improvement",
+      "left": "a",
+      "right": "b",
+      "question": "Does B use fewer oracle calls for this synthetic task?",
+      "summary": "The supplied counts change from 100 to 50.",
+      "regime": "The identical finite task and oracle in the fixture.",
+      "tradeoffs": "No other quality is asserted.",
+      "rationale": "The artificial specification fixes the same input, oracle and exact output.",
+      "assessment": "comparable",
+      "outcome": "improvement",
+      "improvement": "50 oracle calls instead of 100 for this fixture.",
+      "conditions": [
+        {
+          "dimension": "input",
+          "left": "Same finite task",
+          "right": "Same finite task",
+          "reason": "Declared equal context; hand-checkable resource counts.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-a"
+          ],
+          "right_evidence": [
+            "e-b"
+          ]
+        },
+        {
+          "dimension": "assumptions",
+          "left": "Same oracle model",
+          "right": "Same oracle model",
+          "reason": "Declared equal context; hand-checkable resource counts.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-a"
+          ],
+          "right_evidence": [
+            "e-b"
+          ]
+        },
+        {
+          "dimension": "cost",
+          "left": "100 calls",
+          "right": "50 calls",
+          "reason": "Declared equal context; hand-checkable resource counts.",
+          "left_unit": "oracle calls",
+          "right_unit": "oracle calls",
+          "left_evidence": [
+            "e-a"
+          ],
+          "right_evidence": [
+            "e-b"
+          ]
+        },
+        {
+          "dimension": "error",
+          "left": "Exact output",
+          "right": "Exact output",
+          "reason": "Declared equal context; hand-checkable resource counts.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-a"
+          ],
+          "right_evidence": [
+            "e-b"
+          ]
+        }
+      ],
+      "conversion": null,
+      "evidence": [
+        "e-a",
+        "e-b"
+      ],
+      "basis": "editorial_inference",
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "reading_route": [
+    "a",
+    "b"
+  ]
+}

@@ -7,7 +7,8 @@ from datetime import date
 from pathlib import Path
 
 from . import __version__
-from .contract import SCHEMA, validate
+from .contract import SCHEMAS, validate
+from .anchors import check_anchor
 from .core import (
     MapError,
     compare,
@@ -33,7 +34,7 @@ DATA = Path(__file__).parent / "data"
 def parser():
     cli = argparse.ArgumentParser(
         prog="research-lineage",
-        description="Trace how research ideas evolve. Local tools; evidence stays visible.",
+        description="LitDelta: see what research changes, under which conditions, and why.",
     )
     cli.add_argument("--version", action="version", version=__version__)
     commands = cli.add_subparsers(dest="command", required=True)
@@ -82,6 +83,7 @@ def parser():
     )
     demo.add_argument("--out", default="output/research-lineage")
     demo.add_argument("--force", action="store_true")
+    demo.add_argument("--example", choices=("qsp", "comparisons"), default="qsp")
     init = commands.add_parser(
         "init", help="Create a valid empty draft for a research question"
     )
@@ -89,6 +91,7 @@ def parser():
     init.add_argument("--id", default="my-research")
     init.add_argument("--cutoff", default=date.today().isoformat())
     init.add_argument("--out", required=True)
+    init.add_argument("--format-version", choices=tuple(SCHEMAS), default="1.0")
     for name in ("validate", "build", "review", "compare"):
         command = commands.add_parser(name)
         command.add_argument("map")
@@ -99,6 +102,19 @@ def parser():
         if name == "compare":
             command.add_argument("left")
             command.add_argument("right")
+            command.add_argument(
+                "--comparison",
+                help="Select an authored comparison ID for this ordered pair",
+            )
+    anchor = commands.add_parser(
+        "anchor", help="Explicitly check an evidence quote against optional local text"
+    )
+    anchor.add_argument("map")
+    anchor.add_argument("evidence_id")
+    anchor.add_argument(
+        "--text", help="Local UTF-8 source text; omitted means unchecked"
+    )
+    anchor.add_argument("--out")
     difference = commands.add_parser(
         "diff", help="Describe changes without applying or approving them"
     )
@@ -107,6 +123,7 @@ def parser():
     difference.add_argument("--out")
     schema = commands.add_parser("schema", help="Export the canonical JSON Schema")
     schema.add_argument("--out")
+    schema.add_argument("--format-version", choices=tuple(SCHEMAS), default="1.0")
     return cli
 
 
@@ -175,7 +192,12 @@ def main(argv=None):
                 }[args.command](data)
             write_text(args.out, dump(result)) if args.out else print(dump(result))
         elif args.command == "demo":
-            data = load_map(DATA / "qsp-qsvt.json")
+            name = (
+                "attention-comparisons.json"
+                if args.example == "comparisons"
+                else "qsp-qsvt.json"
+            )
+            data = load_map(DATA / name)
             print(dump({"created": build(data, args.out, args.force)}))
         elif args.command == "init":
             if Path(args.out).exists():
@@ -183,7 +205,7 @@ def main(argv=None):
                     "Draft path exists; choose a new path to preserve existing work."
                 )
             data = {
-                "schema_version": "1.0",
+                "schema_version": args.format_version,
                 "id": args.id,
                 "title": args.question,
                 "question": args.question,
@@ -202,13 +224,33 @@ def main(argv=None):
                 "relations": [],
                 "reading_route": [],
             }
+            if args.format_version == "1.1":
+                data["comparisons"] = []
             check = validate(data)
             if not check["valid"]:
                 raise MapError("\n".join(check["errors"]))
             write_text(args.out, dump(data))
             print(f"Created draft: {args.out}")
         elif args.command == "schema":
-            output = dump(SCHEMA)
+            output = dump(SCHEMAS[args.format_version])
+            write_text(args.out, output) if args.out else print(output)
+        elif args.command == "anchor":
+            data = load_map(args.map)
+            evidence = next(
+                (e for e in data["evidence"] if e["id"] == args.evidence_id), None
+            )
+            if evidence is None:
+                raise MapError("Evidence ID does not exist in this map.")
+            if args.out and Path(args.out).exists():
+                raise MapError("Anchor report exists; choose a new output path.")
+            text = None
+            if args.text:
+                with Path(args.text).open("rb") as handle:
+                    raw = handle.read(5_000_001)
+                if len(raw) > 5_000_000:
+                    raise MapError("Source text exceeds the 5 MB local-check limit.")
+                text = raw.decode("utf-8-sig")
+            output = dump(check_anchor(evidence, text))
             write_text(args.out, output) if args.out else print(output)
         elif args.command == "diff":
             if args.out and any(
@@ -235,7 +277,7 @@ def main(argv=None):
                 write_text(args.out, review_report(data))
                 print(f"Wrote review report: {args.out}")
             elif args.command == "compare":
-                print(dump(compare(data, args.left, args.right)))
+                print(dump(compare(data, args.left, args.right, args.comparison)))
         return 0
     except (MapError, OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"error: {exc}", file=sys.stderr)

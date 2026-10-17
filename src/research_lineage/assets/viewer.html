@@ -8,7 +8,7 @@
       content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'"
     />
     <meta name="color-scheme" content="light" />
-    <title>@@TITLE@@ · Research Lineage</title>
+    <title>@@TITLE@@ · LitDelta</title>
     <style>
       @@CSS@@
     </style>
@@ -23,9 +23,9 @@
           <circle cx="7" cy="24" r="3" />
           <circle cx="24" cy="8" r="3" />
           <circle cx="24" cy="17" r="3" /></svg
-        ><span>research<span class="brand-light">lineage</span></span></a
+        ><span>Lit<span class="brand-light">Delta</span></span></a
       >
-      <span class="tagline">Ideas have a history. Follow it.</span>
+      <span class="tagline">See how research moves forward.</span>
       <nav class="reading-nav" aria-label="Reading mode">
         <button id="mode-overview" aria-pressed="true">Overview</button>
         <button id="mode-explore" aria-pressed="false">Explore map</button>
@@ -64,7 +64,7 @@
           Read the scope →
         </button>
       </div>
-      <section id="story-view" aria-label="Research overview">@@STORY@@</section>
+      <section id="story-view" aria-label="Research overview">@@STORY@@@@COMPARISONS@@</section>
       <section id="explorer" class="atlas" aria-label="Research explorer" hidden>
         <div class="map-column">
           <div class="toolbar">
@@ -101,6 +101,19 @@
             ><button id="clear-filters" class="inline-button">Reset</button
             ><span id="visible-count" class="muted"></span>
           </div>
+          <div class="identity-controls">
+            <label>Color by
+              <select id="color-mode">
+                <option value="thread">Research thread</option>
+                <option value="authors">Authors</option>
+                <option value="groups">Recorded teams</option>
+              </select>
+            </label>
+            <label id="identity-focus-label" hidden>Follow a name
+              <select id="identity-focus"><option value="all">All names</option></select>
+            </label>
+          </div>
+          <div id="identity-legend" class="identity-legend" aria-label="Author or team color legend" hidden></div>
           <div id="route-bar" class="route-bar" hidden>
             <span id="route-progress"></span
             ><button id="route-prev" class="inline-button">← Previous</button
@@ -148,14 +161,14 @@
       </section>
       <footer class="page-footer">
         <span
-          >Built with <strong>Research Lineage</strong> · Your map. Your
+          >Built with <strong>LitDelta</strong> · Your map. Your
           sources. Yours to share.</span
         ><span id="cutoff-label"></span>
       </footer>
     </main>
     <dialog id="modal" aria-labelledby="modal-title">
       <div class="modal-top">
-        <p class="eyebrow">RESEARCH LINEAGE</p>
+        <p class="eyebrow">LITDELTA</p>
         <button id="modal-close" class="close-button" aria-label="Close dialog">
           ×
         </button>
@@ -177,6 +190,8 @@
     <script type="application/json" id="export-notes">
       @@EXPORT_NOTES@@
     </script>
+    <script type="application/json" id="color-preference">{"mode":"thread","focus":"all"}</script>
+    <script type="application/json" id="reading-preference">{"mode":"overview","view":"map","fragment":""}</script>
     <script>
       @@JS@@
     </script>

@@ -3,6 +3,7 @@
 from datetime import date
 
 from .core import diff_maps
+from .comparisons import comparison_evidence
 
 
 def update_proposal(before, after, as_of):
@@ -26,11 +27,35 @@ def update_proposal(before, after, as_of):
             )
         else:
             eligible.append(result["id"])
-    relations, conflicts = [], []
+    relations, conflicts, comparisons = [], [], []
+    for record in after.get("comparisons", []):
+        refs = comparison_evidence(record)
+        if record["left"] not in eligible or record["right"] not in eligible:
+            conflicts.append(
+                {
+                    "id": record["id"],
+                    "reason": "comparison_endpoint_unavailable_at_cutoff",
+                }
+            )
+        elif any(
+            versions[evidence[e]["version_id"]]["published"] > as_of for e in refs
+        ):
+            conflicts.append(
+                {"id": record["id"], "reason": "comparison_evidence_after_cutoff"}
+            )
+        else:
+            comparisons.append(record["id"])
     for relation in after["relations"]:
         if relation["source"] not in eligible or relation["target"] not in eligible:
             conflicts.append(
                 {"id": relation["id"], "reason": "endpoint_unavailable_at_cutoff"}
+            )
+        elif (
+            relation.get("comparison_id")
+            and relation["comparison_id"] not in comparisons
+        ):
+            conflicts.append(
+                {"id": relation["id"], "reason": "comparison_unavailable_at_cutoff"}
             )
         elif any(
             versions[evidence[e]["version_id"]]["published"] > as_of
@@ -55,6 +80,7 @@ def update_proposal(before, after, as_of):
         "eligible_result_ids": eligible,
         "excluded_results": excluded,
         "eligible_relation_ids": relations,
+        "eligible_comparison_ids": comparisons,
         "conflicts": conflicts,
         "evidence_checked_later": late_checks,
         "changes": changes,
