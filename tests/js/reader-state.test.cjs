@@ -36,6 +36,23 @@ test("imported labels and fragments cannot close a preference script", () => {
   assert.equal(extract(saved, "reading-preference").fragment, "#" + hostile);
 });
 
+test("an entry link cannot override the subsequently chosen identity focus", () => {
+  const original = slot("color-preference", {}) + slot("reading-preference", {});
+  const reading = { mode: "explore", view: "map", fragment: "#author=Yoshua%20Bengio" };
+  const chosen = { mode: "groups", focus: "group:chosen-team" };
+  const saved = context.exportViewPreferences(original, chosen, reading);
+  assert.deepEqual(extract(saved, "color-preference"), chosen);
+  assert.equal(extract(saved, "reading-preference").fragment, "#explore");
+  assert.equal(reading.fragment, "#author=Yoshua%20Bengio");
+  const team = context.exportViewPreferences(original, { mode: "authors", focus: "author:Chosen name" },
+    { mode: "explore", view: "list", fragment: "#team:invalid" });
+  assert.equal(extract(team, "reading-preference").fragment, "#team:invalid");
+  const selected = context.exportViewPreferences(original, { mode: "authors", focus: "author:Chosen name" },
+    { mode: "explore", view: "list", fragment: "#team=entry-team" });
+  assert.equal(extract(selected, "color-preference").focus, "author:Chosen name");
+  assert.equal(extract(selected, "reading-preference").fragment, "#explore");
+});
+
 test("malformed saved state falls back without losing the reader", () => {
   const fallback = { mode: "overview", view: "map", fragment: "" };
   for (const raw of ["null", "[]", "true", '"text"', "{", '{"mode":"invalid","view":"grid","fragment":17}']) {

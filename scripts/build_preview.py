@@ -4,11 +4,11 @@ import argparse
 import hashlib
 import html
 import re
-import shutil
 import subprocess
 import sys
 import zipfile
 from pathlib import Path
+from urllib.parse import quote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "src"), str(ROOT / "scripts")]
@@ -83,6 +83,35 @@ def landing(maps, research_status, skill_name, provenance, *, offline=False):
     return re.sub(r"@@([A-Z_]+)@@", lambda match: values[match[1]], template)
 
 
+def source_notes(source, destination, revision):
+    """Keep original source notes but make checkout references explicit online links."""
+
+    def link(match):
+        target = urlsplit(match[2])
+        if target.scheme or match[2].startswith("#"):
+            return match[0]
+        path = (source.parent / target.path).resolve()
+        if not path.is_relative_to(ROOT):
+            raise ValueError("A source-note link leaves the repository.")
+        relative = quote(path.relative_to(ROOT).as_posix(), safe="/")
+        url = f"https://github.com/Chengkai-Zhu/research-lineage/blob/{revision or 'main'}/{relative}"
+        if target.fragment:
+            url += "#" + target.fragment
+        return f"{match[1]}({url})"
+
+    text = re.sub(
+        r"(\[[^\]]+\])\(([^)\s]+)\)", link, source.read_text(encoding="utf-8")
+    )
+    destination.write_text(
+        "# Delivered reading example\n\n[Open this collection's reader](map.html).\n\n"
+        "The original checkout notes follow. Their repository references open the\n"
+        "pinned public source online; they are not additional files in this ZIP.\n"
+        "Historical issue-status statements belong to that source record.\n\n---\n\n"
+        + text,
+        encoding="utf-8",
+    )
+
+
 def preview(destination):
     destination = Path(destination)
     if destination.exists():
@@ -111,15 +140,12 @@ def preview(destination):
             ),
             encoding="utf-8",
         )
-    notes = ROOT / "examples/attention-comparisons/README.md"
-    shutil.copyfile(notes, destination / "sources.md")
-    shutil.copyfile(
-        ROOT / "examples/nmt-attention/README.md", destination / "nmt/sources.md"
-    )
-    shutil.copyfile(
-        ROOT / "docs/test-reports/surface-code-rerun/README.md",
-        destination / "surface-code/sources.md",
-    )
+    for source, name in (
+        ("examples/attention-comparisons/README.md", "sources.md"),
+        ("examples/nmt-attention/README.md", "nmt/sources.md"),
+        ("docs/test-reports/surface-code-rerun/README.md", "surface-code/sources.md"),
+    ):
+        source_notes(ROOT / source, destination / name, provenance["revision"])
     (destination / "surface-code/audit.json").write_text(
         dump(research_audit), encoding="utf-8"
     )

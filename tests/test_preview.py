@@ -62,6 +62,13 @@ def test_static_preview_is_same_render_and_portable_bundle(tmp_path):
         )
         assert len(json.loads(archive.read("surface-code/map.json"))["works"]) == 52
         assert len(json.loads(archive.read("nmt/map.json"))["works"]) == 6
+        notes = archive.read("surface-code/sources.md").decode()
+        assert "[Open this collection's reader](map.html)" in notes
+        assert "](research-log.json)" not in notes
+        assert "/docs/test-reports/surface-code-rerun/research-log.json)" in notes
+        nmt_notes = archive.read("nmt/sources.md").decode()
+        assert "](../../docs/" not in nmt_notes
+        assert "/docs/test-reports/test-feature-20261017-nmt.md)" in nmt_notes
     snapshot = (destination / "offline.zip").read_bytes()
     refused = subprocess.run(command, capture_output=True, text=True)
     assert refused.returncode != 0 and "exists" in refused.stderr

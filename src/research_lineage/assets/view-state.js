@@ -15,6 +15,9 @@ function readReadingPreference(text) {
 }
 
 function exportViewPreferences(original, colors, reading) {
+  // The color preference owns a saved author/team focus. Replaying the entry
+  // link would override a different name or mode chosen after opening that link.
+  if (/^#(?:author|team)=/.test(reading.fragment)) reading = { ...reading, fragment: "#explore" };
   for (const [id, value] of [["color-preference", colors], ["reading-preference", reading]]) {
     const serialized = JSON.stringify(value).replaceAll("<", "\\u003c").replaceAll(">", "\\u003e").replaceAll("&", "\\u0026");
     const selector = new RegExp('(<script type="application/json" id="' + id + '">)[\\s\\S]*?(<\\/script>)');
