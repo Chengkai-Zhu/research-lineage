@@ -13,6 +13,8 @@
 
 无需安装即可阅读结果比较、按作者追踪脉络，以及保留 PARTIAL 状态的真实 52 篇论文研究案例。
 离线集合解压后打开 `START-HERE.html`；研究新主题则将 Skill 交给你的研究助手运行。
+
+读完比较后，点击 **Save this explanation**，即可将附带条件、精确来源与审阅状态的说明复制到笔记或下载为 Markdown。在 **Use your own paper** 中填入论文或问题，还可选择梳理发展、比较方法或准备组会，复制专属研究请求交给研究助手。输入只在当前页面处理，网站不会上传它，也不会代替助手执行研究。
 预览版工具包与最新的已标记 Release 分开提供。
 
 安装当前 checkout 后，可运行 `litdelta demo --example comparisons --out output/comparisons`，

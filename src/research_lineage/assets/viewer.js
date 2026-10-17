@@ -36,7 +36,8 @@
     selectedType = "result",
     routeStep = -1,
     zoom = 1,
-    comparisonSelection = null;
+    comparisonSelection = null,
+    activeComparison = null;
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -134,11 +135,16 @@
     );
   }
   function showMode(mode) {
+    if (mode === "comparison" && !(data.comparisons || []).length) mode = "overview";
+    readingState.mode = mode;
     $("story-view").hidden = mode !== "overview";
     $("explorer").hidden = mode !== "explore";
+    $("comparison-view").hidden = mode !== "comparison";
     $("mode-overview").setAttribute("aria-pressed", String(mode === "overview"));
     $("mode-explore").setAttribute("aria-pressed", String(mode === "explore"));
+    $("mode-comparison").setAttribute("aria-pressed", String(mode === "comparison"));
     document.body.classList.toggle("exploring", mode === "explore");
+    document.body.classList.toggle("comparing", mode === "comparison");
   }
   function finishInspector() {
     const panel = $("inspector");
@@ -461,7 +467,27 @@
       });
     });
   }
-  function showCompare(left, right, comparisonId = null, update = true) {
+  function openComparison(id, update = true) {
+    const record = comparisons[id];
+    if (!record) return;
+    activeComparison = id;
+    if ($("modal").open) $("modal").close();
+    $("comparison-answer").replaceChildren();
+    appendComparison($("comparison-answer"), record, true);
+    $("question-picker").value = id;
+    document.querySelectorAll(".question-link").forEach((node) => {
+      node.setAttribute("aria-pressed", String(node.dataset.comparison === id));
+    });
+    showMode("comparison");
+    if (update) updateHash("comparison", id);
+  }
+  function finishComparisonDialog() {
+    if (!$("modal-content").querySelector("#compare-left") || !readingState.fragment.startsWith("#compare=")) return;
+    if (readingState.mode === "comparison" && activeComparison) updateHash("comparison", activeComparison);
+    else if (readingState.mode === "explore" && selected) updateHash(selectedType, selected);
+    else updateHash(readingState.mode === "explore" ? "explore" : "overview");
+  }
+  function showCompare(left, right, comparisonId = null) {
     comparisonSelection = comparisonId;
     const body = modal("What changes between these results?"),
       pickers = element("div", "compare-pickers");
@@ -492,9 +518,9 @@
     });
     body.append(pickers, element("div", "", undefined));
     body.lastChild.id = "comparison-output";
-    updateComparison(update);
+    updateComparison();
   }
-  function updateComparison(update = true) {
+  function updateComparison() {
     const a = results[$("compare-left").value],
       b = results[$("compare-right").value],
       output = $("comparison-output");
@@ -524,10 +550,8 @@
     }
     if (chosen) {
       appendComparison(output, chosen);
-      if (update) updateHash("comparison", chosen.id);
       return;
     }
-    if (update) updateHash("compare", a.id + "," + b.id);
     output.append(element("p", "comparison-note", choices.length > 1
       ? "Several questions are recorded for this pair. Choose one; no assessment has been selected."
       : "No authored assessment is recorded for this ordered pair. Comparability remains unknown."));
@@ -577,26 +601,38 @@
     );
     output.append(sources);
   }
-  function appendComparison(output, record) {
-    output.append(element("h3", "", record.question));
-    [
-      ["What changed", record.summary],
-      ["When it applies", record.regime],
-      ["What it costs or leaves unresolved", record.tradeoffs],
-    ].forEach(([heading, content]) => output.append(element("h3", "section-label", heading), element("p", "summary", content)));
+  function appendComparison(output, record, inline = false) {
     const meanings = {
-      comparable: "Comparable in the stated regime",
-      conditional: "Comparison depends on an unresolved condition",
-      incomparable: "The requested comparison does not hold",
-      unknown: "Insufficient evidence to assess this comparison",
+      comparable: "Comparable here",
+      conditional: "Conditional comparison",
+      incomparable: "Not a valid comparison",
+      unknown: "Evidence missing",
     };
-    output.append(element("p", "comparison-note", meanings[record.assessment] + ". " + record.rationale));
-    output.append(element("p", "source-meta", "Authored outcome: " + record.outcome.replaceAll("_", " ") + " · " + reviewLabel(record)));
-    const permalink = element("a", "inline-button", "Link to this comparison ↗");
-    permalink.href = "#comparison=" + encodeURIComponent(record.id);
-    output.append(permalink);
+    const status = element("div", "comparison-status");
+    status.append(element("span", "assessment " + record.assessment, meanings[record.assessment]),
+      element("span", "", reviewLabel(record)));
+    output.append(status, element(inline ? "h1" : "h3", "comparison-title", record.question));
+    if (inline) {
+      const pair = element("p", "comparison-pair");
+      pair.append(element("span", "", results[record.left].label),
+        element("span", "", "→"), element("span", "", results[record.right].label));
+      output.append(pair);
+    }
+    output.append(element("p", "comparison-takeaway", record.summary));
+    const context = element("div", "comparison-context");
+    [
+      ["Applies when", record.regime],
+      ["Keep in mind", record.tradeoffs],
+    ].forEach(([heading, content]) => {
+      const row = element("div");
+      row.append(element("h2", "", heading), element("p", "", content));
+      context.append(row);
+    });
+    output.append(context);
     const details = element("details", "evidence-section");
-    details.append(element("summary", "", "Inspect the conditions and source evidence"));
+    details.append(element("summary", "", "Conditions & sources"));
+    details.append(element("p", "", record.rationale));
+    appendEvidence(details, record.evidence);
     const table = element("table", "compare-table"), head = element("tr");
     ["Condition", results[record.left].label, results[record.right].label, "Why it matters"].forEach((text) => head.append(element("th", "", text)));
     table.append(head);
@@ -611,13 +647,24 @@
       table.append(row);
     });
     const wrap = element("div", "comparison-table-wrap");
+    wrap.tabIndex = 0;
+    wrap.setAttribute("role", "region");
+    wrap.setAttribute("aria-label", "Full comparison conditions; scroll horizontally");
     wrap.append(table);
-    details.append(wrap, element("p", "source-meta", "Basis: " + record.basis.replaceAll("_", " ") + ". This is an authored assessment; source matching and structural checks do not certify it."));
+    details.append(element("p", "table-hint", "Swipe or scroll sideways for all columns →"), wrap,
+      element("p", "source-meta", "Basis: " + record.basis.replaceAll("_", " ") + ". This is an authored assessment; source matching and structural checks do not certify it."));
     if (record.conversion) details.append(element("p", "", "Conversion: " + record.conversion.summary + " Assumptions: " + record.conversion.assumptions));
     if (record.improvement) details.append(element("p", "", "Specific improvement claim: " + record.improvement));
-    appendEvidence(details, record.evidence);
+    details.append(element("p", "source-meta", "Authored outcome: " + record.outcome.replaceAll("_", " ")));
     appendReviews(details, record);
     output.append(details);
+    const permalink = element("a", "inline-button comparison-permalink", inline ? "Link to this question ↗" : "Read this question →");
+    permalink.href = "#comparison=" + encodeURIComponent(record.id);
+    if (!inline) permalink.addEventListener("click", (event) => {
+      event.preventDefault();
+      openComparison(record.id);
+    });
+    output.append(permalink);
   }
   function reading(step) {
     routeStep = Math.max(0, Math.min(step, data.reading_route.length - 1));
@@ -647,6 +694,30 @@
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     }, {once:true});
     return anchor;
+  }
+  function saveExplanation() {
+    if (!activeComparison) return;
+    const note = comparisonBrief(data, activeComparison),
+      body = modal("Take this explanation to your notes"),
+      preview = element("textarea", "brief-preview"),
+      status = element("p", "source-meta");
+    preview.readOnly = true;
+    preview.value = note;
+    preview.setAttribute("aria-label", "Comparison note in Markdown");
+    status.setAttribute("role", "status");
+    body.append(element("p", "", "The selected question, conditions and sources travel together. Review status and map gaps stay in the note."));
+    const actions = element("div", "brief-actions");
+    actions.append(button("Copy Markdown", async () => {
+      try {
+        await navigator.clipboard.writeText(note);
+        status.textContent = "Copied. Paste it into your notes or journal-club outline.";
+      } catch (_) {
+        preview.focus();
+        preview.select();
+        status.textContent = "Note selected. Copy it with Ctrl+C or ⌘C.";
+      }
+    }, "button primary"), downloadLink("Markdown ↓", "comparison-" + activeComparison + ".md", note, "text/markdown;charset=utf-8"));
+    body.append(actions, status, preview);
   }
   function svgExport() {
     const doc = new DOMParser().parseFromString(originalSvg, "image/svg+xml"),
@@ -695,7 +766,7 @@
     const grid = element("div", "download-grid");
     grid.append(
       downloadLink("Interactive HTML  ↓", "map.html", identityView.exportHtml(originalHtml, {
-        mode: $("explorer").hidden ? "overview" : "explore",
+        mode: readingState.mode,
         view: $("list-view").hidden ? "map" : "list",
         fragment: readingState.fragment,
       }), "text/html;charset=utf-8"),
@@ -715,6 +786,7 @@
   $("question").textContent = data.question;
   $("overview-summary").textContent = data.narrative?.overview || "";
   $("overview-summary").hidden = !data.narrative;
+  $("overview-context").hidden = !data.narrative;
   document.body.classList.toggle("has-narrative", Boolean(data.narrative));
   $("route-caption").textContent = data.reading_route.length
     ? data.reading_route.length + " steps · a suggested path through the ideas"
@@ -735,13 +807,35 @@
     });
   });
   document.querySelectorAll(".comparison-open").forEach((node) => node.addEventListener("click", () => {
-    const record = comparisons[node.dataset.comparison];
-    showCompare(record.left, record.right, record.id);
+    openComparison(node.dataset.comparison);
+    $("comparison-view").scrollIntoView({block: "start", behavior: "instant"});
   }));
   $("all-comparisons")?.addEventListener("click", () => {
     const body = modal("Choose a comparison question");
     (data.comparisons || []).forEach((record) => body.append(button(record.question,
-      () => showCompare(record.left, record.right, record.id), "relation-link")));
+      () => { $("modal").close(); openComparison(record.id); }, "relation-link")));
+  });
+  const records = data.comparisons || [];
+  $("mode-comparison").hidden = records.length === 0;
+  records.forEach((record, index) => {
+    const choice = button(record.question, () => openComparison(record.id), "question-link");
+    choice.dataset.comparison = record.id;
+    choice.prepend(element("span", "question-number", String(index + 1).padStart(2, "0")));
+    $("question-links").append(choice);
+    const option = element("option", "", record.question);
+    option.value = record.id;
+    $("question-picker").append(option);
+  });
+  $("question-picker").addEventListener("change", () => openComparison($("question-picker").value));
+  $("mode-comparison").addEventListener("click", () => openComparison(activeComparison || records[0]?.id));
+  $("change-pair").addEventListener("click", () => {
+    const record = comparisons[activeComparison];
+    if (record) showCompare(record.left, record.right, record.id);
+  });
+  $("save-explanation").addEventListener("click", saveExplanation);
+  $("comparison-map").addEventListener("click", () => {
+    const record = comparisons[activeComparison];
+    if (record) { resetFilters(); showResult(record.right); }
   });
   $("map-category").textContent = data.id.replaceAll("-", " ").toUpperCase();
   const years = data.works.map((work) =>
@@ -799,6 +893,7 @@
   $("scope-button").addEventListener("click", scope);
   $("coverage-link").addEventListener("click", scope);
   $("modal-close").addEventListener("click", () => $("modal").close());
+  $("modal").addEventListener("close", finishComparisonDialog);
   $("compare-button").addEventListener("click", () =>
     showCompare(
       selectedType === "result" && selected ? selected : data.results[0].id,
@@ -832,11 +927,10 @@
       else if (type === "result" && results[decodeURIComponent(id)])
         showResult(decodeURIComponent(id), false);
       else if (type === "comparison" && comparisons[decodeURIComponent(id)]) {
-        const record = comparisons[decodeURIComponent(id)];
-        showCompare(record.left, record.right, record.id, false);
+        openComparison(decodeURIComponent(id), false);
       } else if (type === "compare") {
         const [left, right] = decodeURIComponent(id).split(",");
-        if (results[left] && results[right]) showCompare(left, right, null, false);
+        if (results[left] && results[right]) showCompare(left, right);
       }
       else if (type === "author" || type === "team") {
         const mode = type === "author" ? "authors" : "groups",
@@ -850,9 +944,9 @@
       /* Invalid fragments do not prevent using the map. */
     }
   }
-  showMode("overview");
   showMode(readingState.mode);
   view(readingState.view);
+  if (!readingState.fragment && records.length) openComparison(records[0].id, false);
   restoreHash(readingState.fragment);
   filter();
   window.addEventListener("hashchange", () => restoreHash());

@@ -21,6 +21,13 @@ history, and the actual 52-paper research run with its PARTIAL status intact.
 Reading needs no installation. The preview skill is built from the same source;
 it is separate from the latest tagged release.
 
+**Make it useful for your own work:** open an example, then use **Save this
+explanation** to take a comparison into your notes with its conditions, source
+versions and review status. Under **Use your own paper**, enter your paper or
+question and copy a personalized research request into your agent. You can choose
+to trace developments, compare approaches or prepare a journal club. Input stays
+in the tab; the website does not upload it or run the research itself.
+
 Try the new, explicitly scoped result-comparison example after installing the
 checkout (it is not a completed field-history search):
 
