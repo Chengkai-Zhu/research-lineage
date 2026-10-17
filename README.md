@@ -4,17 +4,17 @@
 
 **See how research moves forward.**
 
-[![CI](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml/badge.svg)](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml)
+[![CI](https://github.com/Chengkai-Zhu/litdelta/actions/workflows/ci.yml/badge.svg)](https://github.com/Chengkai-Zhu/litdelta/actions/workflows/ci.yml)
 
 An **agent skill** that turns a research topic or one paper into a clear, source-grounded reading history. Explore what each result changes, under which conditions, and where the evidence comes from. Give your agent one sentence; receive an interactive map you can keep, inspect and share offline.
 
-LitDelta is the product name. Installation continues to use `research-lineage`;
+LitDelta is the repository and product name. Installation continues to use `research-lineage`;
 both `litdelta` and `research-lineage` invoke the same local tools. The existing
 skill name and `python -m research_lineage` remain supported.
 
-[Try LitDelta in your browser](https://chengkaizhu.site/research-lineage/) ·
-[Download the complete offline collection](https://chengkaizhu.site/research-lineage/offline.zip) ·
-[Get the current preview skill](https://chengkaizhu.site/research-lineage/downloads/research-lineage-skill-0.2.0.zip)
+[Try LitDelta in your browser](https://chengkaizhu.site/litdelta/) ·
+[Download the complete offline collection](https://chengkaizhu.site/litdelta/offline.zip) ·
+[Get the current preview skill](https://chengkaizhu.site/litdelta/downloads/research-lineage-skill-0.2.0.zip)
 
 The browser entry offers a focused result comparison, an author-linked reading
 history, and the actual 52-paper research run with its PARTIAL status intact.
@@ -39,7 +39,7 @@ Or just supply a paper link, DOI, title or PDF and ask for the history behind it
 
 [Get the skill](docs/quickstart.md#use-the-standalone-skill) · [Worked histories](#worked-histories) · [Research tools](docs/research-tools.md)
 
-The workflow below is available on `main`; **0.2 is not released yet**. The latest published bundle is [v0.1.1](https://github.com/Chengkai-Zhu/research-lineage/releases/tag/v0.1.1).
+The workflow below is available on `main`; **0.2 is not released yet**. The latest published bundle is [v0.1.1](https://github.com/Chengkai-Zhu/litdelta/releases/tag/v0.1.1).
 
 ![The reading overview, with details revealed on demand](docs/assets/reading-overview.png)
 
@@ -57,8 +57,8 @@ The host agent does the research using its search and document tools. The bundle
 Build the current self-contained skill with Python 3.11+:
 
 ```sh
-git clone https://github.com/Chengkai-Zhu/research-lineage.git
-cd research-lineage
+git clone https://github.com/Chengkai-Zhu/litdelta.git
+cd litdelta
 python scripts/package_skill.py --out dist
 ```
 
@@ -85,14 +85,14 @@ missing evidence as partial or failed; it does not certify scientific completene
 | One pinned paper, fresh agent | [Surface-code research run](docs/test-reports/surface-code-rerun/README.md) · [Interactive notebook](docs/test-reports/surface-code-rerun/report.html) | 52 works; real search/candidate logs; PARTIAL because one central full-text branch remains unresolved |
 | Authored illustration | [Surface-code quantum memories](examples/surface-code/README.md) | Four-work reading path; single-input research acceptance reopened in #12 |
 
-These are selected histories with proposed annotations. Source checks and passing software tests do not establish scientific truth or independent expert review. Genuine external review and participant studies remain [open work](https://github.com/Chengkai-Zhu/research-lineage/issues/10).
+These are selected histories with proposed annotations. Source checks and passing software tests do not establish scientific truth or independent expert review. Genuine external review and participant studies remain [open work](https://github.com/Chengkai-Zhu/litdelta/issues/10).
 
 <details>
 <summary>Use the Python tools directly</summary>
 
 ```sh
-git clone https://github.com/Chengkai-Zhu/research-lineage.git
-cd research-lineage
+git clone https://github.com/Chengkai-Zhu/litdelta.git
+cd litdelta
 python -m pip install .
 research-lineage demo --out output/demo
 ```

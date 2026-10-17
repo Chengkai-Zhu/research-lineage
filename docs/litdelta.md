@@ -1,8 +1,13 @@
 # LitDelta result comparisons
 
-LitDelta is the product name; `research-lineage` remains the installation and
+LitDelta is the repository and product name; `research-lineage` remains the installation and
 skill name. The two installed commands use the same runtime. There is no new
 account, service, or runtime dependency.
+
+The canonical repository is `Chengkai-Zhu/litdelta` (formerly
+`Chengkai-Zhu/research-lineage`). Existing issue and PR numbers are preserved.
+Use the new `/litdelta/` website URL; project Pages URLs are not repository
+redirects. Legacy package, skill, module and schema identifiers remain stable.
 
 ## Read a comparison
 
@@ -88,7 +93,7 @@ python -m http.server 8765 --directory output/litdelta-preview
 ```
 
 Open `http://127.0.0.1:8765/`. The same product is published at
-[LitDelta](https://chengkaizhu.site/research-lineage/). The landing page offers
+[LitDelta](https://chengkaizhu.site/litdelta/). The landing page offers
 three fixed public examples: the one-paper comparisons, the NMT author history,
 and the actual 52-work research run, explicitly labeled PARTIAL.
 
@@ -106,7 +111,7 @@ checksums. Verify local files or explicitly check the published downloads:
 
 ```sh
 python scripts/verify_preview.py --directory output/litdelta-preview --out output/local-preview-check.json
-python scripts/verify_preview.py --url https://chengkaizhu.site/research-lineage/ --out output/public-preview-check.json
+python scripts/verify_preview.py --url https://chengkaizhu.site/litdelta/ --out output/public-preview-check.json
 ```
 
 The URL check makes bounded, explicit HTTP requests. It checks availability and
@@ -117,7 +122,7 @@ Publication is explicit. For this PR, dispatch the existing CI workflow against
 the product branch with its publication input:
 
 ```sh
-gh workflow run ci.yml --repo Chengkai-Zhu/research-lineage --ref issue-20-litdelta -f publish_preview=true
+gh workflow run ci.yml --repo Chengkai-Zhu/litdelta --ref issue-20-litdelta -f publish_preview=true
 ```
 
 All four Windows/Linux test jobs must pass before the reusable Pages job runs.

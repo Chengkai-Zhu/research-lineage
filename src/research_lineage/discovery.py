@@ -19,7 +19,7 @@ def fetch(url):
     request = Request(
         url,
         headers={
-            "User-Agent": "ResearchLineage/0.2 (https://github.com/Chengkai-Zhu/research-lineage)"
+            "User-Agent": "LitDelta/0.2 (https://github.com/Chengkai-Zhu/litdelta)"
         },
     )
     with urlopen(request, timeout=15) as response:

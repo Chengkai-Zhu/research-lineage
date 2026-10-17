@@ -4,12 +4,12 @@
 
 **看懂研究如何推进：改变了什么、在什么条件下成立、证据在哪里。**
 
-产品名为 LitDelta；安装包和 skill 继续使用 `research-lineage`。`litdelta`、
+仓库名为 `litdelta`，产品名为 LitDelta；安装包和 skill 继续使用 `research-lineage`。`litdelta`、
 `research-lineage` 和 `python -m research_lineage` 使用同一套本地工具。
 
-[在线试用 LitDelta](https://chengkaizhu.site/research-lineage/) ·
-[下载完整离线集合](https://chengkaizhu.site/research-lineage/offline.zip) ·
-[下载当前预览版 Skill](https://chengkaizhu.site/research-lineage/downloads/research-lineage-skill-0.2.0.zip)
+[在线试用 LitDelta](https://chengkaizhu.site/litdelta/) ·
+[下载完整离线集合](https://chengkaizhu.site/litdelta/offline.zip) ·
+[下载当前预览版 Skill](https://chengkaizhu.site/litdelta/downloads/research-lineage-skill-0.2.0.zip)
 
 无需安装即可阅读结果比较、按作者追踪脉络，以及保留 PARTIAL 状态的真实 52 篇论文研究案例。
 离线集合解压后打开 `START-HERE.html`；研究新主题则将 Skill 交给你的研究助手运行。
@@ -23,7 +23,7 @@
 
 **从一个方向出发，读懂研究如何发展。**
 
-[![CI](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml/badge.svg)](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml)
+[![CI](https://github.com/Chengkai-Zhu/litdelta/actions/workflows/ci.yml/badge.svg)](https://github.com/Chengkai-Zhu/litdelta/actions/workflows/ci.yml)
 
 一个把**研究方向或单篇论文**整理成清晰研究脉络的 **Agent Skill**。给 AI 一句话，得到有来源依据、可离线浏览与分享的交互地图。
 
@@ -33,7 +33,7 @@
 
 [安装 Skill](docs/quickstart.md#use-the-standalone-skill) · [实际研究案例](#实际研究案例) · [研究工具说明](docs/research-tools.md)
 
-下述新版功能已合并到 `main`，**0.2 暂未发布 Release**。目前已发布的安装包仍为 [v0.1.1](https://github.com/Chengkai-Zhu/research-lineage/releases/tag/v0.1.1)。
+下述新版功能已合并到 `main`，**0.2 暂未发布 Release**。目前已发布的安装包仍为 [v0.1.1](https://github.com/Chengkai-Zhu/litdelta/releases/tag/v0.1.1)。
 
 ![先看发展脉络，需要时再展开细节](docs/assets/reading-overview.png)
 
@@ -51,8 +51,8 @@
 使用 Python 3.11+ 从源码构建当前独立 Skill：
 
 ```sh
-git clone https://github.com/Chengkai-Zhu/research-lineage.git
-cd research-lineage
+git clone https://github.com/Chengkai-Zhu/litdelta.git
+cd litdelta
 python scripts/package_skill.py --out dist
 ```
 
@@ -75,14 +75,14 @@ Skill 会选择合理范围，并跟随你的语言。无需填写 ID、日期�
 | 单篇论文，独立 Agent | [表面码独立研究记录](docs/test-reports/surface-code-rerun/README.md) · [交互报告](docs/test-reports/surface-code-rerun/report.html) | 52 项工作，实际检索与候选日志；一项关键全文缺口保留为 PARTIAL |
 | 编写好的示意案例 | [表面码量子存储器](examples/surface-code/README.md) | 4 项工作的阅读路径；单输入研究验收已在 #12 重新打开 |
 
-这些案例是有范围限制的研究历史，标注仍待学术审核。来源核对和软件测试通过，不代表科学结论已经得到独立专家认证。真实外部审阅与参与者实验仍保留在[待办 #10](https://github.com/Chengkai-Zhu/research-lineage/issues/10)。
+这些案例是有范围限制的研究历史，标注仍待学术审核。来源核对和软件测试通过，不代表科学结论已经得到独立专家认证。真实外部审阅与参与者实验仍保留在[待办 #10](https://github.com/Chengkai-Zhu/litdelta/issues/10)。
 
 <details>
 <summary>直接使用 Python 工具</summary>
 
 ```sh
-git clone https://github.com/Chengkai-Zhu/research-lineage.git
-cd research-lineage
+git clone https://github.com/Chengkai-Zhu/litdelta.git
+cd litdelta
 python -m pip install .
 research-lineage demo --out output/demo
 ```
