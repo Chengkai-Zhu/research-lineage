@@ -45,13 +45,19 @@ Extract the `research-lineage` folder from `dist/research-lineage-skill-0.2.0.zi
 
 The skill chooses a bounded scope and follows your language. You do not need to supply IDs, dates, a bibliography or JSON. A paper title is resolved before its identity is asserted. Private attachments stay local unless you explicitly authorize otherwise. Viewer controls are currently English; research content can be Chinese.
 
+Research coverage has no default paper quota. The host follows references and
+follow-ups, records candidate decisions and source-grounded branches, and keeps
+the researched corpus available behind the concise overview. The
+[research-run audit](docs/research-tools.md#recorded-research-coverage) reports
+missing evidence as partial or failed; it does not certify scientific completeness.
+
 ## Worked histories
 
 | Start | Reading history | Evidence boundary |
 | --- | --- | --- |
 | A topic | [QSP to QSVT](docs/sources.md) | Eight-paper, abstract-grounded draft |
 | A new question | [Sentence vectors to attention](examples/nmt-attention/README.md) | Six primary papers with section-level checks |
-| One paper | [Surface-code quantum memories](examples/surface-code/README.md) | Four works; mixed full-text and abstract access |
+| Authored illustration | [Surface-code quantum memories](examples/surface-code/README.md) | Four-work reading path; single-input research acceptance reopened in #12 |
 
 These are selected histories with proposed annotations. Source checks and passing software tests do not establish scientific truth or independent expert review. Genuine external review and participant studies remain [open work](https://github.com/Chengkai-Zhu/research-lineage/issues/10).
 

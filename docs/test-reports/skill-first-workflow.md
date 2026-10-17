@@ -1,5 +1,11 @@
 # Skill-first workflow acceptance record
 
+**Research-workflow acceptance withdrawn on 2026-10-17:** the software observations
+below remain a historical record, but the four-work authored surface-code example
+does not establish an adequate independent single-input research run. #14 and #12
+were reopened to correct the research contract and publish fresh execution and
+coverage evidence. Do not use the earlier issue-closure table as current status.
+
 Date: 2026-10-17. Version: 0.2.0. This is a software and agent workflow record,
 not independent scholarly review or a participant study. Machine-readable
 [observations](v0.2-observations.json) retain counts, timings and provider failures.

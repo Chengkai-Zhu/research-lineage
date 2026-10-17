@@ -1,5 +1,9 @@
 # From one paper to a surface-code reading history
 
+**Illustrative baseline:** this four-work authored path is retained for comparison.
+It does not establish adequate field-history coverage or an independent execution
+of the skill from one paper. Research-workflow acceptance was reopened in #12.
+
 Input: [Quantum error correction below the surface code threshold, arXiv v1](https://arxiv.org/abs/2408.13687v1).
 The single paper was supplied to `research-lineage start`; the helper produced an
 empty draft and research brief. The host then read and annotated sources. This is

@@ -24,6 +24,7 @@ from .evaluation import evaluate, study_report
 from .extraction import assess
 from .identity import reconcile
 from .intake import start
+from .research_scope import audit_run, run_schemas
 from .temporal import update_proposal
 
 DATA = Path(__file__).parent / "data"
@@ -42,8 +43,19 @@ def parser():
     seed.add_argument("seed")
     seed.add_argument("--kind", choices=("auto", "topic", "paper"), default="auto")
     seed.add_argument("--language", choices=("auto", "en", "zh"), default="auto")
-    seed.add_argument("--cutoff", default=date.today().isoformat())
+    seed.add_argument("--cutoff")
     seed.add_argument("--out", default="output/research")
+    audit = commands.add_parser(
+        "audit-research",
+        help="Check recorded research execution and coverage evidence offline",
+    )
+    audit.add_argument("manifest")
+    audit.add_argument("--out")
+    research_schema = commands.add_parser(
+        "research-schema",
+        help="Export the research log, trace and run manifest contracts",
+    )
+    research_schema.add_argument("--out")
     search = commands.add_parser(
         "discover", help="Explicit bounded online metadata search"
     )
@@ -113,6 +125,17 @@ def main(argv=None):
                     )
                 )
             )
+        elif args.command in ("audit-research", "research-schema"):
+            if args.out and Path(args.out).exists():
+                raise MapError("Report exists; choose a new output path.")
+            result = (
+                audit_run(args.manifest)
+                if args.command == "audit-research"
+                else run_schemas()
+            )
+            write_text(args.out, dump(result)) if args.out else print(dump(result))
+            if args.command == "audit-research":
+                return {"PASS": 0, "PARTIAL": 3, "FAIL": 2}[result["status"]]
         elif args.command == "discover":
             if Path(args.out).exists():
                 raise MapError("Discovery log exists; choose a new output path.")

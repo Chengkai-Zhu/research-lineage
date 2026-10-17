@@ -57,6 +57,12 @@ opens the result. You do not need to provide IDs, dates or JSON. A bare paper
 title is resolved before its identity is asserted. Private PDFs stay local
 unless you explicitly authorize another destination.
 
+The overview and reading route are selections from the researched corpus, not
+paper-count limits. The host records searches, candidate decisions and coverage
+branches, checks follow-ups through the cutoff, and delivers the
+[research record](../skills/research-lineage/references/research-record.md) with
+the map. Unfinished research must be identified as partial.
+
 The skill uses your host's research tools. It does not include model credentials,
 full-text subscriptions, or an autonomous search engine.
 
