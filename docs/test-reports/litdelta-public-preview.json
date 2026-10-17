@@ -1,0 +1,95 @@
+{
+  "status": "PASS",
+  "source_revision": "958fcc5ba9c1f200d82f657870e1ef99a955b601",
+  "working_tree_dirty": false,
+  "research_status": "PARTIAL",
+  "checks": [
+    {
+      "file": "README.txt",
+      "status": "PASS"
+    },
+    {
+      "file": "START-HERE.html",
+      "status": "PASS"
+    },
+    {
+      "file": "downloads/research-lineage-skill-0.2.0.zip",
+      "status": "PASS"
+    },
+    {
+      "file": "index.html",
+      "status": "PASS"
+    },
+    {
+      "file": "map.html",
+      "status": "PASS"
+    },
+    {
+      "file": "map.json",
+      "status": "PASS"
+    },
+    {
+      "file": "map.svg",
+      "status": "PASS"
+    },
+    {
+      "file": "nmt/map.html",
+      "status": "PASS"
+    },
+    {
+      "file": "nmt/map.json",
+      "status": "PASS"
+    },
+    {
+      "file": "nmt/map.svg",
+      "status": "PASS"
+    },
+    {
+      "file": "nmt/review.md",
+      "status": "PASS"
+    },
+    {
+      "file": "nmt/sources.md",
+      "status": "PASS"
+    },
+    {
+      "file": "review.md",
+      "status": "PASS"
+    },
+    {
+      "file": "sources.md",
+      "status": "PASS"
+    },
+    {
+      "file": "surface-code/audit.json",
+      "status": "PASS"
+    },
+    {
+      "file": "surface-code/map.html",
+      "status": "PASS"
+    },
+    {
+      "file": "surface-code/map.json",
+      "status": "PASS"
+    },
+    {
+      "file": "surface-code/map.svg",
+      "status": "PASS"
+    },
+    {
+      "file": "surface-code/review.md",
+      "status": "PASS"
+    },
+    {
+      "file": "surface-code/sources.md",
+      "status": "PASS"
+    },
+    {
+      "file": "offline.zip",
+      "status": "PASS"
+    }
+  ],
+  "limits": "Checks public file availability and byte integrity against the manifest, not browser behavior, source authenticity or scientific correctness.",
+  "source": "https://chengkaizhu.site/research-lineage/",
+  "checked_at": "2026-10-17T04:02:52.797787+00:00"
+}
