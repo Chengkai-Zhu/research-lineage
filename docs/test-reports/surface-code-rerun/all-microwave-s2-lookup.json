@@ -1,0 +1,19 @@
+{
+  "query_url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1103/rqkg-dw31?fields=title,externalIds,openAccessPdf,url",
+  "checked": "2026-10-17T10:27:34.6163042+08:00",
+  "record": {
+    "paperId": "55ff6a3d85a6a445d3b30319745c3749a311435c",
+    "externalIds": {
+      "DOI": "10.1103/rqkg-dw31",
+      "CorpusId": 284138609,
+      "PubMed": "41557410"
+    },
+    "url": "https://www.semanticscholar.org/paper/55ff6a3d85a6a445d3b30319745c3749a311435c",
+    "title": "Experimental Quantum Error Correction below the Surface Code Threshold via All-Microwave Leakage Suppression.",
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    }
+  }
+}

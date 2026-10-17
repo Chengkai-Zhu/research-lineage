@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-17",
+  "author": "Parent Codex agent, independently reading primary sources while the fresh researcher runs",
+  "disclosure": "This is an implementation-side source-based audit aid, not external scholarly review or an exhaustive gold-standard bibliography. It was not supplied to the research agent.",
+  "sources": [
+    {"url": "https://arxiv.org/pdf/2408.13687v1", "locator": "Main text sections I-V; main bibliography on PDF pp. 8-10", "role": "Seed-grounded branch coverage and claim checks"},
+    {"url": "https://www.nature.com/articles/s41586-024-08449-y", "locator": "Publication metadata and author-correction notice", "role": "Same-work later-version awareness"},
+    {"url": "https://www.nature.com/articles/s41567-025-03070-w", "locator": "Abstract and main text describing memory experiments", "role": "Held-out forward-search candidate, not a mandatory inclusion quota"},
+    {"url": "https://www.nature.com/articles/s41467-026-76090-6", "locator": "Abstract and publication metadata", "role": "Held-out 2026 forward-search candidate; inclusion or reasoned scope decision should be visible"}
+  ],
+  "criteria": [
+    {"id": "foundations", "criterion": "Explain the theoretical basis of threshold scaling, and distinguish it from experimental break-even.", "basis": "Seed section I and references 3, 4, 13; section II."},
+    {"id": "experimental-development", "criterion": "Account for the experimental developments leading to the seed's memory result, with explicit decisions for adjacent platforms rather than silently omitting them.", "basis": "Seed section I, references 14-20; section II and comparison to earlier multi-qubit and bosonic memories."},
+    {"id": "decoding", "criterion": "Treat decoding as a substantive thread, including accuracy and real-time operation; distinguish throughput, latency and feedback.", "basis": "Seed sections II and V; references 27-31 and 42-47."},
+    {"id": "noise-and-leakage", "criterion": "Cover relevant leakage, correlated-error and stability developments, or preserve their unresolved central gaps.", "basis": "Seed sections III-IV and their cited primary work, including reference 33."},
+    {"id": "forward-coverage", "criterion": "Search through the actual cutoff and account for relevant post-seed developments; examine the held-out 2025/2026 candidates if they lie within the resolved scope.", "basis": "Actual-date default; held-out primary publications linked above. Reasoned exclusion is acceptable; paper count is not the criterion."},
+    {"id": "version-integrity", "criterion": "Preserve the supplied arXiv v1 identity and distinguish later journal versions or corrections.", "basis": "Seed PDF v1 version stamp versus current Nature record. The generated arXiv HTML displayed a different date and shifted some reference numbers during the parent audit; pinned PDF is the checkable reference."},
+    {"id": "evidence-and-presentation", "criterion": "Check representative central statements and relationships against pinned primary passages, and verify that the concise overview retains the full included corpus.", "basis": "Map evidence entries, candidate ledger, generated HTML embedded JSON and source-based spot checks."}
+  ]
+}

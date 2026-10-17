@@ -45,13 +45,16 @@ python scripts/package_skill.py --out dist
 
 Skill 会选择合理范围，并跟随你的语言。无需填写 ID、日期、文献列表或 JSON。只提供标题时会先核对论文身份；私有附件默认在本地读取，额外上传需要你的明确授权。当前阅读器控件为英文，研究内容可以使用中文。
 
+研究覆盖不设默认论文数量配额。宿主会追溯前序与后续研究，记录候选取舍和有来源依据的研究分支，在简洁首页背后保留完整的收录文献。[研究运行检查](docs/research-tools.md#recorded-research-coverage)会将记录缺失显示为部分完成或失败；通过检查不代表科学完整性已获认证。
+
 ## 实际研究案例
 
 | 输入 | 阅读脉络 | 证据范围 |
 | --- | --- | --- |
 | 一个方向 | [QSP 到 QSVT](docs/sources.md) | 8 篇论文，以摘要为依据的草稿 |
 | 一个新问题 | [句子向量到注意力机制](examples/nmt-attention/README.md) | 6 篇原始论文，核对到具体章节 |
-| 一篇论文 | [表面码量子存储器](examples/surface-code/README.md) | 4 项工作，明确区分全文和摘要证据 |
+| 单篇论文，独立 Agent | [表面码独立研究记录](docs/test-reports/surface-code-rerun/README.md) · [交互报告](docs/test-reports/surface-code-rerun/report.html) | 52 项工作，实际检索与候选日志；一项关键全文缺口保留为 PARTIAL |
+| 编写好的示意案例 | [表面码量子存储器](examples/surface-code/README.md) | 4 项工作的阅读路径；单输入研究验收已在 #12 重新打开 |
 
 这些案例是有范围限制的研究历史，标注仍待学术审核。来源核对和软件测试通过，不代表科学结论已经得到独立专家认证。真实外部审阅与参与者实验仍保留在[待办 #10](https://github.com/Chengkai-Zhu/research-lineage/issues/10)。
 

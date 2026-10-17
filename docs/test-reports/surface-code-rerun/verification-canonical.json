@@ -1,0 +1,10 @@
+{
+  "command": [
+    "D:\\research_lineage\\research-lineage\\.venv\\Scripts\\python.exe",
+    "scripts/verify_research_run.py",
+    "D:\\research_lineage\\research-lineage\\docs\\test-reports\\surface-code-rerun\\manifest.json"
+  ],
+  "native_exit_code": 3,
+  "stdout": "PASS execution_provenance\nPASS cutoff_consistency\nPASS source_trail\nPARTIAL research_completion\n  Unresolved candidates or central coverage branches remain\n  Agent declared this research run partial\nPARTIAL recorded research run; counts: {'candidates': 58, 'map_works': 52, 'route_steps': 9, 'overview_cards': 5, 'searches': 95, 'trace_entries': 109, 'include': 52, 'exclude': 6, 'defer': 0}\nAudits recorded evidence and cross-file consistency. Does not authenticate tool execution, user authorization, branch selection, search exhaustiveness, or scientific truth; inspect the linked sources and runner records.\n",
+  "stderr": ""
+}

@@ -1,0 +1,11 @@
+{
+  "query_url": "https://api.openalex.org/works/https://doi.org/10.1103/rqkg-dw31",
+  "checked": "2026-10-17T10:24:27.042054+08:00",
+  "doi": null,
+  "title": null,
+  "open_access": null,
+  "best_oa_location": null,
+  "locations": [],
+  "status": "unusable_metadata",
+  "note": "Expected work fields were not returned. This is not evidence that no open-access copy exists."
+}

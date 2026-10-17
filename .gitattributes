@@ -2,3 +2,5 @@
 *.jpg binary
 *.png binary
 *.zip binary
+# Research evidence is SHA-bound; preserve original bytes across platforms.
+docs/test-reports/surface-code-rerun/** -text whitespace=cr-at-eol,-blank-at-eof

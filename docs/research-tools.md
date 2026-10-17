@@ -12,9 +12,26 @@ research-lineage start "A paper title" --kind paper --out output/title
 
 `start` writes `map.json` and `research-brief.json`, performs no network request,
 and leaves works/results empty. It preserves pinned identifiers, infers Chinese
-from Chinese input, and defaults to a bounded 12-source brief. The host can refine
-that scope. Local PDFs are handled by the host locally; they are never uploaded by
+from Chinese input, and keeps the default research cutoff at the run date. It has
+no default paper quota; research coverage and the concise presentation have
+separate plans. Local PDFs are handled by the host locally; they are never uploaded by
 this helper. A bare title needs identity resolution before any paper claim is made.
+
+## Recorded research coverage
+
+```sh
+research-lineage research-schema --out research-schemas.json
+research-lineage audit-research run-manifest.json
+python scripts/verify_research_run.py run-manifest.json
+```
+
+The portable skill includes the first two commands. See the
+[research record contract](../skills/research-lineage/references/research-record.md)
+for actual tool traces, source-grounded branches and candidate decisions. The
+audit checks provenance records, cutoff consistency, cross-file source trails
+and search-plan completion. Exit 0 is PASS, 3 is PARTIAL, and 2 is FAIL. It does
+not authenticate the recorded tool calls or certify scholarly completeness.
+Paper count is reported separately from route length and overview density.
 
 ## Discovery and identity
 

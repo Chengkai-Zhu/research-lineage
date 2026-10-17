@@ -1,0 +1,3650 @@
+{
+  "schema_version": "1.0",
+  "id": "surface-code-threshold-lineage",
+  "title": "表面码如何跨过阈值：论文2408.13687v1的研究谱系",
+  "question": "在什么假设、器件与解码条件下，表面码从重复检测走到随码距扩大的逻辑抑错，2408.13687v1又被后续工作怎样延伸？",
+  "scope": {
+    "summary": "围绕指定v1的中心贡献，追溯理论、重复纠错、扩码、泄漏/相关错误、解码与竞争路线，并检查至2026-10-17的直接后续。研究为部分完成：独立全微波阈值实验仅读官方摘要。",
+    "cutoff": "2026-10-17",
+    "coverage": "52项作品、54条结果；研究语料独立于9步入门路线及5个转折点。种子固定2024-08-24 v1；新版本日期另列。所有结果/关系均为proposed，未经外部独立评审。",
+    "search_strategy": "先读种子正文和References1–60，再用Terhal与Roffe综述建立分支；逐条追溯关键实验与技术，检索2025–2026直接跟进，并专门检查十月新作、勘误和竞争条件。实际查询与失败在tool-trace.jsonl。",
+    "exclusions": [
+      "不穷尽所有量子纠错码或全部早期实验；保留与种子贡献比较直接相关的路线。",
+      "量子算法应用、完整魔法态工厂优化、模块互联架构和所有器件校准细节不逐一展开；被发现的代表性外围候选另列排除理由。",
+      "图中的先后与教学路线不证明优先权、数学依赖或跨平台性能排名。"
+    ],
+    "gaps": [
+      "全微波低于阈值PRL实验全文经publisher PDF、链接点击、APS harvest及公开检索仍不可达；样本选择、解码和完整对比条件尚待核对。",
+      "本次没有重新运行各论文实验或模拟，也没有外部独立评审；有限公开检索不能证明穷尽。",
+      "精确噪声模型、物理资源及错误定义不同的结果不作统一数值排行榜；未提取项使用null。"
+    ]
+  },
+  "lanes": [
+    {
+      "id": "theory",
+      "label": "理论与判据",
+      "color": "violet"
+    },
+    {
+      "id": "experiment",
+      "label": "表面码实验主线",
+      "color": "teal"
+    },
+    {
+      "id": "noise",
+      "label": "泄漏与相关错误",
+      "color": "rose"
+    },
+    {
+      "id": "decoder",
+      "label": "解码准确率与吞吐",
+      "color": "blue"
+    },
+    {
+      "id": "logic",
+      "label": "从存储到控制和逻辑",
+      "color": "amber"
+    },
+    {
+      "id": "competition",
+      "label": "竞争编码与平台",
+      "color": "violet"
+    }
+  ],
+  "works": [
+    {
+      "id": "shor",
+      "title": "Scheme for reducing decoherence in quantum computer memory",
+      "authors": [
+        "Peter W. Shor"
+      ],
+      "first_published": "1995-10-01",
+      "versions": [
+        {
+          "id": "shor-journal",
+          "label": "期刊版",
+          "published": "1995-10-01",
+          "url": "https://doi.org/10.1103/PhysRevA.52.R2493"
+        }
+      ]
+    },
+    {
+      "id": "stabilizer",
+      "title": "Stabilizer Codes and Quantum Error Correction",
+      "authors": [
+        "Gottesman, Daniel"
+      ],
+      "first_published": "1997-05-28",
+      "versions": [
+        {
+          "id": "stabilizer-v1",
+          "label": "v1",
+          "published": "1997-05-28",
+          "url": "https://arxiv.org/pdf/quant-ph/9705052v1"
+        }
+      ]
+    },
+    {
+      "id": "anyons",
+      "title": "Fault-tolerant quantum computation by anyons",
+      "authors": [
+        "Kitaev, A. Yu."
+      ],
+      "first_published": "1997-07-09",
+      "versions": [
+        {
+          "id": "anyons-v1",
+          "label": "v1",
+          "published": "1997-07-09",
+          "url": "https://arxiv.org/pdf/quant-ph/9707021v1"
+        }
+      ]
+    },
+    {
+      "id": "dennis",
+      "title": "Topological quantum memory",
+      "authors": [
+        "Dennis, Eric",
+        "Kitaev, Alexei",
+        "Landahl, Andrew",
+        "Preskill, John"
+      ],
+      "first_published": "2001-10-24",
+      "versions": [
+        {
+          "id": "dennis-v1",
+          "label": "v1",
+          "published": "2001-10-24",
+          "url": "https://arxiv.org/pdf/quant-ph/0110143v1"
+        }
+      ]
+    },
+    {
+      "id": "fowler",
+      "title": "Surface codes: Towards practical large-scale quantum computation",
+      "authors": [
+        "Fowler, Austin G.",
+        "Mariantoni, Matteo",
+        "Martinis, John M.",
+        "Cleland, Andrew N."
+      ],
+      "first_published": "2012-08-04",
+      "versions": [
+        {
+          "id": "fowler-v2",
+          "label": "v2",
+          "published": "2012-10-27",
+          "url": "https://arxiv.org/pdf/1208.0928v2"
+        }
+      ]
+    },
+    {
+      "id": "terhal",
+      "title": "Quantum Error Correction for Quantum Memories",
+      "authors": [
+        "Terhal, Barbara M."
+      ],
+      "first_published": "2013-02-14",
+      "versions": [
+        {
+          "id": "terhal-v7",
+          "label": "v7",
+          "published": "2015-04-10",
+          "url": "https://arxiv.org/pdf/1302.3428v7"
+        }
+      ]
+    },
+    {
+      "id": "roffe",
+      "title": "Quantum Error Correction: An Introductory Guide",
+      "authors": [
+        "Roffe, Joschka"
+      ],
+      "first_published": "2019-07-25",
+      "versions": [
+        {
+          "id": "roffe-v1",
+          "label": "v1",
+          "published": "2019-07-25",
+          "url": "https://arxiv.org/pdf/1907.11157v1"
+        }
+      ]
+    },
+    {
+      "id": "kelly",
+      "title": "State preservation by repetitive error detection in a superconducting quantum circuit",
+      "authors": [
+        "Kelly, J.",
+        "Barends, R.",
+        "Fowler, A. G.",
+        "Megrant, A.",
+        "Jeffrey, E.",
+        "White, T. C.",
+        "Sank, D.",
+        "Mutus, J. Y."
+      ],
+      "first_published": "2014-11-26",
+      "versions": [
+        {
+          "id": "kelly-v1",
+          "label": "v1",
+          "published": "2014-11-26",
+          "url": "https://arxiv.org/pdf/1411.7403v1"
+        }
+      ]
+    },
+    {
+      "id": "andersen",
+      "title": "Repeated Quantum Error Detection in a Surface Code",
+      "authors": [
+        "Andersen, Christian Kraglund",
+        "Remm, Ants",
+        "Lazar, Stefania",
+        "Krinner, Sebastian",
+        "Lacroix, Nathan",
+        "Norris, Graham J.",
+        "Gabureac, Mihai",
+        "Eichler, Christopher"
+      ],
+      "first_published": "2019-12-19",
+      "versions": [
+        {
+          "id": "andersen-v1",
+          "label": "v1",
+          "published": "2019-12-19",
+          "url": "https://arxiv.org/html/1912.09410v1"
+        }
+      ]
+    },
+    {
+      "id": "chen",
+      "title": "Exponential suppression of bit or phase flip errors with repetitive error correction",
+      "authors": [
+        "Chen, Zijun",
+        "Satzinger, Kevin J.",
+        "Atalaya, Juan",
+        "Korotkov, Alexander N.",
+        "Dunsworth, Andrew",
+        "Sank, Daniel",
+        "Quintana, Chris",
+        "McEwen, Matt"
+      ],
+      "first_published": "2021-02-11",
+      "versions": [
+        {
+          "id": "chen-v1",
+          "label": "v1",
+          "published": "2021-02-11",
+          "url": "https://arxiv.org/html/2102.06132v1"
+        }
+      ]
+    },
+    {
+      "id": "krinner",
+      "title": "Realizing Repeated Quantum Error Correction in a Distance-Three Surface Code",
+      "authors": [
+        "Krinner, Sebastian",
+        "Lacroix, Nathan",
+        "Remm, Ants",
+        "Di Paolo, Agustin",
+        "Genois, Elie",
+        "Leroux, Catherine",
+        "Hellings, Christoph",
+        "Lazar, Stefania"
+      ],
+      "first_published": "2021-12-07",
+      "versions": [
+        {
+          "id": "krinner-v1",
+          "label": "v1",
+          "published": "2021-12-07",
+          "url": "https://arxiv.org/pdf/2112.03708v1"
+        }
+      ]
+    },
+    {
+      "id": "zhao",
+      "title": "Realization of an Error-Correcting Surface Code with Superconducting Qubits",
+      "authors": [
+        "Zhao, Youwei",
+        "Ye, Yangsen",
+        "Huang, He-Liang",
+        "Zhang, Yiming",
+        "Wu, Dachao",
+        "Guan, Huijie",
+        "Zhu, Qingling",
+        "Wei, Zuolin"
+      ],
+      "first_published": "2021-12-27",
+      "versions": [
+        {
+          "id": "zhao-v1",
+          "label": "v1",
+          "published": "2021-12-27",
+          "url": "https://arxiv.org/pdf/2112.13505v1"
+        }
+      ]
+    },
+    {
+      "id": "sycamore",
+      "title": "Suppressing quantum errors by scaling a surface code logical qubit",
+      "authors": [
+        "Acharya, Rajeev",
+        "Aleiner, Igor",
+        "Allen, Richard",
+        "Andersen, Trond I.",
+        "Ansmann, Markus",
+        "Arute, Frank",
+        "Arya, Kunal",
+        "Asfaw, Abraham"
+      ],
+      "first_published": "2022-07-13",
+      "versions": [
+        {
+          "id": "sycamore-v1",
+          "label": "v1",
+          "published": "2022-07-13",
+          "url": "https://arxiv.org/html/2207.06431v1"
+        }
+      ]
+    },
+    {
+      "id": "xzzx",
+      "title": "The XZZX Surface Code",
+      "authors": [
+        "Ataides, J. Pablo Bonilla",
+        "Tuckett, David K.",
+        "Bartlett, Stephen D.",
+        "Flammia, Steven T.",
+        "Brown, Benjamin J."
+      ],
+      "first_published": "2020-09-16",
+      "versions": [
+        {
+          "id": "xzzx-v1",
+          "label": "v1",
+          "published": "2020-09-16",
+          "url": "https://arxiv.org/html/2009.07851v1"
+        }
+      ]
+    },
+    {
+      "id": "miao",
+      "title": "Overcoming leakage in scalable quantum error correction",
+      "authors": [
+        "Miao, Kevin C.",
+        "McEwen, Matt",
+        "Atalaya, Juan",
+        "Kafri, Dvir",
+        "Pryadko, Leonid P.",
+        "Bengtsson, Andreas",
+        "Opremcak, Alex",
+        "Satzinger, Kevin J."
+      ],
+      "first_published": "2022-11-09",
+      "versions": [
+        {
+          "id": "miao-v1",
+          "label": "v1",
+          "published": "2022-11-09",
+          "url": "https://arxiv.org/html/2211.04728v1"
+        }
+      ]
+    },
+    {
+      "id": "microwave-lru",
+      "title": "All-microwave leakage reduction units for quantum error correction with superconducting transmon qubits",
+      "authors": [
+        "Marques, J. F.",
+        "Ali, H.",
+        "Varbanov, B. M.",
+        "Finkel, M.",
+        "Veen, H. M.",
+        "van der Meer, S. L. M.",
+        "Valles-Sanclemente, S.",
+        "Muthusubramanian, N."
+      ],
+      "first_published": "2023-02-20",
+      "versions": [
+        {
+          "id": "microwave-lru-v1",
+          "label": "v1",
+          "published": "2023-02-20",
+          "url": "https://arxiv.org/html/2302.09876v1"
+        }
+      ]
+    },
+    {
+      "id": "gap-engineering",
+      "title": "Resisting high-energy impact events through gap engineering in superconducting qubit arrays",
+      "authors": [
+        "McEwen, Matt",
+        "Miao, Kevin C.",
+        "Atalaya, Juan",
+        "Bilmes, Alex",
+        "Crook, Alex",
+        "Bovaird, Jenna",
+        "Kreikebaum, John Mark",
+        "Zobrist, Nicholas"
+      ],
+      "first_published": "2024-02-23",
+      "versions": [
+        {
+          "id": "gap-engineering-v1",
+          "label": "v1",
+          "published": "2024-02-23",
+          "url": "https://arxiv.org/html/2402.15644v1"
+        }
+      ]
+    },
+    {
+      "id": "sparse",
+      "title": "Sparse Blossom: correcting a million errors per core second with minimum-weight matching",
+      "authors": [
+        "Higgott, Oscar",
+        "Gidney, Craig"
+      ],
+      "first_published": "2023-03-28",
+      "versions": [
+        {
+          "id": "sparse-v1",
+          "label": "v1",
+          "published": "2023-03-28",
+          "url": "https://arxiv.org/html/2303.15933v1"
+        }
+      ]
+    },
+    {
+      "id": "parallel-window",
+      "title": "Parallel window decoding enables scalable fault tolerant quantum computation",
+      "authors": [
+        "Skoric, Luka",
+        "Browne, Dan E.",
+        "Barnes, Kenton M.",
+        "Gillespie, Neil I.",
+        "Campbell, Earl T."
+      ],
+      "first_published": "2022-09-18",
+      "versions": [
+        {
+          "id": "parallel-window-v1",
+          "label": "v1",
+          "published": "2022-09-18",
+          "url": "https://arxiv.org/html/2209.08552v1"
+        }
+      ]
+    },
+    {
+      "id": "modular",
+      "title": "Modular decoding: parallelizable real-time decoding for quantum computers",
+      "authors": [
+        "Bombín, Héctor",
+        "Dawson, Chris",
+        "Liu, Ye-Hua",
+        "Nickerson, Naomi",
+        "Pastawski, Fernando",
+        "Roberts, Sam"
+      ],
+      "first_published": "2023-03-08",
+      "versions": [
+        {
+          "id": "modular-v1",
+          "label": "v1",
+          "published": "2023-03-08",
+          "url": "https://arxiv.org/html/2303.04846v1"
+        }
+      ]
+    },
+    {
+      "id": "alpha1",
+      "title": "Learning to Decode the Surface Code with a Recurrent, Transformer-Based Neural Network",
+      "authors": [
+        "Bausch, Johannes",
+        "Senior, Andrew W",
+        "Heras, Francisco J H",
+        "Edlich, Thomas",
+        "Davies, Alex",
+        "Newman, Michael",
+        "Jones, Cody",
+        "Satzinger, Kevin"
+      ],
+      "first_published": "2023-10-09",
+      "versions": [
+        {
+          "id": "alpha1-v1",
+          "label": "v1",
+          "published": "2023-10-09",
+          "url": "https://arxiv.org/html/2310.05900v1"
+        }
+      ]
+    },
+    {
+      "id": "harmony",
+      "title": "Efficient near-optimal decoding of the surface code through ensembling",
+      "authors": [
+        "Shutty, Noah",
+        "Newman, Michael",
+        "Villalonga, Benjamin"
+      ],
+      "first_published": "2024-01-23",
+      "versions": [
+        {
+          "id": "harmony-v1",
+          "label": "v1",
+          "published": "2024-01-23",
+          "url": "https://arxiv.org/html/2401.12434v1"
+        }
+      ]
+    },
+    {
+      "id": "priors",
+      "title": "Optimization of decoder priors for accurate quantum error correction",
+      "authors": [
+        "Sivak, Volodymyr",
+        "Newman, Michael",
+        "Klimov, Paul"
+      ],
+      "first_published": "2024-06-04",
+      "versions": [
+        {
+          "id": "priors-v1",
+          "label": "v1",
+          "published": "2024-06-04",
+          "url": "https://arxiv.org/html/2406.02700v1"
+        }
+      ]
+    },
+    {
+      "id": "synthesis",
+      "title": "Improved accuracy for decoding surface codes with matching synthesis",
+      "authors": [
+        "Jones, Cody"
+      ],
+      "first_published": "2024-08-22",
+      "versions": [
+        {
+          "id": "synthesis-v1",
+          "label": "v1",
+          "published": "2024-08-22",
+          "url": "https://arxiv.org/html/2408.12135v1"
+        }
+      ]
+    },
+    {
+      "id": "seed",
+      "title": "Quantum error correction below the surface code threshold",
+      "authors": [
+        "Acharya, Rajeev",
+        "Aghababaie-Beni, Laleh",
+        "Aleiner, Igor",
+        "Andersen, Trond I.",
+        "Ansmann, Markus",
+        "Arute, Frank",
+        "Arya, Kunal",
+        "Asfaw, Abraham"
+      ],
+      "first_published": "2024-08-24",
+      "versions": [
+        {
+          "id": "seed-v1",
+          "label": "v1",
+          "published": "2024-08-24",
+          "url": "https://arxiv.org/html/2408.13687v1"
+        }
+      ]
+    },
+    {
+      "id": "correction",
+      "title": "Author Correction: Quantum error correction below the surface code threshold",
+      "authors": [
+        "Google Quantum AI and Collaborators"
+      ],
+      "first_published": "2026-04-28",
+      "versions": [
+        {
+          "id": "correction-journal",
+          "label": "正式勘误",
+          "published": "2026-04-28",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13171424/"
+        }
+      ]
+    },
+    {
+      "id": "stability-rt",
+      "title": "Demonstrating real-time and low-latency quantum error correction with superconducting qubits",
+      "authors": [
+        "Caune, Laura",
+        "Skoric, Luka",
+        "Blunt, Nick S.",
+        "Ruban, Archibald",
+        "McDaniel, Jimmy",
+        "Valery, Joseph A.",
+        "Patterson, Andrew D.",
+        "Gramolin, Alexander V."
+      ],
+      "first_published": "2024-10-07",
+      "versions": [
+        {
+          "id": "stability-rt-v1",
+          "label": "v1",
+          "published": "2024-10-07",
+          "url": "https://arxiv.org/html/2410.05202v1"
+        }
+      ]
+    },
+    {
+      "id": "dynamic",
+      "title": "Demonstrating dynamic surface codes",
+      "authors": [
+        "Eickbusch, Alec",
+        "McEwen, Matt",
+        "Sivak, Volodymyr",
+        "Bourassa, Alexandre",
+        "Atalaya, Juan",
+        "Claes, Jahan",
+        "Kafri, Dvir",
+        "Gidney, Craig"
+      ],
+      "first_published": "2024-12-18",
+      "versions": [
+        {
+          "id": "dynamic-v2",
+          "label": "v2",
+          "published": "2025-06-19",
+          "url": "https://arxiv.org/html/2412.14360v2"
+        }
+      ]
+    },
+    {
+      "id": "color",
+      "title": "Scaling and logic in the color code on a superconducting quantum processor",
+      "authors": [
+        "Lacroix, Nathan",
+        "Bourassa, Alexandre",
+        "Heras, Francisco J. H.",
+        "Zhang, Lei M.",
+        "Bausch, Johannes",
+        "Senior, Andrew W.",
+        "Edlich, Thomas",
+        "Shutty, Noah"
+      ],
+      "first_published": "2024-12-18",
+      "versions": [
+        {
+          "id": "color-v1",
+          "label": "v1",
+          "published": "2024-12-18",
+          "url": "https://arxiv.org/html/2412.14256v1"
+        }
+      ]
+    },
+    {
+      "id": "split",
+      "title": "Realizing Lattice Surgery on Two Distance-Three Repetition Codes with Superconducting Qubits",
+      "authors": [
+        "Besedin, Ilya",
+        "Kerschbaum, Michael",
+        "Knoll, Jonathan",
+        "Hesner, Ian",
+        "Bödeker, Lukas",
+        "Colmenarez, Luis",
+        "Hofele, Luca",
+        "Lacroix, Nathan"
+      ],
+      "first_published": "2025-01-08",
+      "versions": [
+        {
+          "id": "split-v1",
+          "label": "v1",
+          "published": "2025-01-08",
+          "url": "https://arxiv.org/html/2501.04612v1"
+        }
+      ]
+    },
+    {
+      "id": "atom-architecture",
+      "title": "Architectural mechanisms of a universal fault-tolerant quantum computer",
+      "authors": [
+        "Bluvstein, Dolev",
+        "Geim, Alexandra A.",
+        "Li, Sophie H.",
+        "Evered, Simon J.",
+        "Ataides, J. Pablo Bonilla",
+        "Baranes, Gefen",
+        "Gu, Andi",
+        "Manovitz, Tom"
+      ],
+      "first_published": "2025-06-25",
+      "versions": [
+        {
+          "id": "atom-architecture-v1",
+          "label": "v1",
+          "published": "2025-06-25",
+          "url": "https://arxiv.org/html/2506.20661v1"
+        }
+      ]
+    },
+    {
+      "id": "all-microwave",
+      "title": "Experimental Quantum Error Correction below the Surface Code Threshold via All-Microwave Leakage Suppression",
+      "authors": [
+        "Tan He",
+        "Weiping Lin",
+        "Rui Wang",
+        "Yuan Li"
+      ],
+      "first_published": "2025-12-22",
+      "versions": [
+        {
+          "id": "all-microwave-journal",
+          "label": "期刊版",
+          "published": "2025-12-22",
+          "url": "https://journals.aps.org/prl/abstract/10.1103/rqkg-dw31"
+        }
+      ]
+    },
+    {
+      "id": "heavy-hex",
+      "title": "Surface code scaling on heavy-hex superconducting quantum processors",
+      "authors": [
+        "Arian Vezvaee",
+        "Cesar Benito",
+        "Mario Morford-Oberst",
+        "Alejandro Bermudez",
+        "Daniel A. Lidar"
+      ],
+      "first_published": "2025-10-21",
+      "versions": [
+        {
+          "id": "heavy-hex-journal",
+          "label": "期刊版",
+          "published": "2026-07-29",
+          "url": "https://www.nature.com/articles/s41467-026-76090-6"
+        }
+      ]
+    },
+    {
+      "id": "rl-control",
+      "title": "Reinforcement Learning Control of Quantum Error Correction",
+      "authors": [
+        "Sivak, Volodymyr",
+        "Morvan, Alexis",
+        "Broughton, Michael",
+        "Cortiñas, Rodrigo G.",
+        "Bausch, Johannes",
+        "Senior, Andrew W.",
+        "Neeley, Matthew",
+        "Eickbusch, Alec"
+      ],
+      "first_published": "2025-11-11",
+      "versions": [
+        {
+          "id": "rl-control-v4",
+          "label": "v4",
+          "published": "2026-06-19",
+          "url": "https://arxiv.org/html/2511.08493v4"
+        }
+      ]
+    },
+    {
+      "id": "aq2",
+      "title": "A scalable and real-time neural decoder for topological quantum codes",
+      "authors": [
+        "Senior, Andrew W.",
+        "Edlich, Thomas",
+        "Heras, Francisco J. H.",
+        "Zhang, Lei M.",
+        "Higgott, Oscar",
+        "Spencer, James S.",
+        "Applebaum, Taylor",
+        "Blackwell, Sam"
+      ],
+      "first_published": "2025-12-08",
+      "versions": [
+        {
+          "id": "aq2-v2",
+          "label": "v2",
+          "published": "2026-03-11",
+          "url": "https://arxiv.org/html/2512.07737v2"
+        }
+      ]
+    },
+    {
+      "id": "parallel-nn",
+      "title": "Learning to Decode in Parallel: Self-Coordinating Neural Network for Real-Time Quantum Error Correction",
+      "authors": [
+        "Zhang, Kai",
+        "Yi, Zhengzhong",
+        "Guo, Shaojun",
+        "Kong, Linghang",
+        "Wang, Situ",
+        "Zhan, Xiaoyu",
+        "He, Tan",
+        "Lin, Weiping"
+      ],
+      "first_published": "2026-01-14",
+      "versions": [
+        {
+          "id": "parallel-nn-v1",
+          "label": "v1",
+          "published": "2026-01-14",
+          "url": "https://arxiv.org/html/2601.09921v1"
+        }
+      ]
+    },
+    {
+      "id": "burst-resilience",
+      "title": "Resilience of the surface code to error bursts",
+      "authors": [
+        "Tan, Shi Jie Samuel",
+        "Pattison, Christopher A.",
+        "McEwen, Matt",
+        "Preskill, John"
+      ],
+      "first_published": "2024-06-27",
+      "versions": [
+        {
+          "id": "burst-resilience-journal",
+          "label": "PRA113,022450 (2026-02-26)",
+          "published": "2026-02-26",
+          "url": "https://preskill.caltech.edu/pubs/preskill-2026-resilience.pdf"
+        }
+      ]
+    },
+    {
+      "id": "fpga",
+      "title": "Real-time Surface-Code Error Correction Using an FPGA-based Neural-Network Decoder",
+      "authors": [
+        "Yang, Xiaohan",
+        "Sun, Xuandong",
+        "Wu, Zhiyi",
+        "Zhang, Jiawei",
+        "Jiang, Ji",
+        "Linpeng, Xiayu",
+        "Zhou, Yuxuan",
+        "Chu, Ji"
+      ],
+      "first_published": "2026-05-06",
+      "versions": [
+        {
+          "id": "fpga-v1",
+          "label": "v1",
+          "published": "2026-05-06",
+          "url": "https://arxiv.org/html/2605.04892v1"
+        }
+      ]
+    },
+    {
+      "id": "cayg",
+      "title": "Reducing Decoding Latency in Quantum Error Correction by Early Starting Clustering",
+      "authors": [
+        "Peduzzi, Tommaso",
+        "Bödeker, Lukas",
+        "Müller, Markus",
+        "Colmenarez, Luis"
+      ],
+      "first_published": "2026-09-14",
+      "versions": [
+        {
+          "id": "cayg-v2",
+          "label": "v2",
+          "published": "2026-09-17",
+          "url": "https://arxiv.org/html/2609.15612v2"
+        }
+      ]
+    },
+    {
+      "id": "modular-nn",
+      "title": "Modular Neural Decoder for Surface Code Memory and Logic on Superconducting Processors",
+      "authors": [
+        "Lange, Moritz",
+        "Fjeldså, Ole",
+        "Johansson, Gustaf Jonasson",
+        "Granath, Mats"
+      ],
+      "first_published": "2026-10-02",
+      "versions": [
+        {
+          "id": "modular-nn-v1",
+          "label": "v1",
+          "published": "2026-10-02",
+          "url": "https://arxiv.org/html/2610.03869v1"
+        }
+      ]
+    },
+    {
+      "id": "ion-realtime",
+      "title": "Realization of real-time fault-tolerant quantum error correction",
+      "authors": [
+        "Ryan-Anderson, C.",
+        "Bohnet, J. G.",
+        "Lee, K.",
+        "Gresh, D.",
+        "Hankin, A.",
+        "Gaebler, J. P.",
+        "Francois, D.",
+        "Chernoguzov, A."
+      ],
+      "first_published": "2021-07-15",
+      "versions": [
+        {
+          "id": "ion-realtime-v1",
+          "label": "v1",
+          "published": "2021-07-15",
+          "url": "https://arxiv.org/html/2107.07505v1"
+        }
+      ]
+    },
+    {
+      "id": "gkp",
+      "title": "Real-time quantum error correction beyond break-even",
+      "authors": [
+        "Sivak, V. V.",
+        "Eickbusch, A.",
+        "Royer, B.",
+        "Singh, S.",
+        "Tsioutsios, I.",
+        "Ganjam, S.",
+        "Miano, A.",
+        "Brock, B. L."
+      ],
+      "first_published": "2022-11-16",
+      "versions": [
+        {
+          "id": "gkp-v1",
+          "label": "v1",
+          "published": "2022-11-16",
+          "url": "https://arxiv.org/html/2211.09116v1"
+        }
+      ]
+    },
+    {
+      "id": "ions-better",
+      "title": "Demonstration of logical qubits and repeated error correction with better-than-physical error rates",
+      "authors": [
+        "Paetznick, A.",
+        "da Silva, M. P.",
+        "Ryan-Anderson, C.",
+        "Bello-Rivas, J. M.",
+        "Campora III, J. P.",
+        "Chernoguzov, A.",
+        "Dreiling, J. M.",
+        "Foltz, C."
+      ],
+      "first_published": "2024-04-02",
+      "versions": [
+        {
+          "id": "ions-better-v3",
+          "label": "v3",
+          "published": "2024-11-17",
+          "url": "https://arxiv.org/html/2404.02280v3"
+        }
+      ]
+    },
+    {
+      "id": "atoms-processor",
+      "title": "Logical quantum processor based on reconfigurable atom arrays",
+      "authors": [
+        "Bluvstein, Dolev",
+        "Evered, Simon J.",
+        "Geim, Alexandra A.",
+        "Li, Sophie H.",
+        "Zhou, Hengyun",
+        "Manovitz, Tom",
+        "Ebadi, Sepehr",
+        "Cain, Madelyn"
+      ],
+      "first_published": "2023-12-07",
+      "versions": [
+        {
+          "id": "atoms-processor-v1",
+          "label": "v1",
+          "published": "2023-12-07",
+          "url": "https://arxiv.org/html/2312.03982v1"
+        }
+      ]
+    },
+    {
+      "id": "yoked",
+      "title": "Yoked surface codes",
+      "authors": [
+        "Gidney, Craig",
+        "Newman, Michael",
+        "Brooks, Peter",
+        "Jones, Cody"
+      ],
+      "first_published": "2023-12-07",
+      "versions": [
+        {
+          "id": "yoked-v1",
+          "label": "v1",
+          "published": "2023-12-07",
+          "url": "https://arxiv.org/html/2312.04522v1"
+        }
+      ]
+    },
+    {
+      "id": "bb-memory",
+      "title": "High-threshold and low-overhead fault-tolerant quantum memory",
+      "authors": [
+        "Bravyi, Sergey",
+        "Cross, Andrew W.",
+        "Gambetta, Jay M.",
+        "Maslov, Dmitri",
+        "Rall, Patrick",
+        "Yoder, Theodore J."
+      ],
+      "first_published": "2023-08-15",
+      "versions": [
+        {
+          "id": "bb-memory-v1",
+          "label": "v1",
+          "published": "2023-08-15",
+          "url": "https://arxiv.org/html/2308.07915v1"
+        }
+      ]
+    },
+    {
+      "id": "qldpc-experiment",
+      "title": "Breakeven demonstration of quantum low-density parity-check codes",
+      "authors": [
+        "Tham, Edwin",
+        "Goldman, Michael L.",
+        "Debnath, Shantanu",
+        "Patel, Ashay N.",
+        "Saraladevi, Jyothi",
+        "Nguyen, Jason",
+        "Nielsen, Erik",
+        "Pisenti, Neal"
+      ],
+      "first_published": "2026-06-04",
+      "versions": [
+        {
+          "id": "qldpc-experiment-v2",
+          "label": "v2",
+          "published": "2026-09-14",
+          "url": "https://arxiv.org/html/2606.06455v2"
+        }
+      ]
+    },
+    {
+      "id": "logical-cliffords",
+      "title": "Surface code logical operations on a superconducting quantum processor",
+      "authors": [
+        "Lin, Weiping",
+        "Guo, Shaojun",
+        "Ma, Yuwei",
+        "Yi, Zhengzhong",
+        "Zhang, Kai",
+        "Bei, Jiahao",
+        "Cai, Jianbin",
+        "Cao, Sirui"
+      ],
+      "first_published": "2026-07-01",
+      "versions": [
+        {
+          "id": "logical-cliffords-v1",
+          "label": "v1",
+          "published": "2026-07-01",
+          "url": "https://arxiv.org/html/2607.01473v1"
+        }
+      ]
+    },
+    {
+      "id": "lattice-processor",
+      "title": "A superconducting surface-code processor with lattice-surgery logical operations",
+      "authors": [
+        "Wang, Yanzhe",
+        "Shen, Fanhao",
+        "Xie, Haipeng",
+        "Zhang, Aosai",
+        "Gao, Yu",
+        "Zhang, Chuanyu",
+        "Zhu, Xuhao",
+        "Jin, Feitong"
+      ],
+      "first_published": "2026-06-04",
+      "versions": [
+        {
+          "id": "lattice-processor-v1",
+          "label": "v1",
+          "published": "2026-06-04",
+          "url": "https://arxiv.org/html/2606.06598v1"
+        }
+      ]
+    },
+    {
+      "id": "cultivation-experiment",
+      "title": "Magic state cultivation on a superconducting quantum processor",
+      "authors": [
+        "Rosenfeld, Emma",
+        "Gidney, Craig",
+        "Roberts, Gabrielle",
+        "Morvan, Alexis",
+        "Lacroix, Nathan",
+        "Kafri, Dvir",
+        "Marshall, Jeffrey",
+        "Li, Ming"
+      ],
+      "first_published": "2025-12-15",
+      "versions": [
+        {
+          "id": "cultivation-experiment-v1",
+          "label": "v1",
+          "published": "2025-12-15",
+          "url": "https://arxiv.org/html/2512.13908v1"
+        }
+      ]
+    },
+    {
+      "id": "lattice-surgery",
+      "title": "Surface code quantum computing by lattice surgery",
+      "authors": [
+        "Horsman, Dominic",
+        "Fowler, Austin G.",
+        "Devitt, Simon",
+        "Van Meter, Rodney"
+      ],
+      "first_published": "2011-11-17",
+      "versions": [
+        {
+          "id": "lattice-surgery-v3",
+          "label": "v3",
+          "published": "2013-02-21",
+          "url": "https://arxiv.org/pdf/1111.4022v3"
+        }
+      ]
+    },
+    {
+      "id": "cultivation-theory",
+      "title": "Magic state cultivation: growing T states as cheap as CNOT gates",
+      "authors": [
+        "Gidney, Craig",
+        "Shutty, Noah",
+        "Jones, Cody"
+      ],
+      "first_published": "2024-09-26",
+      "versions": [
+        {
+          "id": "cultivation-theory-v1",
+          "label": "v1",
+          "published": "2024-09-26",
+          "url": "https://arxiv.org/pdf/2409.17595v1"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "shor-result",
+      "work_id": "shor",
+      "version_id": "shor-journal",
+      "label": "量子信息可以冗余保护",
+      "summary": "在独立退相干条件下提出量子纠错编码，建立用多比特保护量子存储的出发点。",
+      "lane": "theory",
+      "kind": "foundation",
+      "settings": {
+        "input": "量子存储",
+        "assumptions": "退相干独立作用于各比特",
+        "cost": null,
+        "error": null
+      },
+      "evidence": [
+        "shor-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "stabilizer-result",
+      "work_id": "stabilizer",
+      "version_id": "stabilizer-v1",
+      "label": "稳定子统一编码与症状",
+      "summary": "用 Pauli 群的交换子群及其共同不变子空间描述编码，使测量稳定子与逻辑信息保护可以系统化。",
+      "lane": "theory",
+      "kind": "framework",
+      "settings": {
+        "input": "n 比特稳定子码",
+        "assumptions": "交换稳定子群；不含非平凡单位相位",
+        "cost": "[[n,k]] 码的 n−k 个独立生成元",
+        "error": null
+      },
+      "evidence": [
+        "stabilizer-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "anyons-result",
+      "work_id": "anyons",
+      "version_id": "anyons-v1",
+      "label": "拓扑编码的起点",
+      "summary": "以二维格点模型和任意子激发解释拓扑保护；本图只取其编码思想，不把被动物理保护等同于后来的主动表面码实验。",
+      "lane": "theory",
+      "kind": "foundation",
+      "settings": {
+        "input": "二维格点模型",
+        "assumptions": "局域相互作用及拓扑编码",
+        "cost": null,
+        "error": null
+      },
+      "evidence": [
+        "anyons-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "dennis-result",
+      "work_id": "dennis",
+      "version_id": "dennis-v1",
+      "label": "含测量噪声的拓扑存储阈值",
+      "summary": "把反复症状测量的历史联系到统计力学模型，并在指定随机噪声条件下证明失败率可随线性码尺寸指数下降。",
+      "lane": "theory",
+      "kind": "foundation",
+      "settings": {
+        "input": "二维表面/环面码的存储",
+        "assumptions": "文中独立随机数据与症状错误；经典处理条件须满足",
+        "cost": "块大小约随线性尺寸平方增长",
+        "error": "§V Eq.(62) 的指数上界；阈值数值依模型而异"
+      },
+      "evidence": [
+        "dennis-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "fowler-result",
+      "work_id": "fowler",
+      "version_id": "fowler-v2",
+      "label": "把阈值写成电路资源条件",
+      "summary": "在明确的电路噪声模型下模拟扩码，并给出逻辑错误对物理错误和码距的经验标度；0.57% 是该实现的每步阈值。",
+      "lane": "theory",
+      "kind": "framework",
+      "settings": {
+        "input": "含制备、门、测量等错误的表面码电路",
+        "assumptions": "文中特定独立电路噪声与匹配解码",
+        "cost": "二维局域阵列；资源随码距增长",
+        "error": "P_L≈0.03(p/p_th)^((d+1)/2)，p_th=0.57%"
+      },
+      "evidence": [
+        "fowler-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "terhal-result",
+      "work_id": "terhal",
+      "version_id": "terhal-v7",
+      "label": "存储、通用逻辑与解码积压",
+      "summary": "综述稳定子、拓扑存储及逻辑门；指出通用运算中症状处理若长期慢于生成，可能造成指数积压。",
+      "lane": "theory",
+      "kind": "tutorial",
+      "settings": {
+        "input": "主动量子存储与容错计算",
+        "assumptions": "经典解码吞吐须与症状生成相配",
+        "cost": "可并行经典处理；本文为综述",
+        "error": null
+      },
+      "evidence": [
+        "terhal-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "roffe-result",
+      "work_id": "roffe",
+      "version_id": "roffe-v1",
+      "label": "读懂不同阈值的入门",
+      "summary": "区分理想症状测量与含噪症状提取，并说明重复测量和容错逻辑的额外要求。",
+      "lane": "theory",
+      "kind": "tutorial",
+      "settings": {
+        "input": "稳定子码与表面码教程",
+        "assumptions": "阈值依噪声模型和解码器而变",
+        "cost": null,
+        "error": "理想与含噪测量的阈值不能互换"
+      },
+      "evidence": [
+        "roffe-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "kelly-result",
+      "work_id": "kelly",
+      "version_id": "kelly-v1",
+      "label": "重复奇偶测量先保护经典信息",
+      "summary": "在一维超导重复码中随系统扩大降低比特翻转失败，提供二维表面码的实验前驱；没有同时保护任意量子态。",
+      "lane": "experiment",
+      "kind": "result",
+      "settings": {
+        "input": "5/9 比特重复码",
+        "assumptions": "针对比特翻转；物理与逻辑衰减基线定义不同",
+        "cost": "八个检测周期",
+        "error": "八周期后相对单物理比特失败下降2.7/8.5倍"
+      },
+      "evidence": [
+        "kelly-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "andersen-result",
+      "work_id": "andersen",
+      "version_id": "andersen-v1",
+      "label": "重复检测双类错误，代价是后选择",
+      "summary": "7 比特、距离2表面码反复检测错误；无检出事件条件下延长寿命与相干时间，保留率随周期下降。",
+      "lane": "experiment",
+      "kind": "result",
+      "settings": {
+        "input": "4数据+3辅助比特，d=2",
+        "assumptions": "对症状与终态稳定子作后选择",
+        "cost": "周期1.92μs；10周期成功率约10^-4",
+        "error": "条件寿命改善；不是无条件纠错阈值"
+      },
+      "evidence": [
+        "andersen-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "chen-result",
+      "work_id": "chen",
+      "version_id": "chen-v1",
+      "label": "重复码建立稳定的指数抑错",
+      "summary": "以一维重复码分别保护比特或相位翻转，扩到21比特并在50轮中维持抑错，检验误差的时空相关性。",
+      "lane": "experiment",
+      "kind": "result",
+      "settings": {
+        "input": "5至21个超导比特的重复码",
+        "assumptions": "每次只保护一种错误；不等于完整表面码量子存储",
+        "cost": "50轮重复测量",
+        "error": "每轮逻辑错误随扩码下降超过100倍"
+      },
+      "evidence": [
+        "chen-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "krinner-result",
+      "work_id": "krinner",
+      "version_id": "krinner-v1",
+      "label": "17比特开始重复表面码纠正",
+      "summary": "距离3表面码反复测量并在后处理中纠正两类错误；报告的低错误率依赖检测泄漏后的样本剔除。",
+      "lane": "experiment",
+      "kind": "result",
+      "settings": {
+        "input": "17个超导比特；四个逻辑基态",
+        "assumptions": "MWPM后处理；剔除检测到泄漏的实验",
+        "cost": "周期1.1μs",
+        "error": "剔除泄漏后约3%每周期"
+      },
+      "evidence": [
+        "krinner-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "zhao-result",
+      "work_id": "zhao",
+      "version_id": "zhao-v1",
+      "label": "独立的距离3表面码纠错",
+      "summary": "祖冲之2.1上实现17比特重复纠错；后处理使逻辑错误降低约20%，超物理寿命另依赖无错后选择。",
+      "lane": "experiment",
+      "kind": "result",
+      "settings": {
+        "input": "17比特 d=3 表面码",
+        "assumptions": "纠错与无错后选择寿命是不同实验判据",
+        "cost": null,
+        "error": "相对未纠正结果约20%降低；非扩码阈值实验"
+      },
+      "evidence": [
+        "zhao-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "sycamore-result",
+      "work_id": "sycamore",
+      "version_id": "sycamore-v1",
+      "label": "扩码开始获益，但仍在交叉区",
+      "summary": "d=5略优于d=3；全文模拟指出有限尺寸交叉区可能在更大码距转差，不能仅凭两种码距认定渐近低于阈值。",
+      "lane": "experiment",
+      "kind": "result",
+      "settings": {
+        "input": "d=3与5表面码存储",
+        "assumptions": "有限码距、至25周期；模型含有限尺寸效应",
+        "cost": "49比特 d=5；另有 d=25 重复码",
+        "error": "约2.914%对3.028%每周期"
+      },
+      "evidence": [
+        "sycamore-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "xzzx-result",
+      "work_id": "xzzx",
+      "version_id": "xzzx-v1",
+      "label": "让码与偏置噪声相适配",
+      "summary": "XZZX稳定子在偏置噪声下改变可解码结构与资源要求；理想测量、现象学及电路噪声结果必须区分。",
+      "lane": "theory",
+      "kind": "extension",
+      "settings": {
+        "input": "XZZX码；可变噪声偏置η",
+        "assumptions": "文中独立 Pauli 或现象学测量噪声",
+        "cost": "二维局域检查；资源优势取决于偏置",
+        "error": null
+      },
+      "evidence": [
+        "xzzx-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "miao-result",
+      "work_id": "miao",
+      "version_id": "miao-v1",
+      "label": "每轮清除数据比特泄漏",
+      "summary": "DQLR把数据比特泄漏转移到测量比特再重置，稳定泄漏人口并减少跨周期相关错误；单轮内传播仍有限制。",
+      "lane": "noise",
+      "kind": "result",
+      "settings": {
+        "input": "d=3表面码及d=21重复码",
+        "assumptions": "数据和测量比特均清泄漏；额外操作引入误差",
+        "cost": "每轮增加泄漏转移及重置",
+        "error": "数据泄漏约10^-3、测量比特低于10^-4"
+      },
+      "evidence": [
+        "miao-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "microwave-lru-result",
+      "work_id": "microwave-lru",
+      "version_id": "microwave-lru-v1",
+      "label": "全微波泄漏清除的模块",
+      "summary": "用微波驱动经读出谐振器将泄漏态送回计算空间，在重复稳定子测量中降低稳态泄漏；是器件模块而非完整阈值实验。",
+      "lane": "noise",
+      "kind": "result",
+      "settings": {
+        "input": "transmon及重复奇偶测量模块",
+        "assumptions": "LRU保持计算子空间态；模块级验证",
+        "cost": null,
+        "error": "泄漏最多降低一个数量级至约≤1%"
+      },
+      "evidence": [
+        "microwave-lru-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "gap-engineering-result",
+      "work_id": "gap-engineering",
+      "version_id": "gap-engineering-v1",
+      "label": "抑制高能撞击引发的准粒子衰减",
+      "summary": "接面能隙工程使强保护比特在已检测撞击事件中仍符合独立误差模型；不解决撞击引发的TLS重排。",
+      "lane": "noise",
+      "kind": "result",
+      "settings": {
+        "input": "强/弱能隙工程比特阵列",
+        "assumptions": "比较准粒子诱导弛豫；非所有相关噪声的消除",
+        "cost": "6000秒相关采样",
+        "error": null
+      },
+      "evidence": [
+        "gap-engineering-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "sparse-result",
+      "work_id": "sparse",
+      "version_id": "sparse-v1",
+      "label": "稀疏匹配达到微秒级吞吐",
+      "summary": "Sparse Blossom直接在稀疏检测图上执行匹配；模拟基准中单核可跟上快超导周期，不等于已集成硬件反馈。",
+      "lane": "decoder",
+      "kind": "framework",
+      "settings": {
+        "input": "d=17表面码模拟症状",
+        "assumptions": "0.1%电路去极化噪声",
+        "cost": "单CPU核；X/Z两基底每轮<1μs",
+        "error": null
+      },
+      "evidence": [
+        "sparse-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "parallel-window-result",
+      "work_id": "parallel-window",
+      "version_id": "parallel-window-v1",
+      "label": "用时间窗口并行避免积压",
+      "summary": "并行窗口提高吞吐，把部分反馈决策延迟；减少积压所需的经典并行资源与逻辑反应时间应共同计算。",
+      "lane": "decoder",
+      "kind": "framework",
+      "settings": {
+        "input": "连续表面码症状流",
+        "assumptions": "窗口内近最小权解码及足够并行资源",
+        "cost": "多核窗口与边界协调；反馈有多项式延迟",
+        "error": null
+      },
+      "evidence": [
+        "parallel-window-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "modular-result",
+      "work_id": "modular",
+      "version_id": "modular-v1",
+      "label": "模块化解码明确正确性条件",
+      "summary": "把解码拆成局部任务；缓冲条件和局部解码正确性同时满足时，整体满足所述纠错正确性。",
+      "lane": "decoder",
+      "kind": "framework",
+      "settings": {
+        "input": "分解的容错症状解码任务",
+        "assumptions": "每步满足buffering及local decoder soundness",
+        "cost": "局部并行与缓冲区域",
+        "error": "保证范围为错误权重<d/2等定理条件"
+      },
+      "evidence": [
+        "modular-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "alpha1-result",
+      "work_id": "alpha1",
+      "version_id": "alpha1-v1",
+      "label": "神经解码从真实噪声学习",
+      "summary": "循环Transformer在Sycamore数据上降低解码错误，并用模拟研究泄漏与模拟读出；高精度和实时吞吐仍是不同目标。",
+      "lane": "decoder",
+      "kind": "result",
+      "settings": {
+        "input": "d=3/5实验数据；更大码距为模拟",
+        "assumptions": "预训练、微调与独立交叉验证",
+        "cost": "训练需求显著；并非种子实时匹配解码器",
+        "error": "d=5 LER2.748(15)%；所比较TN2.915(16)%"
+      },
+      "evidence": [
+        "alpha1-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "harmony-result",
+      "work_id": "harmony",
+      "version_id": "harmony-v1",
+      "label": "集成多个扰动匹配解",
+      "summary": "harmonization扰动相关匹配的先验并合并候选，在指定重复码和表面码模型中接近最大似然准确率。",
+      "lane": "decoder",
+      "kind": "result",
+      "settings": {
+        "input": "匹配解码候选与症状图",
+        "assumptions": "结果依噪声先验及合并方式",
+        "cost": "多个解码器并行或重复运行",
+        "error": null
+      },
+      "evidence": [
+        "harmony-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "priors-result",
+      "work_id": "priors",
+      "version_id": "priors-v1",
+      "label": "用小传感码校准解码先验",
+      "summary": "利用小码逻辑结果优化大码的噪声先验，强化学习式搜索改善准确率；作者明确运行时间仍需改进。",
+      "lane": "decoder",
+      "kind": "result",
+      "settings": {
+        "input": "小sensor codes与大target code",
+        "assumptions": "传感码对目标区域噪声有代表性",
+        "cost": "校准采样及优化；未达实时持续运行",
+        "error": null
+      },
+      "evidence": [
+        "priors-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "synthesis-result",
+      "work_id": "synthesis",
+      "version_id": "synthesis-v1",
+      "label": "从候选中合成更好的局部解",
+      "summary": "Matching synthesis合成多个候选的局部优良部分；Libra在所测电路Pauli噪声模拟中提升抑错因子。",
+      "lane": "decoder",
+      "kind": "result",
+      "settings": {
+        "input": "相关匹配候选集合",
+        "assumptions": "文中CZ电路去极化及测量翻转模型",
+        "cost": "约60成员后准确率开始饱和",
+        "error": "所测模拟Λ约改善10%；非跨实验通用提升"
+      },
+      "evidence": [
+        "synthesis-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "seed-result",
+      "work_id": "seed",
+      "version_id": "seed-v1",
+      "label": "d=3→5→7实现低于阈值存储",
+      "summary": "同一实验方案中每增加2码距，逻辑错误约减半；d=7存储寿命超过其最佳物理比特。",
+      "lane": "experiment",
+      "kind": "result",
+      "settings": {
+        "input": "105比特处理器；101比特d=7码",
+        "assumptions": "分别制备X/Z存储；高精度离线解码；有限码距证据",
+        "cost": "49数据+48测量+4清泄漏比特；1.1μs周期",
+        "error": "ε7=0.143%±0.003%；Λ=2.14±0.02；寿命比2.4±0.3"
+      },
+      "evidence": [
+        "seed-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "correction-result",
+      "work_id": "correction",
+      "version_id": "correction-journal",
+      "label": "2026勘误：重复码图的标签",
+      "summary": "勘误将Fig.3a横轴改为重复码距离并修正两组点的图例；这条勘误未报告逻辑错误数值的改动。",
+      "lane": "noise",
+      "kind": "challenge",
+      "settings": {
+        "input": "种子论文期刊版Fig.3a",
+        "assumptions": "勘误针对期刊图示",
+        "cost": null,
+        "error": null
+      },
+      "evidence": [
+        "correction-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "stability-rt-result",
+      "work_id": "stability-rt",
+      "version_id": "stability-rt-v1",
+      "label": "开始计量包含控制的完整反应时间",
+      "summary": "8比特稳定性实验用实时解码驱动分支；9.6μs包含解码和通信控制，实验任务比完整量子存储简单。",
+      "lane": "logic",
+      "kind": "result",
+      "settings": {
+        "input": "8比特stability-8；9测量轮",
+        "assumptions": "仅ZZ稳定子；不是双基底表面码存储扩码",
+        "cost": "6.5μs解码+3.1μs通信控制",
+        "error": "完整反应时间9.6μs"
+      },
+      "evidence": [
+        "stability-rt-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "dynamic-result",
+      "work_id": "dynamic",
+      "version_id": "dynamic-v2",
+      "label": "动态电路改变硬件取舍",
+      "summary": "六角、行走及iSWAP三种表面码实现均展示d=3到5抑错，让电路时间结构参与硬件协同设计。",
+      "lane": "logic",
+      "kind": "extension",
+      "settings": {
+        "input": "三种动态表面码的存储实验",
+        "assumptions": "跨实现与标准码比较受硬件与校准条件影响",
+        "cost": "周期约1μs；连接和门需求因方案而异",
+        "error": "Λ35分别2.15(2)、1.69(6)、1.56(2)"
+      },
+      "evidence": [
+        "dynamic-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "color-result",
+      "work_id": "color",
+      "version_id": "color-v1",
+      "label": "彩色码把扩码与便宜逻辑放在一起",
+      "summary": "在超导处理器上扩码并演示横向Clifford和传态；部分魔法态结果依赖后选择，不能与无条件存储率混排。",
+      "lane": "competition",
+      "kind": "result",
+      "settings": {
+        "input": "d=3/5彩色码；逻辑操作",
+        "assumptions": "更复杂稳定子与解码；魔法态保留约75%",
+        "cost": "29周期存储；横向Clifford",
+        "error": "Λ=1.56(4)，ε5=0.0110(2)"
+      },
+      "evidence": [
+        "color-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "split-result",
+      "work_id": "split",
+      "version_id": "split-v1",
+      "label": "从存储走向码块分裂",
+      "summary": "把一个d=3表面码分成两个重复码，演示纠错支持的逻辑相关性；分裂后只对比特翻转容错。",
+      "lane": "logic",
+      "kind": "extension",
+      "settings": {
+        "input": "17比特；d=3表面码分裂为两重复码",
+        "assumptions": "相位翻转在分裂后不可检测；逻辑过程表征",
+        "cost": null,
+        "error": "解码ZZ相关性优于所比较未编码电路"
+      },
+      "evidence": [
+        "split-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "atom-architecture-result",
+      "work_id": "atom-architecture",
+      "version_id": "atom-architecture-v1",
+      "label": "中性原子将丢失信息用于扩码",
+      "summary": "可重排原子阵列在四轮表面码电路中用丢失感知解码获得扩码收益，并研究横向门、晶格手术与重置。",
+      "lane": "competition",
+      "kind": "result",
+      "settings": {
+        "input": "至448原子；d=3/5表面码",
+        "assumptions": "四轮characterization；所述扩码不作后选择",
+        "cost": "可重排连接；多区域和新辅助块",
+        "error": "四轮平均每轮错误改善2.14(13)倍"
+      },
+      "evidence": [
+        "atom-architecture-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "all-microwave-result",
+      "work_id": "all-microwave",
+      "version_id": "all-microwave-journal",
+      "label": "独立的全微波低于阈值实验（摘要证据）",
+      "summary": "官方摘要报告d=7表面码经全微波清泄漏后Λ>1；全文访问失败，细节与关系暂保留待核实。",
+      "lane": "noise",
+      "kind": "result",
+      "settings": {
+        "input": "d=7表面码",
+        "assumptions": "仅已读官方摘要；完整样本处理、解码和比较设置未提取",
+        "cost": null,
+        "error": "摘要Λ=1.40(6)；40轮泄漏人口6.4(5)×10^-4"
+      },
+      "evidence": [
+        "all-microwave-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "heavy-hex-result",
+      "work_id": "heavy-hex",
+      "version_id": "heavy-hex-journal",
+      "label": "非原生连接上只看到方向性扩码",
+      "summary": "heavy-hex用SWAP嵌入和动态解耦改善所扩方向的保护；期刊正文明确尚无一般态、基底无关的完整低阈值扩码证据。",
+      "lane": "experiment",
+      "kind": "challenge",
+      "settings": {
+        "input": "IBM Heron；(3,3)→(3,5)/(5,3)",
+        "assumptions": "非平稳与非Pauli噪声；SPAM需计入",
+        "cost": "37/65比特嵌入；至10完整周期",
+        "error": null
+      },
+      "evidence": [
+        "heavy-hex-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rl-control-result",
+      "work_id": "rl-control",
+      "version_id": "rl-control-v4",
+      "label": "用症状持续调控制，避免漂移",
+      "summary": "在Willow上用检测事件学习控制参数；只对d=7调优，作者因此不把更低错误率转写为新的Λ。",
+      "lane": "logic",
+      "kind": "result",
+      "settings": {
+        "input": "d=5/7表面码及d=5彩色码",
+        "assumptions": "注入漂移实验；持续计算和d=15扩展另由模拟支持",
+        "cost": "千余控制参数；解码先验共同调整另有实时限制",
+        "error": "稳定性改善2.4倍，含解码调节3.5倍；d7 LER7.72(9)×10^-4"
+      },
+      "evidence": [
+        "rl-control-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "aq2-result",
+      "work_id": "aq2",
+      "version_id": "aq2-v2",
+      "label": "高准确神经解码推进到实时吞吐",
+      "summary": "AQ2把更高准确率与速度分开配置；实时变体能跟上d=11表面码和d=9彩色码的目标吞吐。",
+      "lane": "decoder",
+      "kind": "result",
+      "settings": {
+        "input": "SI1000模拟及Willow公开数据",
+        "assumptions": "吞吐基准与实时硬件闭环不同；准确率随配置变化",
+        "cost": "Trillium TPU；每周期<1μs；延迟<500μs",
+        "error": "d11实时LER3.73×10^-6，完整模型1.89×10^-6（所测模拟）"
+      },
+      "evidence": [
+        "aq2-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "parallel-nn-result",
+      "work_id": "parallel-nn",
+      "version_id": "parallel-nn-v1",
+      "label": "并行神经窗口拓展吞吐尺度",
+      "summary": "自协调并行窗口在d≤7真实数据上检验准确率；d=25的亚微秒结论是加速器吞吐基准，不能当作已验证同尺度训练准确率。",
+      "lane": "decoder",
+      "kind": "result",
+      "settings": {
+        "input": "祖冲之3.2数据及TPU吞吐测试",
+        "assumptions": "准确率训练/实验至d=7；大码训练资源尚不足",
+        "cost": "单TPUv6e；d25为0.979(21)μs/轮",
+        "error": null
+      },
+      "evidence": [
+        "parallel-nn-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "burst-resilience-result",
+      "work_id": "burst-resilience",
+      "version_id": "burst-resilience-journal",
+      "label": "短突发模型可保留纠错阈值",
+      "summary": "理论模拟说明短暂、稀有的突发不必毁掉阈值；其单轮、均匀、时间可知模型不能直接解释种子中持续数百微秒的事件。",
+      "lane": "noise",
+      "kind": "extension",
+      "settings": {
+        "input": "旋转表面码与MWPM",
+        "assumptions": "突发限单轮、空间均匀；背景/电路去极化；解码器知发生时刻",
+        "cost": "Monte Carlo；可变码距",
+        "error": "存在背景阈值与突发阈值的分离；非硬件原因鉴定"
+      },
+      "evidence": [
+        "burst-resilience-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "fpga-result",
+      "work_id": "fpga",
+      "version_id": "fpga-v1",
+      "label": "d=3真实闭环与非Clifford反馈",
+      "summary": "FPGA神经解码与量子控制整合，实现确定的闭环时序并演示需要反馈的逻辑电路。",
+      "lane": "logic",
+      "kind": "result",
+      "settings": {
+        "input": "17比特d=3表面码",
+        "assumptions": "小码距演示；不提供随码距阈值证明",
+        "cost": "124ns解码核；184ns吞吐周期；550ns端到端反馈",
+        "error": "与离线MWPM的所测逻辑性能相近"
+      },
+      "evidence": [
+        "fpga-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "cayg-result",
+      "work_id": "cayg",
+      "version_id": "cayg-v2",
+      "label": "测量未完成就开始解码",
+      "summary": "CAYG在症状到达时即聚类；减少等待能在特定闲置噪声区间抵偿准确率和有效距离损失。",
+      "lane": "decoder",
+      "kind": "extension",
+      "settings": {
+        "input": "表面码现象学噪声模拟",
+        "assumptions": "显式解码等待噪声模型；不是纳秒级硬件预测",
+        "cost": "边测边聚类；簇寿命l=2的速度/准确率折中",
+        "error": null
+      },
+      "evidence": [
+        "cayg-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "modular-nn-result",
+      "work_id": "modular-nn",
+      "version_id": "modular-nn-v1",
+      "label": "把种子数据重解码，再迁移到逻辑实验",
+      "summary": "模块化图循环解码在种子Z基数据上接近AlphaQubit，并迁移至IBM稳定性和ZZ合并实验；单一相关量不等同完整逻辑门验证。",
+      "lane": "decoder",
+      "kind": "result",
+      "settings": {
+        "input": "IBM数据、种子公开数据和d=3 ZZ合并",
+        "assumptions": "Google部分比较限Z基；各逻辑约束可观测性须分别检查",
+        "cost": "单GPU可训练；未提取实时吞吐",
+        "error": null
+      },
+      "evidence": [
+        "modular-nn-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "ion-realtime-result",
+      "work_id": "ion-realtime",
+      "version_id": "ion-realtime-v1",
+      "label": "离子阱已展示实时逻辑修正",
+      "summary": "十比特QCCD用Steane彩色码反复测量症状，并实时更新Pauli帧或施加修正；码族和时标不同于超导表面码。",
+      "lane": "competition",
+      "kind": "result",
+      "settings": {
+        "input": "10离子；[[7,1,3]]码",
+        "assumptions": "实验单码尺寸；并非表面码扩码阈值",
+        "cost": "软件帧或物理修正",
+        "error": null
+      },
+      "evidence": [
+        "ion-realtime-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "gkp-result",
+      "work_id": "gkp",
+      "version_id": "gkp-v1",
+      "label": "玻色子编码先越过盈亏平衡",
+      "summary": "振荡器GKP逻辑比特在实时纠错下的相干增益超过最佳物理编码；这种收益指标不同于表面码码距抑错因子。",
+      "lane": "competition",
+      "kind": "result",
+      "settings": {
+        "input": "腔振荡器GKP网格态与transmon辅助",
+        "assumptions": "与同系统最佳被动编码比较",
+        "cost": "强化学习优化的实时稳定化",
+        "error": "相干增益G=2.27±0.07"
+      },
+      "evidence": [
+        "gkp-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "ions-better-result",
+      "work_id": "ions-better",
+      "version_id": "ions-better-v3",
+      "label": "低于物理错误依赖比较与选择条件",
+      "summary": "离子阱逻辑Bell电路优于物理基线；4.7倍与800倍对应不同前/后选择，不能作为同一无条件倍率。",
+      "lane": "competition",
+      "kind": "result",
+      "settings": {
+        "input": "Steane与[[12,2,4]]逻辑Bell实验",
+        "assumptions": "所比较指标为Bell相关性电路；前/后选择必须披露",
+        "cost": null,
+        "error": "Carbon实例4.7倍（仅前选）至800倍（加后选）"
+      },
+      "evidence": [
+        "ions-better-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "atoms-processor-result",
+      "work_id": "atoms-processor",
+      "version_id": "atoms-processor-v1",
+      "label": "多逻辑比特先走误差检测路线",
+      "summary": "可重排原子阵列实现多逻辑比特复杂电路，并用滑动后选择提高采样质量；该48逻辑比特演示不是长期反复纠错存储。",
+      "lane": "competition",
+      "kind": "result",
+      "settings": {
+        "input": "至48逻辑比特的[[8,3,2]]码采样电路",
+        "assumptions": "滑动误差检测/后选择；非无条件完整纠错",
+        "cost": "228逻辑双比特门与48CCZ；相应实验设置",
+        "error": "采样XEB随检测加强改善"
+      },
+      "evidence": [
+        "atoms-processor-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "yoked-result",
+      "work_id": "yoked",
+      "version_id": "yoked-v1",
+      "label": "保留近邻连接的低开销替代",
+      "summary": "以高密度奇偶校验把表面码再串接；报告在指定teraquop模型中提高逻辑密度，是架构模拟而非硬件演示。",
+      "lane": "competition",
+      "kind": "framework",
+      "settings": {
+        "input": "yoked表面码存储",
+        "assumptions": "近邻方格连接；物理错误10^-3",
+        "cost": "所述teraquop区间逻辑密度近三倍",
+        "error": null
+      },
+      "evidence": [
+        "yoked-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "bb-memory-result",
+      "work_id": "bb-memory",
+      "version_id": "bb-memory-v1",
+      "label": "用非平面高率码换取更低开销",
+      "summary": "双变量自行车码的电路模拟以较少物理比特存多个逻辑比特，代价包括与平面近邻表面码不同的连接条件。",
+      "lane": "competition",
+      "kind": "framework",
+      "settings": {
+        "input": "BB qLDPC码电路",
+        "assumptions": "所述随机电路噪声；非平面连接假设",
+        "cost": "例288物理比特存12逻辑比特（含检查辅助）",
+        "error": "p=10^-3示例逻辑错误<10^-7；非硬件观测"
+      },
+      "evidence": [
+        "bb-memory-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "qldpc-experiment-result",
+      "work_id": "qldpc-experiment",
+      "version_id": "qldpc-experiment-v2",
+      "label": "高率码走到盈亏平衡，但有泄漏后选择",
+      "summary": "离子阱用多类高率码存储，部分寿命与物理比特相近或稍长；泄漏剔除和辅助资源须计入。",
+      "lane": "competition",
+      "kind": "result",
+      "settings": {
+        "input": "40离子链；含BB[[18,4,3]]等九种码",
+        "assumptions": "泄漏检测后剔除；不同码周期与寿命拟合条件不同",
+        "cost": "[[18,4,3]]另用14辅助；周期42.18ms",
+        "error": "高负担BB[[30,4,5]]六周期拒绝率74.8%"
+      },
+      "evidence": [
+        "qldpc-experiment-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "logical-cliffords-result",
+      "work_id": "logical-cliffords",
+      "version_id": "logical-cliffords-v1",
+      "label": "距离3表面码组合出完整Clifford生成集",
+      "summary": "在107比特处理器上以重复症状测量、神经解码和全部样本实现路由、CNOT、H和S；尚未实测逻辑门随码距扩大的抑错。",
+      "lane": "logic",
+      "kind": "result",
+      "settings": {
+        "input": "d=3 XZZX逻辑块；两逻辑比特CNOT",
+        "assumptions": "不后选择；过程层析含SPAM；帧更新不等同已验证端到端实时反馈",
+        "cost": "CNOT用65活动比特、六轮；每电路10万样本",
+        "error": "CNOT平均门保真度0.643(2)；S为0.846(1)；括号为95%置信区间半宽"
+      },
+      "evidence": [
+        "logical-cliffords-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "lattice-processor-result",
+      "work_id": "lattice-processor",
+      "version_id": "lattice-processor-v1",
+      "label": "两个完整表面码的格点手术，保留条件需分层",
+      "summary": "在两个距离3表面码之间制备Bell态、运行小算法并实现条件非Clifford转角；泄漏剔除、检测后选择和转角符号选择是不同条件。",
+      "lane": "logic",
+      "kind": "result",
+      "settings": {
+        "input": "125比特处理器的两个17比特d=3块，加7连接比特",
+        "assumptions": "泄漏先剔除；Rx转角选择MXX=+1，未实时反馈；不证明随码距扩大的门抑错",
+        "cost": "Bell分析先保留17.6%，检测无错子集约0.5%",
+        "error": "解码Bell保真度下界0.532(1)；0.943的Rx(π/4)为条件过程保真度"
+      },
+      "evidence": [
+        "lattice-processor-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "cultivation-experiment-result",
+      "work_id": "cultivation-experiment",
+      "version_id": "cultivation-experiment-v1",
+      "label": "魔法态培育开始实验检验，并嫁接到表面码",
+      "summary": "距离3彩色码中培育魔法态，以kickback层析给出误差上界，并演示嫁接到距离5表面码；后选择收益与嫁接后存储误差分别核对。",
+      "lane": "logic",
+      "kind": "result",
+      "settings": {
+        "input": "Willow处理器；d=3彩色码培育后进入d=5嫁接码",
+        "assumptions": "无检测事件后选择；层析是态误差上界；不将嫁接后状态宣称同样1e-4",
+        "cost": "1e-4上界测量约保留8%数据；完整KT电路216双比特门、54测量",
+        "error": "KT上界1(1)×10^-4，较注入约40倍改善；嫁接空闲误差侵蚀精度"
+      },
+      "evidence": [
+        "cultivation-experiment-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "lattice-surgery-result",
+      "work_id": "lattice-surgery",
+      "version_id": "lattice-surgery-v3",
+      "label": "用合并与分裂维持二维近邻逻辑操作",
+      "summary": "格点手术以联合边界测量和分裂实现逻辑耦合，给出保持码距的CNOT构造与注入方案，为后续块间操作提供理论路线。",
+      "lane": "theory",
+      "kind": "framework",
+      "settings": {
+        "input": "二维近邻平面表面码",
+        "assumptions": "构造依重复d轮纠错和条件帧定义；非硬件演示",
+        "cost": "距离3 CNOT示例33数据+20症状比特",
+        "error": null
+      },
+      "evidence": [
+        "lattice-surgery-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "cultivation-theory-result",
+      "work_id": "cultivation-theory",
+      "version_id": "cultivation-theory-v1",
+      "label": "培育与逃逸构造给出有条件的低开销路线",
+      "summary": "通过小码中的错误检测、逐步扩码及嫁接逃逸降低魔法态成本；结果依噪声和模拟外推，v1还明确披露未修正的符号问题。",
+      "lane": "logic",
+      "kind": "framework",
+      "settings": {
+        "input": "均匀去极化电路噪声的培育/逃逸模拟",
+        "assumptions": "早期全部后选择；高距离T误差约2倍S误差外推；v1 §2.6符号勘误限制",
+        "cost": "假定快速反馈<1μs、逃逸解码10μs；失败重试成本须计入",
+        "error": null
+      },
+      "evidence": [
+        "cultivation-theory-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "seed-realtime",
+      "work_id": "seed",
+      "version_id": "seed-v1",
+      "label": "d=5实时吞吐，尚未包含反馈",
+      "summary": "流式匹配解码能持续处理一百万周期；端点平均延迟保持近常数，原文明确尚未包括反馈至逻辑电路。",
+      "lane": "decoder",
+      "kind": "result",
+      "settings": {
+        "input": "72比特处理器d=5表面码",
+        "assumptions": "流式相关匹配；与同数据离线NN分别比较",
+        "cost": "1.1μs周期；端点延迟63±17μs；至10^6周期",
+        "error": "实时ε5=0.35%±0.01%，Λ=2.0±0.1"
+      },
+      "evidence": [
+        "seed-realtime-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "seed-bursts",
+      "work_id": "seed",
+      "version_id": "seed-v1",
+      "label": "重复码探测到罕见相关突发",
+      "summary": "d=29重复码长时间运行揭示约每小时一次的大突发；推断的约10^-10底限属于重复码，事件原因在v1尚未确定。",
+      "lane": "noise",
+      "kind": "result",
+      "settings": {
+        "input": "72比特处理器；d=29重复码分别保护比特/相位翻转",
+        "assumptions": "从高码距数据子采样；稀有事件统计；非完整二维码",
+        "cost": "2×10^10纠错周期；5.5小时；6次大突发",
+        "error": "d≥15偏离指数标度；约10^-10表观错误底限"
+      },
+      "evidence": [
+        "seed-bursts-evidence"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "shor-evidence",
+      "work_id": "shor",
+      "version_id": "shor-journal",
+      "url": "https://doi.org/10.1103/PhysRevA.52.R2493",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "在独立退相干条件下提出量子纠错编码，建立用多比特保护量子存储的出发点。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "stabilizer-evidence",
+      "work_id": "stabilizer",
+      "version_id": "stabilizer-v1",
+      "url": "https://arxiv.org/pdf/quant-ph/9705052v1",
+      "locator": "§3.2, PDF p.26",
+      "kind": "full_text",
+      "summary": "用 Pauli 群的交换子群及其共同不变子空间描述编码，使测量稳定子与逻辑信息保护可以系统化。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "anyons-evidence",
+      "work_id": "anyons",
+      "version_id": "anyons-v1",
+      "url": "https://arxiv.org/pdf/quant-ph/9707021v1",
+      "locator": "Introduction; §1–2, PDF pp.1–4",
+      "kind": "full_text",
+      "summary": "以二维格点模型和任意子激发解释拓扑保护；本图只取其编码思想，不把被动物理保护等同于后来的主动表面码实验。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "dennis-evidence",
+      "work_id": "dennis",
+      "version_id": "dennis-v1",
+      "url": "https://arxiv.org/pdf/quant-ph/0110143v1",
+      "locator": "Introduction; §V Eq.(62)–(64)",
+      "kind": "full_text",
+      "summary": "把反复症状测量的历史联系到统计力学模型，并在指定随机噪声条件下证明失败率可随线性码尺寸指数下降。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "fowler-evidence",
+      "work_id": "fowler",
+      "version_id": "fowler-v2",
+      "url": "https://arxiv.org/pdf/1208.0928v2",
+      "locator": "§VII / Fig.4; Eq.(10)–(11), PDF pp.11–12",
+      "kind": "full_text",
+      "summary": "在明确的电路噪声模型下模拟扩码，并给出逻辑错误对物理错误和码距的经验标度；0.57% 是该实现的每步阈值。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "terhal-evidence",
+      "work_id": "terhal",
+      "version_id": "terhal-v7",
+      "url": "https://arxiv.org/pdf/1302.3428v7",
+      "locator": "Contents; §II.G.3 pp.22–23; §III",
+      "kind": "full_text",
+      "summary": "综述稳定子、拓扑存储及逻辑门；指出通用运算中症状处理若长期慢于生成，可能造成指数积压。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "roffe-evidence",
+      "work_id": "roffe",
+      "version_id": "roffe-v1",
+      "url": "https://arxiv.org/pdf/1907.11157v1",
+      "locator": "§6.2–6.4, PDF pp.20–21",
+      "kind": "full_text",
+      "summary": "区分理想症状测量与含噪症状提取，并说明重复测量和容错逻辑的额外要求。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "kelly-evidence",
+      "work_id": "kelly",
+      "version_id": "kelly-v1",
+      "url": "https://arxiv.org/pdf/1411.7403v1",
+      "locator": "Fig.4 and main text, PDF p.3",
+      "kind": "full_text",
+      "summary": "在一维超导重复码中随系统扩大降低比特翻转失败，提供二维表面码的实验前驱；没有同时保护任意量子态。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "andersen-evidence",
+      "work_id": "andersen",
+      "version_id": "andersen-v1",
+      "url": "https://arxiv.org/html/1912.09410v1",
+      "locator": "Results Fig.5; Discussion",
+      "kind": "full_text",
+      "summary": "7 比特、距离2表面码反复检测错误；无检出事件条件下延长寿命与相干时间，保留率随周期下降。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "chen-evidence",
+      "work_id": "chen",
+      "version_id": "chen-v1",
+      "url": "https://arxiv.org/html/2102.06132v1",
+      "locator": "Main text; Figs.1–4",
+      "kind": "full_text",
+      "summary": "以一维重复码分别保护比特或相位翻转，扩到21比特并在50轮中维持抑错，检验误差的时空相关性。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "krinner-evidence",
+      "work_id": "krinner",
+      "version_id": "krinner-v1",
+      "url": "https://arxiv.org/pdf/2112.03708v1",
+      "locator": "Main text; Appendix C Leakage Detection",
+      "kind": "full_text",
+      "summary": "距离3表面码反复测量并在后处理中纠正两类错误；报告的低错误率依赖检测泄漏后的样本剔除。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "zhao-evidence",
+      "work_id": "zhao",
+      "version_id": "zhao-v1",
+      "url": "https://arxiv.org/pdf/2112.13505v1",
+      "locator": "Introduction, PDF p.1",
+      "kind": "full_text",
+      "summary": "祖冲之2.1上实现17比特重复纠错；后处理使逻辑错误降低约20%，超物理寿命另依赖无错后选择。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "sycamore-evidence",
+      "work_id": "sycamore",
+      "version_id": "sycamore-v1",
+      "url": "https://arxiv.org/html/2207.06431v1",
+      "locator": "Fig.4; Outlook crossover discussion",
+      "kind": "full_text",
+      "summary": "d=5略优于d=3；全文模拟指出有限尺寸交叉区可能在更大码距转差，不能仅凭两种码距认定渐近低于阈值。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "xzzx-evidence",
+      "work_id": "xzzx",
+      "version_id": "xzzx-v1",
+      "url": "https://arxiv.org/html/2009.07851v1",
+      "locator": "§IV–V; Fig.4–5",
+      "kind": "full_text",
+      "summary": "XZZX稳定子在偏置噪声下改变可解码结构与资源要求；理想测量、现象学及电路噪声结果必须区分。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "miao-evidence",
+      "work_id": "miao",
+      "version_id": "miao-v1",
+      "url": "https://arxiv.org/html/2211.04728v1",
+      "locator": "Figs.3–5; main text paragraphs on DQLR",
+      "kind": "full_text",
+      "summary": "DQLR把数据比特泄漏转移到测量比特再重置，稳定泄漏人口并减少跨周期相关错误；单轮内传播仍有限制。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "microwave-lru-evidence",
+      "work_id": "microwave-lru",
+      "version_id": "microwave-lru-v1",
+      "url": "https://arxiv.org/html/2302.09876v1",
+      "locator": "Main text Fig.4 and conclusion",
+      "kind": "full_text",
+      "summary": "用微波驱动经读出谐振器将泄漏态送回计算空间，在重复稳定子测量中降低稳态泄漏；是器件模块而非完整阈值实验。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "gap-engineering-evidence",
+      "work_id": "gap-engineering",
+      "version_id": "gap-engineering-v1",
+      "url": "https://arxiv.org/html/2402.15644v1",
+      "locator": "§II; §IV Summary and Conclusion",
+      "kind": "full_text",
+      "summary": "接面能隙工程使强保护比特在已检测撞击事件中仍符合独立误差模型；不解决撞击引发的TLS重排。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "sparse-evidence",
+      "work_id": "sparse",
+      "version_id": "sparse-v1",
+      "url": "https://arxiv.org/html/2303.15933v1",
+      "locator": "Runtime benchmarks; Discussion",
+      "kind": "full_text",
+      "summary": "Sparse Blossom直接在稀疏检测图上执行匹配；模拟基准中单核可跟上快超导周期，不等于已集成硬件反馈。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "parallel-window-evidence",
+      "work_id": "parallel-window",
+      "version_id": "parallel-window-v1",
+      "url": "https://arxiv.org/html/2209.08552v1",
+      "locator": "Introduction; Parallel window decoding; slowdown discussion",
+      "kind": "full_text",
+      "summary": "并行窗口提高吞吐，把部分反馈决策延迟；减少积压所需的经典并行资源与逻辑反应时间应共同计算。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "modular-evidence",
+      "work_id": "modular",
+      "version_id": "modular-v1",
+      "url": "https://arxiv.org/html/2303.04846v1",
+      "locator": "Definition1; Theorem1; buffering discussion",
+      "kind": "full_text",
+      "summary": "把解码拆成局部任务；缓冲条件和局部解码正确性同时满足时，整体满足所述纠错正确性。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "alpha1-evidence",
+      "work_id": "alpha1",
+      "version_id": "alpha1-v1",
+      "url": "https://arxiv.org/html/2310.05900v1",
+      "locator": "§2.2–2.3; Fig.2",
+      "kind": "full_text",
+      "summary": "循环Transformer在Sycamore数据上降低解码错误，并用模拟研究泄漏与模拟读出；高精度和实时吞吐仍是不同目标。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "harmony-evidence",
+      "work_id": "harmony",
+      "version_id": "harmony-v1",
+      "url": "https://arxiv.org/html/2401.12434v1",
+      "locator": "§III.1–2; §IV",
+      "kind": "full_text",
+      "summary": "harmonization扰动相关匹配的先验并合并候选，在指定重复码和表面码模型中接近最大似然准确率。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "priors-evidence",
+      "work_id": "priors",
+      "version_id": "priors-v1",
+      "url": "https://arxiv.org/html/2406.02700v1",
+      "locator": "§I; §V Conclusion",
+      "kind": "full_text",
+      "summary": "利用小码逻辑结果优化大码的噪声先验，强化学习式搜索改善准确率；作者明确运行时间仍需改进。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "synthesis-evidence",
+      "work_id": "synthesis",
+      "version_id": "synthesis-v1",
+      "url": "https://arxiv.org/html/2408.12135v1",
+      "locator": "§III–V; Fig.4–9",
+      "kind": "full_text",
+      "summary": "Matching synthesis合成多个候选的局部优良部分；Libra在所测电路Pauli噪声模拟中提升抑错因子。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "seed-evidence",
+      "work_id": "seed",
+      "version_id": "seed-v1",
+      "url": "https://arxiv.org/html/2408.13687v1",
+      "locator": "§II; Fig.1",
+      "kind": "full_text",
+      "summary": "同一实验方案中每增加2码距，逻辑错误约减半；d=7存储寿命超过其最佳物理比特。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "correction-evidence",
+      "work_id": "correction",
+      "version_id": "correction-journal",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13171424/",
+      "locator": "Correction paragraph (PMC line88)",
+      "kind": "full_text",
+      "summary": "勘误将Fig.3a横轴改为重复码距离并修正两组点的图例；这条勘误未报告逻辑错误数值的改动。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "stability-rt-evidence",
+      "work_id": "stability-rt",
+      "version_id": "stability-rt-v1",
+      "url": "https://arxiv.org/html/2410.05202v1",
+      "locator": "Main text; fast-feedback experiment",
+      "kind": "full_text",
+      "summary": "8比特稳定性实验用实时解码驱动分支；9.6μs包含解码和通信控制，实验任务比完整量子存储简单。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "dynamic-evidence",
+      "work_id": "dynamic",
+      "version_id": "dynamic-v2",
+      "url": "https://arxiv.org/html/2412.14360v2",
+      "locator": "Main text; scaling; TableF.9",
+      "kind": "full_text",
+      "summary": "六角、行走及iSWAP三种表面码实现均展示d=3到5抑错，让电路时间结构参与硬件协同设计。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "color-evidence",
+      "work_id": "color",
+      "version_id": "color-v1",
+      "url": "https://arxiv.org/html/2412.14256v1",
+      "locator": "§III–VII; AppendixF",
+      "kind": "full_text",
+      "summary": "在超导处理器上扩码并演示横向Clifford和传态；部分魔法态结果依赖后选择，不能与无条件存储率混排。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "split-evidence",
+      "work_id": "split",
+      "version_id": "split-v1",
+      "url": "https://arxiv.org/html/2501.04612v1",
+      "locator": "Main text; Discussion; Fig.4",
+      "kind": "full_text",
+      "summary": "把一个d=3表面码分成两个重复码，演示纠错支持的逻辑相关性；分裂后只对比特翻转容错。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "atom-architecture-evidence",
+      "work_id": "atom-architecture",
+      "version_id": "atom-architecture-v1",
+      "url": "https://arxiv.org/html/2506.20661v1",
+      "locator": "Below-threshold performance; Fig.2d",
+      "kind": "full_text",
+      "summary": "可重排原子阵列在四轮表面码电路中用丢失感知解码获得扩码收益，并研究横向门、晶格手术与重置。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "all-microwave-evidence",
+      "work_id": "all-microwave",
+      "version_id": "all-microwave-journal",
+      "url": "https://journals.aps.org/prl/abstract/10.1103/rqkg-dw31",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "官方摘要报告d=7表面码经全微波清泄漏后Λ>1；全文访问失败，细节与关系暂保留待核实。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "heavy-hex-evidence",
+      "work_id": "heavy-hex",
+      "version_id": "heavy-hex-journal",
+      "url": "https://www.nature.com/articles/s41467-026-76090-6",
+      "locator": "Main; Discussion; Fig.1",
+      "kind": "full_text",
+      "summary": "heavy-hex用SWAP嵌入和动态解耦改善所扩方向的保护；期刊正文明确尚无一般态、基底无关的完整低阈值扩码证据。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "rl-control-evidence",
+      "work_id": "rl-control",
+      "version_id": "rl-control-v4",
+      "url": "https://arxiv.org/html/2511.08493v4",
+      "locator": "Main text; Supplement S7; Tables4–5",
+      "kind": "full_text",
+      "summary": "在Willow上用检测事件学习控制参数；只对d=7调优，作者因此不把更低错误率转写为新的Λ。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "aq2-evidence",
+      "work_id": "aq2",
+      "version_id": "aq2-v2",
+      "url": "https://arxiv.org/html/2512.07737v2",
+      "locator": "§4; Fig.4; Methods latency",
+      "kind": "full_text",
+      "summary": "AQ2把更高准确率与速度分开配置；实时变体能跟上d=11表面码和d=9彩色码的目标吞吐。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "parallel-nn-evidence",
+      "work_id": "parallel-nn",
+      "version_id": "parallel-nn-v1",
+      "url": "https://arxiv.org/html/2601.09921v1",
+      "locator": "§4.2–4.3; Table4",
+      "kind": "full_text",
+      "summary": "自协调并行窗口在d≤7真实数据上检验准确率；d=25的亚微秒结论是加速器吞吐基准，不能当作已验证同尺度训练准确率。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "burst-resilience-evidence",
+      "work_id": "burst-resilience",
+      "version_id": "burst-resilience-journal",
+      "url": "https://preskill.caltech.edu/pubs/preskill-2026-resilience.pdf",
+      "locator": "§II.A; §III; §IV",
+      "kind": "full_text",
+      "summary": "理论模拟说明短暂、稀有的突发不必毁掉阈值；其单轮、均匀、时间可知模型不能直接解释种子中持续数百微秒的事件。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "fpga-evidence",
+      "work_id": "fpga",
+      "version_id": "fpga-v1",
+      "url": "https://arxiv.org/html/2605.04892v1",
+      "locator": "§II–V; Table1; Fig.3",
+      "kind": "full_text",
+      "summary": "FPGA神经解码与量子控制整合，实现确定的闭环时序并演示需要反馈的逻辑电路。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "cayg-evidence",
+      "work_id": "cayg",
+      "version_id": "cayg-v2",
+      "url": "https://arxiv.org/html/2609.15612v2",
+      "locator": "§5–6; AppendixA",
+      "kind": "full_text",
+      "summary": "CAYG在症状到达时即聚类；减少等待能在特定闲置噪声区间抵偿准确率和有效距离损失。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "modular-nn-evidence",
+      "work_id": "modular-nn",
+      "version_id": "modular-nn-v1",
+      "url": "https://arxiv.org/html/2610.03869v1",
+      "locator": "§I; §II.2; §IV.1.2 and IV.3",
+      "kind": "full_text",
+      "summary": "模块化图循环解码在种子Z基数据上接近AlphaQubit，并迁移至IBM稳定性和ZZ合并实验；单一相关量不等同完整逻辑门验证。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "ion-realtime-evidence",
+      "work_id": "ion-realtime",
+      "version_id": "ion-realtime-v1",
+      "url": "https://arxiv.org/html/2107.07505v1",
+      "locator": "§II.1.4; §II.2; Fig.9",
+      "kind": "full_text",
+      "summary": "十比特QCCD用Steane彩色码反复测量症状，并实时更新Pauli帧或施加修正；码族和时标不同于超导表面码。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "gkp-evidence",
+      "work_id": "gkp",
+      "version_id": "gkp-v1",
+      "url": "https://arxiv.org/html/2211.09116v1",
+      "locator": "Main text; metric definition; Fig.3",
+      "kind": "full_text",
+      "summary": "振荡器GKP逻辑比特在实时纠错下的相干增益超过最佳物理编码；这种收益指标不同于表面码码距抑错因子。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "ions-better-evidence",
+      "work_id": "ions-better",
+      "version_id": "ions-better-v3",
+      "url": "https://arxiv.org/html/2404.02280v3",
+      "locator": "Main text; Table2; Discussion",
+      "kind": "full_text",
+      "summary": "离子阱逻辑Bell电路优于物理基线；4.7倍与800倍对应不同前/后选择，不能作为同一无条件倍率。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "atoms-processor-evidence",
+      "work_id": "atoms-processor",
+      "version_id": "atoms-processor-v1",
+      "url": "https://arxiv.org/html/2312.03982v1",
+      "locator": "Main text Fig.5; Methods sliding-scale detection",
+      "kind": "full_text",
+      "summary": "可重排原子阵列实现多逻辑比特复杂电路，并用滑动后选择提高采样质量；该48逻辑比特演示不是长期反复纠错存储。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "yoked-evidence",
+      "work_id": "yoked",
+      "version_id": "yoked-v1",
+      "url": "https://arxiv.org/html/2312.04522v1",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "以高密度奇偶校验把表面码再串接；报告在指定teraquop模型中提高逻辑密度，是架构模拟而非硬件演示。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "bb-memory-evidence",
+      "work_id": "bb-memory",
+      "version_id": "bb-memory-v1",
+      "url": "https://arxiv.org/html/2308.07915v1",
+      "locator": "Table1; resource example following Table1",
+      "kind": "full_text",
+      "summary": "双变量自行车码的电路模拟以较少物理比特存多个逻辑比特，代价包括与平面近邻表面码不同的连接条件。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "qldpc-experiment-evidence",
+      "work_id": "qldpc-experiment",
+      "version_id": "qldpc-experiment-v2",
+      "url": "https://arxiv.org/html/2606.06455v2",
+      "locator": "§IV; Tables1–2; AppendixF/H",
+      "kind": "full_text",
+      "summary": "离子阱用多类高率码存储，部分寿命与物理比特相近或稍长；泄漏剔除和辅助资源须计入。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "logical-cliffords-evidence",
+      "work_id": "logical-cliffords",
+      "version_id": "logical-cliffords-v1",
+      "url": "https://arxiv.org/html/2607.01473v1",
+      "locator": "主文Figs3–5; Discussion; AppendixA/E.1/K",
+      "kind": "full_text",
+      "summary": "在107比特处理器上以重复症状测量、神经解码和全部样本实现路由、CNOT、H和S；尚未实测逻辑门随码距扩大的抑错。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "lattice-processor-evidence",
+      "work_id": "lattice-processor",
+      "version_id": "lattice-processor-v1",
+      "url": "https://arxiv.org/html/2606.06598v1",
+      "locator": "§II–V; Figs1–4; SI S2/S4",
+      "kind": "full_text",
+      "summary": "在两个距离3表面码之间制备Bell态、运行小算法并实现条件非Clifford转角；泄漏剔除、检测后选择和转角符号选择是不同条件。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "cultivation-experiment-evidence",
+      "work_id": "cultivation-experiment",
+      "version_id": "cultivation-experiment-v1",
+      "url": "https://arxiv.org/html/2512.13908v1",
+      "locator": "§I–III; Figs2–4; SI XIII–XIV",
+      "kind": "full_text",
+      "summary": "距离3彩色码中培育魔法态，以kickback层析给出误差上界，并演示嫁接到距离5表面码；后选择收益与嫁接后存储误差分别核对。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "lattice-surgery-evidence",
+      "work_id": "lattice-surgery",
+      "version_id": "lattice-surgery-v3",
+      "url": "https://arxiv.org/pdf/1111.4022v3",
+      "locator": "§§3–4; §7.3/Fig18",
+      "kind": "full_text",
+      "summary": "格点手术以联合边界测量和分裂实现逻辑耦合，给出保持码距的CNOT构造与注入方案，为后续块间操作提供理论路线。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "cultivation-theory-evidence",
+      "work_id": "cultivation-theory",
+      "version_id": "cultivation-theory-v1",
+      "url": "https://arxiv.org/pdf/2409.17595v1",
+      "locator": "PDF §§2.5–2.6,3.2; Fig2; HTML内页日期异常，采用PDF版本戳",
+      "kind": "full_text",
+      "summary": "通过小码中的错误检测、逐步扩码及嫁接逃逸降低魔法态成本；结果依噪声和模拟外推，v1还明确披露未修正的符号问题。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "seed-realtime-evidence",
+      "work_id": "seed",
+      "version_id": "seed-v1",
+      "url": "https://arxiv.org/html/2408.13687v1",
+      "locator": "§V; Fig.4",
+      "kind": "full_text",
+      "summary": "流式匹配解码能持续处理一百万周期；端点平均延迟保持近常数，原文明确尚未包括反馈至逻辑电路。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "seed-bursts-evidence",
+      "work_id": "seed",
+      "version_id": "seed-v1",
+      "url": "https://arxiv.org/html/2408.13687v1",
+      "locator": "§IV; Fig.3",
+      "kind": "full_text",
+      "summary": "d=29重复码长时间运行揭示约每小时一次的大突发；推断的约10^-10底限属于重复码，事件原因在v1尚未确定。",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "seed-tech-evidence",
+      "work_id": "seed",
+      "version_id": "seed-v1",
+      "url": "https://arxiv.org/html/2408.13687v1",
+      "locator": "§II，ZXXZ、DQLR及解码方法段；§III，DQLR开关对照；References20,27–33",
+      "kind": "full_text",
+      "summary": "种子明确引用此前操作方法、ZXXZ变体、逐轮DQLR、循环神经网络、谐调集成相关匹配、匹配合成和图权重优化，并比较关闭与开启DQLR的表现。",
+      "checked": "2026-10-17"
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel-001",
+      "source": "shor-result",
+      "target": "stabilizer-result",
+      "type": "generalizes",
+      "summary": "稳定子形式化包含九比特码并扩展到一类编码；依据§3.2。",
+      "evidence": [
+        "stabilizer-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-002",
+      "source": "stabilizer-result",
+      "target": "anyons-result",
+      "type": "addresses",
+      "summary": "把编码保护问题放到二维格点与拓扑结构中；编辑性历史连接。",
+      "evidence": [
+        "anyons-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-003",
+      "source": "anyons-result",
+      "target": "dennis-result",
+      "type": "addresses",
+      "summary": "Dennis等明确以此前表面码为基础研究局域门与含噪症状下的主动存储阈值。",
+      "evidence": [
+        "dennis-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-004",
+      "source": "dennis-result",
+      "target": "fowler-result",
+      "type": "addresses",
+      "summary": "把局域表面码阈值思想转为具体症状电路和经验资源标度；不是同噪声条件下的界改善。",
+      "evidence": [
+        "fowler-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-005",
+      "source": "dennis-result",
+      "target": "terhal-result",
+      "type": "surveys",
+      "summary": "综述III.A/B整理拓扑存储及其纠错。",
+      "evidence": [
+        "terhal-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-006",
+      "source": "fowler-result",
+      "target": "roffe-result",
+      "type": "surveys",
+      "summary": "教程以表面码说明含噪提取与阈值，并区分模型。",
+      "evidence": [
+        "roffe-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-007",
+      "source": "kelly-result",
+      "target": "chen-result",
+      "type": "addresses",
+      "summary": "从重复比特翻转检测走向分别对比特/相位翻转的多轮指数抑错。",
+      "evidence": [
+        "chen-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-008",
+      "source": "andersen-result",
+      "target": "krinner-result",
+      "type": "addresses",
+      "summary": "从距离2检测推进到距离3可辨认并纠正单错误。",
+      "evidence": [
+        "krinner-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-009",
+      "source": "krinner-result",
+      "target": "zhao-result",
+      "type": "independent_parallel",
+      "summary": "两个团队在2021年12月预印本中展示重复距离3纠错；这里不判定实验优先权。",
+      "evidence": [
+        "krinner-evidence",
+        "zhao-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-010",
+      "source": "chen-result",
+      "target": "sycamore-result",
+      "type": "addresses",
+      "summary": "完整表面码的扩码比较补足一维重复码只保护一类错误的限制。",
+      "evidence": [
+        "sycamore-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-011",
+      "source": "sycamore-result",
+      "target": "seed-result",
+      "type": "uses_result",
+      "summary": "种子§II沿用先前表面码操作方法，并直接比较其逻辑表现。",
+      "evidence": [
+        "seed-tech-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-012",
+      "source": "xzzx-result",
+      "target": "seed-result",
+      "type": "uses_result",
+      "summary": "种子§II的ZXXZ码及其操作引用该表面码变体。",
+      "evidence": [
+        "seed-tech-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-013",
+      "source": "miao-result",
+      "target": "seed-result",
+      "type": "uses_result",
+      "summary": "种子§II逐轮执行DQLR，并在§III比较关闭/开启效果。",
+      "evidence": [
+        "seed-tech-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-014",
+      "source": "alpha1-result",
+      "target": "seed-result",
+      "type": "uses_result",
+      "summary": "种子§II采用循环神经网络进行高准确离线解码。",
+      "evidence": [
+        "seed-tech-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-015",
+      "source": "harmony-result",
+      "target": "seed-result",
+      "type": "uses_result",
+      "summary": "种子§II采用谐调集成相关匹配。",
+      "evidence": [
+        "seed-tech-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-016",
+      "source": "synthesis-result",
+      "target": "seed-result",
+      "type": "uses_result",
+      "summary": "种子§II把匹配合成加入集成解码。",
+      "evidence": [
+        "seed-tech-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-017",
+      "source": "priors-result",
+      "target": "seed-result",
+      "type": "uses_result",
+      "summary": "种子§II用强化学习式优化校准匹配图权重。",
+      "evidence": [
+        "seed-tech-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-018",
+      "source": "gap-engineering-result",
+      "target": "seed-bursts",
+      "type": "uses_result",
+      "summary": "种子§IV将此前高能撞击失效的缓解归因于能隙工程；未称其解释了剩余所有突发。",
+      "evidence": [
+        "seed-bursts-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-019",
+      "source": "chen-result",
+      "target": "seed-bursts",
+      "type": "uses_result",
+      "summary": "种子§IV沿用重复码子采样方法检验低错误区间。",
+      "evidence": [
+        "seed-bursts-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-020",
+      "source": "sparse-result",
+      "target": "seed-realtime",
+      "type": "uses_result",
+      "summary": "种子§V使用专门优化的Sparse Blossom实现实时解码。",
+      "evidence": [
+        "seed-realtime-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-021",
+      "source": "parallel-window-result",
+      "target": "seed-realtime",
+      "type": "cites",
+      "summary": "种子§V引用时间窗口并行思想作为流式实现的背景；引用本身不证明采用该论文的特定实现。",
+      "evidence": [
+        "seed-realtime-evidence"
+      ],
+      "basis": "citation_only",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-022",
+      "source": "modular-result",
+      "target": "seed-realtime",
+      "type": "cites",
+      "summary": "种子§V把模块化解码列为可并行实时解码参考。",
+      "evidence": [
+        "seed-realtime-evidence"
+      ],
+      "basis": "citation_only",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-023",
+      "source": "terhal-result",
+      "target": "seed-realtime",
+      "type": "addresses",
+      "summary": "种子§I/V明确以症状积压要求说明实时吞吐的必要性。",
+      "evidence": [
+        "seed-realtime-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-024",
+      "source": "seed-bursts",
+      "target": "correction-result",
+      "type": "addresses",
+      "summary": "正式勘误把重复码Fig.3a误写的轴与图例更正。",
+      "evidence": [
+        "correction-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-025",
+      "source": "seed-bursts",
+      "target": "burst-resilience-result",
+      "type": "addresses",
+      "summary": "2026期刊版讨论缓解后短突发模型与近期器件特征的联系；模型仍比实测突发理想化。",
+      "evidence": [
+        "burst-resilience-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-026",
+      "source": "seed-result",
+      "target": "dynamic-result",
+      "type": "addresses",
+      "summary": "目标工作比较三种动态实现与种子的标准表面码，探索连接和门设计取舍。",
+      "evidence": [
+        "dynamic-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-027",
+      "source": "seed-result",
+      "target": "color-result",
+      "type": "addresses",
+      "summary": "目标工作在同类处理器上转向更高效逻辑，正文直接比较表面码的存储抑错。",
+      "evidence": [
+        "color-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-028",
+      "source": "seed-result",
+      "target": "all-microwave-result",
+      "type": "independent_parallel",
+      "summary": "独立团队以全微波清泄漏报告同一扩码目标；仅摘要可读，不建立技术继承。",
+      "evidence": [
+        "all-microwave-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-029",
+      "source": "microwave-lru-result",
+      "target": "all-microwave-result",
+      "type": "addresses",
+      "summary": "从微波LRU模块到完整表面码中的微波泄漏抑制，是编辑性方法分支；尚未核对目标全文引用。",
+      "evidence": [
+        "microwave-lru-evidence",
+        "all-microwave-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-030",
+      "source": "seed-result",
+      "target": "heavy-hex-result",
+      "type": "addresses",
+      "summary": "考察非原生连接的扩码，结果的方向性与完整双基底存储须区分。",
+      "evidence": [
+        "heavy-hex-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-031",
+      "source": "seed-realtime",
+      "target": "stability-rt-result",
+      "type": "addresses",
+      "summary": "把完整通信与控制反应时间加入实验；stability-8任务不与d=5量子存储直接排名。",
+      "evidence": [
+        "stability-rt-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-032",
+      "source": "seed-result",
+      "target": "split-result",
+      "type": "addresses",
+      "summary": "从单码存储走向分裂后的逻辑关联；只保护比特翻转这一条件保留在结果中。",
+      "evidence": [
+        "split-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-033",
+      "source": "seed-result",
+      "target": "rl-control-result",
+      "type": "addresses",
+      "summary": "目标引用种子数据和方法，同时把检测事件用于调参；不报告经单码距调优后的新Λ。",
+      "evidence": [
+        "rl-control-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-034",
+      "source": "priors-result",
+      "target": "rl-control-result",
+      "type": "uses_result",
+      "summary": "RL控制正文用既有图权重优化实施decoder steering，并披露实时限制。",
+      "evidence": [
+        "rl-control-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-035",
+      "source": "alpha1-result",
+      "target": "aq2-result",
+      "type": "addresses",
+      "summary": "AQ2明确改变神经架构以提高吞吐，同时扩展码型与尺度。",
+      "evidence": [
+        "aq2-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-036",
+      "source": "seed-result",
+      "target": "aq2-result",
+      "type": "uses_result",
+      "summary": "复用公开Willow实验数据评估解码，不是新的独立硬件复现。",
+      "evidence": [
+        "aq2-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-037",
+      "source": "parallel-window-result",
+      "target": "parallel-nn-result",
+      "type": "addresses",
+      "summary": "自协调神经窗口处理经典吞吐瓶颈；训练准确率规模与吞吐规模分别报告。",
+      "evidence": [
+        "parallel-nn-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-038",
+      "source": "seed-realtime",
+      "target": "fpga-result",
+      "type": "addresses",
+      "summary": "以直接硬件集成测试小码距的确定闭环与非Clifford反馈，任务和资源与种子不同。",
+      "evidence": [
+        "fpga-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-039",
+      "source": "parallel-window-result",
+      "target": "cayg-result",
+      "type": "addresses",
+      "summary": "进一步把部分工作移到测量期间；模型显式权衡准确率与闲置噪声。",
+      "evidence": [
+        "cayg-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-040",
+      "source": "seed-result",
+      "target": "modular-nn-result",
+      "type": "uses_result",
+      "summary": "目标§IV.1.2重新解码种子Z基公开数据，随后迁移到其他设备与ZZ合并。",
+      "evidence": [
+        "modular-nn-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-041",
+      "source": "ion-realtime-result",
+      "target": "seed-result",
+      "type": "cites",
+      "summary": "种子Introduction及References14列出早期实时容错实验；不同码族。",
+      "evidence": [
+        "seed-evidence"
+      ],
+      "basis": "citation_only",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-042",
+      "source": "gkp-result",
+      "target": "seed-result",
+      "type": "cites",
+      "summary": "种子Introduction及References16列出玻色子超越盈亏平衡实验；收益指标不同。",
+      "evidence": [
+        "seed-evidence"
+      ],
+      "basis": "citation_only",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-043",
+      "source": "atoms-processor-result",
+      "target": "atom-architecture-result",
+      "type": "addresses",
+      "summary": "从误差检测逻辑处理器推进至重复提取、丢失感知扩码与重置。",
+      "evidence": [
+        "atom-architecture-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-044",
+      "source": "seed-result",
+      "target": "atom-architecture-result",
+      "type": "addresses",
+      "summary": "中性原子工作在四轮表面码电路上检验相同扩码目标；时间与连接资源不同。",
+      "evidence": [
+        "atom-architecture-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-045",
+      "source": "yoked-result",
+      "target": "seed-result",
+      "type": "cites",
+      "summary": "种子Outlook把yoked表面码列为降低开销的候选。",
+      "evidence": [
+        "seed-evidence"
+      ],
+      "basis": "citation_only",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-046",
+      "source": "bb-memory-result",
+      "target": "seed-result",
+      "type": "cites",
+      "summary": "种子Outlook把高率qLDPC存储列为潜在低开销路线。",
+      "evidence": [
+        "seed-evidence"
+      ],
+      "basis": "citation_only",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-047",
+      "source": "bb-memory-result",
+      "target": "qldpc-experiment-result",
+      "type": "addresses",
+      "summary": "理论高率码路线被推进至离子阱实验；没有把早期模拟参数当作其已测性能。",
+      "evidence": [
+        "qldpc-experiment-evidence"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-048",
+      "source": "seed-result",
+      "target": "qldpc-experiment-result",
+      "type": "addresses",
+      "summary": "目标明确参考表面码盈亏平衡寿命定义，但拟合约束、选择处理和周期不同。",
+      "evidence": [
+        "qldpc-experiment-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-049",
+      "source": "lattice-surgery-result",
+      "target": "lattice-processor-result",
+      "type": "uses_result",
+      "summary": "目标§III直接使用理论分裂变换，保留两类错误保护。",
+      "evidence": [
+        "lattice-processor-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-050",
+      "source": "split-result",
+      "target": "lattice-processor-result",
+      "type": "addresses",
+      "summary": "目标Introduction明确把前作单码分裂为重复码的限制作为完整双表面码手术实验的背景。",
+      "evidence": [
+        "lattice-processor-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-051",
+      "source": "seed-result",
+      "target": "lattice-processor-result",
+      "type": "addresses",
+      "summary": "目标Introduction从超越盈亏平衡存储转向块间操作；不以有条件门保真度与无条件存储比较。",
+      "evidence": [
+        "lattice-processor-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-052",
+      "source": "lattice-surgery-result",
+      "target": "logical-cliffords-result",
+      "type": "uses_result",
+      "summary": "目标直接以格点手术和码形变构造路由及Clifford生成集。",
+      "evidence": [
+        "logical-cliffords-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-053",
+      "source": "all-microwave-result",
+      "target": "logical-cliffords-result",
+      "type": "uses_result",
+      "summary": "目标AppendixA明确沿用PRL的处理器、LRU和RST协议；本关系依据目标全文，未把PRL全文计为已读。",
+      "evidence": [
+        "logical-cliffords-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-054",
+      "source": "parallel-nn-result",
+      "target": "logical-cliffords-result",
+      "type": "uses_result",
+      "summary": "目标主文及AppendixD引用该神经解码方法，保留全部实验样本。",
+      "evidence": [
+        "logical-cliffords-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-055",
+      "source": "lattice-processor-result",
+      "target": "logical-cliffords-result",
+      "type": "cites",
+      "summary": "目标列作先前完整表面码逻辑操作实验，条件性差异由AppendixE.1讨论；不建立优先权结论。",
+      "evidence": [
+        "logical-cliffords-evidence"
+      ],
+      "basis": "citation_only",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-056",
+      "source": "cultivation-theory-result",
+      "target": "cultivation-experiment-result",
+      "type": "uses_result",
+      "summary": "目标直接实验检验培育提案及d=5嫁接，保留小码后选择和理论模拟限制。",
+      "evidence": [
+        "cultivation-experiment-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-057",
+      "source": "seed-result",
+      "target": "cultivation-experiment-result",
+      "type": "uses_result",
+      "summary": "目标Fig1及§I使用Willow处理器并在§III探讨进入更大表面码；高保真培育并非完整容错T门。",
+      "evidence": [
+        "cultivation-experiment-evidence"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_comparable",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "rel-058",
+      "source": "cultivation-experiment-result",
+      "target": "logical-cliffords-result",
+      "type": "cites",
+      "summary": "目标Introduction把培育魔法态列为Clifford操作之外的非Clifford资源，未在该门实验中消耗它。",
+      "evidence": [
+        "logical-cliffords-evidence"
+      ],
+      "basis": "citation_only",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "reading_route": [
+    "roffe-result",
+    "dennis-result",
+    "chen-result",
+    "sycamore-result",
+    "miao-result",
+    "seed-result",
+    "seed-realtime",
+    "seed-bursts",
+    "rl-control-result"
+  ],
+  "narrative": {
+    "overview": "从重复测量走到越扩码越可靠，关键不是比特数单独增长，而是局域噪声、泄漏清除与经典解码共同满足条件。指定v1在d=3、5、7中展示逻辑抑错，并把实时吞吐和罕见突发纳入检验。后续已发展到动态电路、彩色码、闭环反馈和持续校准；这些进展的任务和资源各不相同。全微波独立实验的全文仍缺，因此本图保留部分完成标记。",
+    "turning_points": [
+      {
+        "title": "先建立可检验的阈值条件",
+        "summary": "稳定子和拓扑存储把错误定位变为测量与解码问题；理论阈值依具体噪声与经典处理假设，不能直接当作硬件通用百分比。",
+        "result_ids": [
+          "stabilizer-result",
+          "dennis-result",
+          "fowler-result"
+        ]
+      },
+      {
+        "title": "从条件检测走到重复纠正",
+        "summary": "重复码先保护单类错误；d=2后选择检测和d=3双类纠正检验不同能力，样本保留率与泄漏处理决定怎样理解寿命收益。",
+        "result_ids": [
+          "kelly-result",
+          "andersen-result",
+          "chen-result",
+          "krinner-result"
+        ]
+      },
+      {
+        "title": "有限尺寸的小收益被推进为跨码距抑错",
+        "summary": "2022预印本仍明确处于可能转差的交叉区。种子v1在d=3、5、7报告Λ=2.14±0.02，辅以清泄漏与解码改进，支持低于阈值的存储行为。",
+        "result_ids": [
+          "sycamore-result",
+          "miao-result",
+          "seed-result"
+        ]
+      },
+      {
+        "title": "吞吐、反应时间与错误底限成为独立约束",
+        "summary": "种子在d=5维持实时吞吐，但63μs端点延迟尚不含逻辑反馈；其10^-10量级底限来自重复码的罕见突发，不能写成二维表面码的已测错误率。",
+        "result_ids": [
+          "seed-realtime",
+          "seed-bursts",
+          "fpga-result"
+        ]
+      },
+      {
+        "title": "后续走向控制、Clifford逻辑和魔法态资源",
+        "summary": "动态电路、神经解码和持续调参改善实用性；独立团队已实现d=3无后选择Clifford生成集，另有条件格点手术与约8%保留率的培育实验。更大码距门抑错及实时通用逻辑仍待检验。",
+        "result_ids": [
+          "rl-control-result",
+          "logical-cliffords-result",
+          "lattice-processor-result",
+          "cultivation-experiment-result"
+        ]
+      }
+    ]
+  }
+}

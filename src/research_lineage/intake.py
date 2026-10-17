@@ -70,16 +70,27 @@ def prepare(value, kind="auto", language="auto", cutoff=None):
         "identifiers": ids,
         "local_document": local,
         "cutoff": draft["scope"]["cutoff"],
-        "source_budget": 12,
+        "cutoff_origin": "provided" if cutoff else "run_date",
+        "source_budget": None,
+        "research_plan": {
+            "corpus_limit": None,
+            "directions": ["seed", "review", "backward", "forward"],
+            "completion": "Account for source-grounded branches and candidate decisions; record remaining gaps and the stopping reason.",
+        },
+        "presentation": {
+            "turning_points": "A few source-linked changes, independent of corpus size.",
+            "reading_route": "An introductory selection; retain the full researched corpus.",
+        },
         "status": "awaiting_host_research",
         "scope": "Trace the seed's central contribution backward to foundations and forward to checked follow-ups."
         if kind == "paper"
         else "Select the central developments, competing approaches, and changes in assumptions.",
         "next_steps": [
             "Resolve seed identity and exact version; a title alone is not a verified paper.",
-            "Use host research tools; read a review and primary papers, recording access and locators.",
+            "Use host research tools; record actual searches and citation expansion in both directions, access, failures and locators.",
+            "Account for candidates and source-grounded branches; expand unresolved central threads rather than stopping at a paper count.",
             "Write a short overview and 3–5 source-linked turning points; keep unreviewed claims proposed.",
-            "Validate, build and inspect the output; deliver map.html first, supporting files second.",
+            "Validate, build, audit the research record and inspect the output; report partial work explicitly and deliver map.html with its research log.",
         ],
         "privacy": "Local documents stay local. This helper performs no network requests.",
     }
