@@ -1,0 +1,19 @@
+{
+  "tool": "exec_command",
+  "args": {
+    "cmd": "python -X utf8 .\\packet\\research-lineage\\scripts\\lineage.py audit-research .\\run\\run-manifest.json",
+    "workdir": "D:\\research_lineage\\isolated-runs\\surface-code-20261017",
+    "max_output_tokens": 6000
+  },
+  "started_at": "2026-10-17 02:28:38 UTC",
+  "finished_at": "2026-10-17 02:28:40 UTC",
+  "result": {
+    "chunk_id": "2ba8e7",
+    "wall_time_seconds": 1.0313514,
+    "exit_code": 1,
+    "original_token_count": 242,
+    "output": "{\r\n  \"status\": \"PARTIAL\",\r\n  \"checks\": {\r\n    \"execution_provenance\": {\r\n      \"status\": \"PASS\",\r\n      \"details\": []\r\n    },\r\n    \"cutoff_consistency\": {\r\n      \"status\": \"PASS\",\r\n      \"details\": []\r\n    },\r\n    \"source_trail\": {\r\n      \"status\": \"PASS\",\r\n      \"details\": []\r\n    },\r\n    \"research_completion\": {\r\n      \"status\": \"PARTIAL\",\r\n      \"details\": [\r\n        \"Unresolved candidates or central coverage branches remain\",\r\n        \"Agent declared this research run partial\"\r\n      ]\r\n    }\r\n  },\r\n  \"counts\": {\r\n    \"candidates\": 58,\r\n    \"map_works\": 52,\r\n    \"route_steps\": 9,\r\n    \"overview_cards\": 5,\r\n    \"searches\": 95,\r\n    \"trace_entries\": 109,\r\n    \"include\": 52,\r\n    \"exclude\": 6,\r\n    \"defer\": 0\r\n  },\r\n  \"limits\": \"Audits recorded evidence and cross-file consistency. Does not authenticate tool execution, user authorization, branch selection, search exhaustiveness, or scientific truth; inspect the linked sources and runner records.\"\r\n}\r\n\r\n"
+  },
+  "packet_unchanged": true,
+  "limitations": "Audits supplied packet's recorded-evidence contract; no authentication of host tool calls or independent scholarly review. Research/renderer interval was frozen before this post-freeze audit."
+}

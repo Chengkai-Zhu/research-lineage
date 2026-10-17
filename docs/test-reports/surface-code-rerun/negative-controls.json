@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "positive_run": "PARTIAL",
+  "controls": [
+    {
+      "id": "baseline-relabel",
+      "status": "PASS",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "failed_checks": [
+        "execution_provenance",
+        "cutoff_consistency",
+        "source_trail",
+        "research_completion"
+      ],
+      "description": "Relabel the old authored four-work baseline as the fresh completed run, leaving incompatible provenance, cutoff and source evidence. This is a deliberate bad copy, not a second research execution."
+    },
+    {
+      "id": "missing-forward",
+      "status": "PASS",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "failed_checks": [
+        "source_trail",
+        "research_completion"
+      ],
+      "description": "Remove forward-search records and assert completion. On a partial positive run, this also contradicts its retained gap; the isolated forward-only failure is covered in tests/test_research_scope.py."
+    },
+    {
+      "id": "hidden-gap",
+      "status": "PASS",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "failed_checks": [
+        "research_completion"
+      ],
+      "description": "Inject an unresolved branch and hide it from the stopping summary."
+    }
+  ],
+  "limit": "These copies calibrate recorded-evidence checks, not the scientific quality of the literature selection."
+}

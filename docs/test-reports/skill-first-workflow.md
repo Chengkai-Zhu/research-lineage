@@ -6,6 +6,10 @@ does not establish an adequate independent single-input research run. #14 and #1
 were reopened to correct the research contract and publish fresh execution and
 coverage evidence. Do not use the earlier issue-closure table as current status.
 
+The [fresh-context single-paper rerun](surface-code-rerun/README.md) supersedes
+the research-workflow claim below. It contains 52 works and inspectable execution
+records, with one central full-text gap still marked PARTIAL.
+
 Date: 2026-10-17. Version: 0.2.0. This is a software and agent workflow record,
 not independent scholarly review or a participant study. Machine-readable
 [observations](v0.2-observations.json) retain counts, timings and provider failures.

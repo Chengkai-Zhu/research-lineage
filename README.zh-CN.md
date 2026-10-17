@@ -53,6 +53,7 @@ Skill 会选择合理范围，并跟随你的语言。无需填写 ID、日期�
 | --- | --- | --- |
 | 一个方向 | [QSP 到 QSVT](docs/sources.md) | 8 篇论文，以摘要为依据的草稿 |
 | 一个新问题 | [句子向量到注意力机制](examples/nmt-attention/README.md) | 6 篇原始论文，核对到具体章节 |
+| 单篇论文，独立 Agent | [表面码独立研究记录](docs/test-reports/surface-code-rerun/README.md) · [交互报告](docs/test-reports/surface-code-rerun/report.html) | 52 项工作，实际检索与候选日志；一项关键全文缺口保留为 PARTIAL |
 | 编写好的示意案例 | [表面码量子存储器](examples/surface-code/README.md) | 4 项工作的阅读路径；单输入研究验收已在 #12 重新打开 |
 
 这些案例是有范围限制的研究历史，标注仍待学术审核。来源核对和软件测试通过，不代表科学结论已经得到独立专家认证。真实外部审阅与参与者实验仍保留在[待办 #10](https://github.com/Chengkai-Zhu/research-lineage/issues/10)。

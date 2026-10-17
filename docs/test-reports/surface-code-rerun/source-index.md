@@ -1,0 +1,56 @@
+# 来源索引
+
+日期轴按首次公开时间，结果卡按实际读取版本；作者列表仅展示前若干位，完整元数据另存。
+
+- [Scheme for reducing decoherence in quantum computer memory](https://doi.org/10.1103/PhysRevA.52.R2493) — 首次 1995-10-01；读取 期刊版 / 1995-10-01；abstract；定位 Abstract
+- [Stabilizer Codes and Quantum Error Correction](https://arxiv.org/pdf/quant-ph/9705052v1) — 首次 1997-05-28；读取 v1 / 1997-05-28；full_text；定位 §3.2, PDF p.26
+- [Fault-tolerant quantum computation by anyons](https://arxiv.org/pdf/quant-ph/9707021v1) — 首次 1997-07-09；读取 v1 / 1997-07-09；full_text；定位 Introduction; §1–2, PDF pp.1–4
+- [Topological quantum memory](https://arxiv.org/pdf/quant-ph/0110143v1) — 首次 2001-10-24；读取 v1 / 2001-10-24；full_text；定位 Introduction; §V Eq.(62)–(64)
+- [Surface code quantum computing by lattice surgery](https://arxiv.org/pdf/1111.4022v3) — 首次 2011-11-17；读取 v3 / 2013-02-21；full_text；定位 §§3–4; §7.3/Fig18
+- [Surface codes: Towards practical large-scale quantum computation](https://arxiv.org/pdf/1208.0928v2) — 首次 2012-08-04；读取 v2 / 2012-10-27；full_text；定位 §VII / Fig.4; Eq.(10)–(11), PDF pp.11–12
+- [Quantum Error Correction for Quantum Memories](https://arxiv.org/pdf/1302.3428v7) — 首次 2013-02-14；读取 v7 / 2015-04-10；full_text；定位 Contents; §II.G.3 pp.22–23; §III
+- [State preservation by repetitive error detection in a superconducting quantum circuit](https://arxiv.org/pdf/1411.7403v1) — 首次 2014-11-26；读取 v1 / 2014-11-26；full_text；定位 Fig.4 and main text, PDF p.3
+- [Quantum Error Correction: An Introductory Guide](https://arxiv.org/pdf/1907.11157v1) — 首次 2019-07-25；读取 v1 / 2019-07-25；full_text；定位 §6.2–6.4, PDF pp.20–21
+- [Repeated Quantum Error Detection in a Surface Code](https://arxiv.org/html/1912.09410v1) — 首次 2019-12-19；读取 v1 / 2019-12-19；full_text；定位 Results Fig.5; Discussion
+- [The XZZX Surface Code](https://arxiv.org/html/2009.07851v1) — 首次 2020-09-16；读取 v1 / 2020-09-16；full_text；定位 §IV–V; Fig.4–5
+- [Exponential suppression of bit or phase flip errors with repetitive error correction](https://arxiv.org/html/2102.06132v1) — 首次 2021-02-11；读取 v1 / 2021-02-11；full_text；定位 Main text; Figs.1–4
+- [Realization of real-time fault-tolerant quantum error correction](https://arxiv.org/html/2107.07505v1) — 首次 2021-07-15；读取 v1 / 2021-07-15；full_text；定位 §II.1.4; §II.2; Fig.9
+- [Realizing Repeated Quantum Error Correction in a Distance-Three Surface Code](https://arxiv.org/pdf/2112.03708v1) — 首次 2021-12-07；读取 v1 / 2021-12-07；full_text；定位 Main text; Appendix C Leakage Detection
+- [Realization of an Error-Correcting Surface Code with Superconducting Qubits](https://arxiv.org/pdf/2112.13505v1) — 首次 2021-12-27；读取 v1 / 2021-12-27；full_text；定位 Introduction, PDF p.1
+- [Suppressing quantum errors by scaling a surface code logical qubit](https://arxiv.org/html/2207.06431v1) — 首次 2022-07-13；读取 v1 / 2022-07-13；full_text；定位 Fig.4; Outlook crossover discussion
+- [Parallel window decoding enables scalable fault tolerant quantum computation](https://arxiv.org/html/2209.08552v1) — 首次 2022-09-18；读取 v1 / 2022-09-18；full_text；定位 Introduction; Parallel window decoding; slowdown discussion
+- [Overcoming leakage in scalable quantum error correction](https://arxiv.org/html/2211.04728v1) — 首次 2022-11-09；读取 v1 / 2022-11-09；full_text；定位 Figs.3–5; main text paragraphs on DQLR
+- [Real-time quantum error correction beyond break-even](https://arxiv.org/html/2211.09116v1) — 首次 2022-11-16；读取 v1 / 2022-11-16；full_text；定位 Main text; metric definition; Fig.3
+- [All-microwave leakage reduction units for quantum error correction with superconducting transmon qubits](https://arxiv.org/html/2302.09876v1) — 首次 2023-02-20；读取 v1 / 2023-02-20；full_text；定位 Main text Fig.4 and conclusion
+- [Modular decoding: parallelizable real-time decoding for quantum computers](https://arxiv.org/html/2303.04846v1) — 首次 2023-03-08；读取 v1 / 2023-03-08；full_text；定位 Definition1; Theorem1; buffering discussion
+- [Sparse Blossom: correcting a million errors per core second with minimum-weight matching](https://arxiv.org/html/2303.15933v1) — 首次 2023-03-28；读取 v1 / 2023-03-28；full_text；定位 Runtime benchmarks; Discussion
+- [High-threshold and low-overhead fault-tolerant quantum memory](https://arxiv.org/html/2308.07915v1) — 首次 2023-08-15；读取 v1 / 2023-08-15；full_text；定位 Table1; resource example following Table1
+- [Learning to Decode the Surface Code with a Recurrent, Transformer-Based Neural Network](https://arxiv.org/html/2310.05900v1) — 首次 2023-10-09；读取 v1 / 2023-10-09；full_text；定位 §2.2–2.3; Fig.2
+- [Logical quantum processor based on reconfigurable atom arrays](https://arxiv.org/html/2312.03982v1) — 首次 2023-12-07；读取 v1 / 2023-12-07；full_text；定位 Main text Fig.5; Methods sliding-scale detection
+- [Yoked surface codes](https://arxiv.org/html/2312.04522v1) — 首次 2023-12-07；读取 v1 / 2023-12-07；abstract；定位 Abstract
+- [Efficient near-optimal decoding of the surface code through ensembling](https://arxiv.org/html/2401.12434v1) — 首次 2024-01-23；读取 v1 / 2024-01-23；full_text；定位 §III.1–2; §IV
+- [Resisting high-energy impact events through gap engineering in superconducting qubit arrays](https://arxiv.org/html/2402.15644v1) — 首次 2024-02-23；读取 v1 / 2024-02-23；full_text；定位 §II; §IV Summary and Conclusion
+- [Demonstration of logical qubits and repeated error correction with better-than-physical error rates](https://arxiv.org/html/2404.02280v3) — 首次 2024-04-02；读取 v3 / 2024-11-17；full_text；定位 Main text; Table2; Discussion
+- [Optimization of decoder priors for accurate quantum error correction](https://arxiv.org/html/2406.02700v1) — 首次 2024-06-04；读取 v1 / 2024-06-04；full_text；定位 §I; §V Conclusion
+- [Resilience of the surface code to error bursts](https://preskill.caltech.edu/pubs/preskill-2026-resilience.pdf) — 首次 2024-06-27；读取 PRA113,022450 (2026-02-26) / 2026-02-26；full_text；定位 §II.A; §III; §IV
+- [Improved accuracy for decoding surface codes with matching synthesis](https://arxiv.org/html/2408.12135v1) — 首次 2024-08-22；读取 v1 / 2024-08-22；full_text；定位 §III–V; Fig.4–9
+- [Quantum error correction below the surface code threshold](https://arxiv.org/html/2408.13687v1) — 首次 2024-08-24；读取 v1 / 2024-08-24；full_text；定位 §II; Fig.1
+- [Magic state cultivation: growing T states as cheap as CNOT gates](https://arxiv.org/pdf/2409.17595v1) — 首次 2024-09-26；读取 v1 / 2024-09-26；full_text；定位 PDF §§2.5–2.6,3.2; Fig2; HTML内页日期异常，采用PDF版本戳
+- [Demonstrating real-time and low-latency quantum error correction with superconducting qubits](https://arxiv.org/html/2410.05202v1) — 首次 2024-10-07；读取 v1 / 2024-10-07；full_text；定位 Main text; fast-feedback experiment
+- [Demonstrating dynamic surface codes](https://arxiv.org/html/2412.14360v2) — 首次 2024-12-18；读取 v2 / 2025-06-19；full_text；定位 Main text; scaling; TableF.9
+- [Scaling and logic in the color code on a superconducting quantum processor](https://arxiv.org/html/2412.14256v1) — 首次 2024-12-18；读取 v1 / 2024-12-18；full_text；定位 §III–VII; AppendixF
+- [Realizing Lattice Surgery on Two Distance-Three Repetition Codes with Superconducting Qubits](https://arxiv.org/html/2501.04612v1) — 首次 2025-01-08；读取 v1 / 2025-01-08；full_text；定位 Main text; Discussion; Fig.4
+- [Architectural mechanisms of a universal fault-tolerant quantum computer](https://arxiv.org/html/2506.20661v1) — 首次 2025-06-25；读取 v1 / 2025-06-25；full_text；定位 Below-threshold performance; Fig.2d
+- [Surface code scaling on heavy-hex superconducting quantum processors](https://www.nature.com/articles/s41467-026-76090-6) — 首次 2025-10-21；读取 期刊版 / 2026-07-29；full_text；定位 Main; Discussion; Fig.1
+- [Reinforcement Learning Control of Quantum Error Correction](https://arxiv.org/html/2511.08493v4) — 首次 2025-11-11；读取 v4 / 2026-06-19；full_text；定位 Main text; Supplement S7; Tables4–5
+- [A scalable and real-time neural decoder for topological quantum codes](https://arxiv.org/html/2512.07737v2) — 首次 2025-12-08；读取 v2 / 2026-03-11；full_text；定位 §4; Fig.4; Methods latency
+- [Magic state cultivation on a superconducting quantum processor](https://arxiv.org/html/2512.13908v1) — 首次 2025-12-15；读取 v1 / 2025-12-15；full_text；定位 §I–III; Figs2–4; SI XIII–XIV
+- [Experimental Quantum Error Correction below the Surface Code Threshold via All-Microwave Leakage Suppression](https://journals.aps.org/prl/abstract/10.1103/rqkg-dw31) — 首次 2025-12-22；读取 期刊版 / 2025-12-22；abstract；定位 Abstract
+- [Learning to Decode in Parallel: Self-Coordinating Neural Network for Real-Time Quantum Error Correction](https://arxiv.org/html/2601.09921v1) — 首次 2026-01-14；读取 v1 / 2026-01-14；full_text；定位 §4.2–4.3; Table4
+- [Author Correction: Quantum error correction below the surface code threshold](https://pmc.ncbi.nlm.nih.gov/articles/PMC13171424/) — 首次 2026-04-28；读取 正式勘误 / 2026-04-28；full_text；定位 Correction paragraph (PMC line88)
+- [Real-time Surface-Code Error Correction Using an FPGA-based Neural-Network Decoder](https://arxiv.org/html/2605.04892v1) — 首次 2026-05-06；读取 v1 / 2026-05-06；full_text；定位 §II–V; Table1; Fig.3
+- [Breakeven demonstration of quantum low-density parity-check codes](https://arxiv.org/html/2606.06455v2) — 首次 2026-06-04；读取 v2 / 2026-09-14；full_text；定位 §IV; Tables1–2; AppendixF/H
+- [A superconducting surface-code processor with lattice-surgery logical operations](https://arxiv.org/html/2606.06598v1) — 首次 2026-06-04；读取 v1 / 2026-06-04；full_text；定位 §II–V; Figs1–4; SI S2/S4
+- [Surface code logical operations on a superconducting quantum processor](https://arxiv.org/html/2607.01473v1) — 首次 2026-07-01；读取 v1 / 2026-07-01；full_text；定位 主文Figs3–5; Discussion; AppendixA/E.1/K
+- [Reducing Decoding Latency in Quantum Error Correction by Early Starting Clustering](https://arxiv.org/html/2609.15612v2) — 首次 2026-09-14；读取 v2 / 2026-09-17；full_text；定位 §5–6; AppendixA
+- [Modular Neural Decoder for Surface Code Memory and Logic on Superconducting Processors](https://arxiv.org/html/2610.03869v1) — 首次 2026-10-02；读取 v1 / 2026-10-02；full_text；定位 §I; §II.2; §IV.1.2 and IV.3

@@ -4,6 +4,10 @@
 It does not establish adequate field-history coverage or an independent execution
 of the skill from one paper. Research-workflow acceptance was reopened in #12.
 
+The [fresh-context rerun](../../docs/test-reports/surface-code-rerun/README.md)
+now retains 52 works, actual research logs and an unresolved full-text branch.
+It is published as PARTIAL; this baseline is not substituted for that run.
+
 Input: [Quantum error correction below the surface code threshold, arXiv v1](https://arxiv.org/abs/2408.13687v1).
 The single paper was supplied to `research-lineage start`; the helper produced an
 empty draft and research brief. The host then read and annotated sources. This is

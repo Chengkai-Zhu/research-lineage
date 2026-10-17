@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "input": {
+    "seed": "https://arxiv.org/abs/2408.13687v1",
+    "cutoff": "2026-10-17",
+    "cutoff_request": null
+  },
+  "execution": {
+    "host": "Codex desktop on Windows; PowerShell; Python 3.14.4",
+    "agent_id": "/root/surface_code_clean_run",
+    "model": null,
+    "context": "fresh",
+    "isolation": "Conversation-context isolation only; shared filesystem, not an OS sandbox. Only supplied packet and this isolated-run directory were inspected. Parent steering supplied execution/access boundaries, not a source selection or intended answer. CLI start rejected twice and never retried after stop; input brief directly authored and marked manual fallback.",
+    "research_date": "2026-10-17",
+    "started_at": "2026-10-17T02:00:37+00:00",
+    "finished_at": "2026-10-17T02:28:32.862311+00:00",
+    "skill_revision": "sha256:45d2c9cf68fd93ce356e1cb64d5e530a85c87cbff0d0f083818911d975f47e30",
+    "tools": [
+      "apply_patch",
+      "clock.curr_time",
+      "collaboration.send_message",
+      "exec_command",
+      "mcp__cua_repl.js",
+      "python.urllib.request",
+      "web.run",
+      "write_stdin"
+    ]
+  },
+  "artifacts": {
+    "brief": {
+      "path": "research-brief.json",
+      "sha256": "4e55d64dad4af087e993149de2ef81609051e13586115cc899e40914314c4170"
+    },
+    "map": {
+      "path": "map.json",
+      "sha256": "c358748018023a31860527157c3502ddf5d862015a70008f85836f2257256b47"
+    },
+    "research_log": {
+      "path": "research-log.json",
+      "sha256": "73ca3927786c45f88060b6b7ede2f33f3cfc6e84c56163fc0d4ac3e0f630469e"
+    },
+    "trace": {
+      "path": "tool-trace.jsonl",
+      "sha256": "7dc961c30d5e4786b688c04a68f49c20a4cfb618a933192fab5e2e762087ed56"
+    },
+    "html": {
+      "path": "viewer/map.html",
+      "sha256": "95f8f578b821e9d34d531457db53a2b2509c7b1943c884ef6b42980703bdd2c3"
+    },
+    "skill": {
+      "path": "SKILL.md",
+      "sha256": "45d2c9cf68fd93ce356e1cb64d5e530a85c87cbff0d0f083818911d975f47e30"
+    },
+    "prompt": {
+      "path": "prompt.md",
+      "sha256": "465737edc7ad85cdfb7e4204129efe4d5b28fa9d3cf9a0eea65301e20bd56bf9"
+    }
+  }
+}

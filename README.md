@@ -57,6 +57,7 @@ missing evidence as partial or failed; it does not certify scientific completene
 | --- | --- | --- |
 | A topic | [QSP to QSVT](docs/sources.md) | Eight-paper, abstract-grounded draft |
 | A new question | [Sentence vectors to attention](examples/nmt-attention/README.md) | Six primary papers with section-level checks |
+| One pinned paper, fresh agent | [Surface-code research run](docs/test-reports/surface-code-rerun/README.md) · [Interactive notebook](docs/test-reports/surface-code-rerun/report.html) | 52 works; real search/candidate logs; PARTIAL because one central full-text branch remains unresolved |
 | Authored illustration | [Surface-code quantum memories](examples/surface-code/README.md) | Four-work reading path; single-input research acceptance reopened in #12 |
 
 These are selected histories with proposed annotations. Source checks and passing software tests do not establish scientific truth or independent expert review. Genuine external review and participant studies remain [open work](https://github.com/Chengkai-Zhu/research-lineage/issues/10).

@@ -1,0 +1,28 @@
+{
+  "query_url": "https://api.crossref.org/works/10.1103/rqkg-dw31",
+  "checked": "2026-10-17T10:23:53.4438684+08:00",
+  "doi": "10.1103/rqkg-dw31",
+  "title": [
+    "Experimental Quantum Error Correction below the Surface Code Threshold via All-Microwave Leakage Suppression"
+  ],
+  "relation": {},
+  "links": [
+    {
+      "URL": "https://link.aps.org/article/10.1103/rqkg-dw31",
+      "content-type": "unspecified",
+      "content-version": "vor",
+      "intended-application": "syndication"
+    },
+    {
+      "URL": "http://harvest.aps.org/v2/journals/articles/10.1103/rqkg-dw31/fulltext",
+      "content-type": "unspecified",
+      "content-version": "vor",
+      "intended-application": "similarity-checking"
+    }
+  ],
+  "resource": {
+    "primary": {
+      "URL": "https://link.aps.org/doi/10.1103/rqkg-dw31"
+    }
+  }
+}

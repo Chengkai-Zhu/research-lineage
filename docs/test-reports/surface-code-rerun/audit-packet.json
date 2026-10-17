@@ -1,0 +1,36 @@
+{
+  "status": "PARTIAL",
+  "checks": {
+    "execution_provenance": {
+      "status": "PASS",
+      "details": []
+    },
+    "cutoff_consistency": {
+      "status": "PASS",
+      "details": []
+    },
+    "source_trail": {
+      "status": "PASS",
+      "details": []
+    },
+    "research_completion": {
+      "status": "PARTIAL",
+      "details": [
+        "Unresolved candidates or central coverage branches remain",
+        "Agent declared this research run partial"
+      ]
+    }
+  },
+  "counts": {
+    "candidates": 58,
+    "map_works": 52,
+    "route_steps": 9,
+    "overview_cards": 5,
+    "searches": 95,
+    "trace_entries": 109,
+    "include": 52,
+    "exclude": 6,
+    "defer": 0
+  },
+  "limits": "Audits recorded evidence and cross-file consistency. Does not authenticate tool execution, user authorization, branch selection, search exhaustiveness, or scientific truth; inspect the linked sources and runner records."
+}

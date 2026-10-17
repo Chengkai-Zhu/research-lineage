@@ -1,0 +1,22 @@
+{
+  "runner": "Parent Codex agent",
+  "spawn_tool": "collaboration.spawn_agent",
+  "task_name": "/root/surface_code_clean_run",
+  "fork_turns": "none",
+  "model_override": null,
+  "model": null,
+  "user_input": "https://arxiv.org/abs/2408.13687v1",
+  "product_context": "Only the packaged research-lineage skill; no existing surface-code map, authoring script, issue body, parent diagnosis or coverage benchmark was supplied.",
+  "workspace": "D:\\research_lineage\\isolated-runs\\surface-code-20261017",
+  "isolation": "Fresh conversation context and an explicit directory boundary. Agents share the filesystem; this is not an OS sandbox. The runner did not observe a read outside the allowed packet/run area.",
+  "packet_sha256": "160ba05f3ecd570d28739a786f57348f77f35b1609de320481af36254e99d4e1",
+  "packet_base_commit": "1c8db66167797c2be01b89036fd1b6e5e1b039e5",
+  "packet_state": "Snapshot of the pending #14 working tree before its independent code-review fixes. The research instructions have no paper quota; later audit-consistency fixes are checked separately with the committed runtime.",
+  "initial_prompt_file": "runner-invocation.txt",
+  "technical_interventions_file": "runner-messages.json",
+  "no_research_answer_supplied": true,
+  "helper_failure": "The research agent reported two start commands rejected by execution policy with CreateProcess rejected: blocked by policy. The runner asked it to retain both failures and stop retrying start. No proxy start was executed.",
+  "timing": "See the research agent's manifest and timestamped tool trace for observed execution times. Parent dispatch was initiated after the package timestamp 2026-10-17T10:00:20.6517535+08:00; exact API dispatch completion time was not exposed.",
+  "publication_copy": "The seven core artifacts and original manifest are byte-identical copies. Parent review, exit-code diagnosis, report and provenance records are separate supplementary files. Raw source abstracts/PDFs and scratch scripts are not redistributed.",
+  "supplemental_message_limit": "The final three intervention records summarize actual parent messages; earlier records preserve their original text. This is a runner account, not authenticated provider telemetry."
+}

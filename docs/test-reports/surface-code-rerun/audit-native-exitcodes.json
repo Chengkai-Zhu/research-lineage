@@ -1,0 +1,29 @@
+{
+  "packet": {
+    "command": [
+      "D:\\research_lineage\\research-lineage\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "D:\\research_lineage\\isolated-runs\\surface-code-20261017\\packet\\research-lineage\\scripts\\lineage.py",
+      "audit-research",
+      "D:\\research_lineage\\isolated-runs\\surface-code-20261017\\run\\run-manifest.json"
+    ],
+    "native_returncode": 3,
+    "stdout": "{\n  \"status\": \"PARTIAL\",\n  \"checks\": {\n    \"execution_provenance\": {\n      \"status\": \"PASS\",\n      \"details\": []\n    },\n    \"cutoff_consistency\": {\n      \"status\": \"PASS\",\n      \"details\": []\n    },\n    \"source_trail\": {\n      \"status\": \"PASS\",\n      \"details\": []\n    },\n    \"research_completion\": {\n      \"status\": \"PARTIAL\",\n      \"details\": [\n        \"Unresolved candidates or central coverage branches remain\",\n        \"Agent declared this research run partial\"\n      ]\n    }\n  },\n  \"counts\": {\n    \"candidates\": 58,\n    \"map_works\": 52,\n    \"route_steps\": 9,\n    \"overview_cards\": 5,\n    \"searches\": 95,\n    \"trace_entries\": 109,\n    \"include\": 52,\n    \"exclude\": 6,\n    \"defer\": 0\n  },\n  \"limits\": \"Audits recorded evidence and cross-file consistency. Does not authenticate tool execution, user authorization, branch selection, search exhaustiveness, or scientific truth; inspect the linked sources and runner records.\"\n}\n\n",
+    "stderr": ""
+  },
+  "canonical": {
+    "command": [
+      "D:\\research_lineage\\research-lineage\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "research_lineage",
+      "audit-research",
+      "D:\\research_lineage\\isolated-runs\\surface-code-20261017\\run\\run-manifest.json"
+    ],
+    "native_returncode": 3,
+    "stdout": "{\n  \"status\": \"PARTIAL\",\n  \"checks\": {\n    \"execution_provenance\": {\n      \"status\": \"PASS\",\n      \"details\": []\n    },\n    \"cutoff_consistency\": {\n      \"status\": \"PASS\",\n      \"details\": []\n    },\n    \"source_trail\": {\n      \"status\": \"PASS\",\n      \"details\": []\n    },\n    \"research_completion\": {\n      \"status\": \"PARTIAL\",\n      \"details\": [\n        \"Unresolved candidates or central coverage branches remain\",\n        \"Agent declared this research run partial\"\n      ]\n    }\n  },\n  \"counts\": {\n    \"candidates\": 58,\n    \"map_works\": 52,\n    \"route_steps\": 9,\n    \"overview_cards\": 5,\n    \"searches\": 95,\n    \"trace_entries\": 109,\n    \"include\": 52,\n    \"exclude\": 6,\n    \"defer\": 0\n  },\n  \"limits\": \"Audits recorded evidence and cross-file consistency. Does not authenticate tool execution, user authorization, branch selection, search exhaustiveness, or scientific truth; inspect the linked sources and runner records.\"\n}\n\n",
+    "stderr": ""
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "author": "Parent implementation agent",
+  "tool": "mcp__cua_repl.js",
+  "urls": [
+    "http://127.0.0.1:8767/report.html",
+    "http://127.0.0.1:8767/viewer/map.html"
+  ],
+  "report_checks": [
+    "Report visibly shows 52 works,58 candidates,95 research operations,5 overview moments/9 route steps and explicit PARTIAL/gap.",
+    "Candidate ledger opened; Excluded filter shows six records; impossible-title input removes rows; clearing restores six excluded entries."
+  ],
+  "route": [
+    {
+      "step": 1,
+      "result": "roffe-result"
+    },
+    {
+      "step": 2,
+      "result": "dennis-result"
+    },
+    {
+      "step": 3,
+      "result": "chen-result"
+    },
+    {
+      "step": 4,
+      "result": "sycamore-result"
+    },
+    {
+      "step": 5,
+      "result": "miao-result"
+    },
+    {
+      "step": 6,
+      "result": "seed-result"
+    },
+    {
+      "step": 7,
+      "result": "seed-realtime"
+    },
+    {
+      "step": 8,
+      "result": "seed-bursts"
+    },
+    {
+      "step": 9,
+      "result": "rl-control-result"
+    }
+  ],
+  "route_bounds": "Previous disabled at step1; Next disabled at step9. Each intermediate step showed its corresponding result inspector.",
+  "screenshot": "Report getScreenshot returned Unable to capture screenshot. No pixel-level acceptance or screenshot artifact claimed.",
+  "limits": "AX/DOM observations only. No claim of external scholarly review or assistive-technology certification."
+}
