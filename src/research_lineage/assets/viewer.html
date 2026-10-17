@@ -98,6 +98,7 @@
               </button>
             </div>
           </div>
+          <details id="map-options" class="map-options"><summary>Filters & colors <span id="visible-count" class="muted"></span></summary>
           <div class="filterbar">
             <label
               >Thread
@@ -112,7 +113,7 @@
                 <option value="reviewed">Review recorded</option>
               </select></label
             ><button id="clear-filters" class="inline-button">Reset</button
-            ><span id="visible-count" class="muted"></span>
+            >
           </div>
           <div class="identity-controls">
             <label>Color by
@@ -127,6 +128,7 @@
             </label>
           </div>
           <div id="identity-legend" class="identity-legend" aria-label="Author or team color legend" hidden></div>
+          </details>
           <div id="route-bar" class="route-bar" hidden>
             <span id="route-progress"></span
             ><button id="route-prev" class="inline-button">← Previous</button
@@ -135,17 +137,15 @@
           </div>
           <div id="map-view">
             <div class="chart-heading">
-              <span>CLICK A RESULT TO SEE ITS SOURCES</span>
-              <div>
-                <button id="zoom-out" class="zoom" aria-label="Zoom out">
-                  −</button
-                ><button id="zoom-fit" class="zoom-fit">Fit</button
-                ><button id="zoom-in" class="zoom" aria-label="Zoom in">
-                  +
-                </button>
-              </div>
+              <div class="graph-title"><span class="eyebrow">AURORA / RESEARCH ATLAS</span><p id="graph-caption">Follow a connection. Inspect the evidence.</p></div>
+              <label class="theme-control"><span class="sr-only">Graph appearance</span><select id="graph-theme" aria-label="Graph appearance"><option value="dark">Dark</option><option value="light">Light</option></select></label>
             </div>
-            <div id="graph-scroll" class="graph-scroll">@@SVG@@</div>
+            <div class="graph-controls">
+              <div class="segmented graph-density" role="group" aria-label="Results shown on the graph"><button id="graph-focus" aria-pressed="true">Focus</button><button id="graph-all" aria-pressed="false">All results</button></div>
+              <span id="graph-count" class="graph-count"></span>
+              <div class="zoom-controls"><button id="zoom-out" class="zoom" aria-label="Zoom out">−</button><button id="zoom-fit" class="zoom-fit">Fit</button><button id="zoom-in" class="zoom" aria-label="Zoom in">+</button></div>
+            </div>
+            <div id="graph-scroll" class="graph-scroll" tabindex="0" role="region" aria-label="Research graph; scroll to explore">@@SVG@@</div>
           </div>
           <div id="list-view" class="list-view" hidden></div>
           <div id="empty" class="empty" hidden>
@@ -157,13 +157,15 @@
             </p>
             <button id="empty-reset" class="button">Reset filters</button>
           </div>
+          <div id="thread-legend" class="thread-legend" aria-label="Research thread colors"></div>
           <footer class="map-footer">
             <span
               ><i class="line-key"></i> Dashed connection = awaiting
               review</span
-            ><span>First publication dates · not a historical snapshot</span>
+            ><span>Publication periods · spacing is schematic</span>
           </footer>
         </div>
+        <aside id="graph-guide" class="graph-guide"><div class="guide-symbol" aria-hidden="true">↗</div><p class="eyebrow">EVERY RESULT HAS A CONTEXT</p><h2>Follow the idea.</h2><p>Choose a result to trace its connections and check the source behind it.</p><div class="guide-step"><span>01</span> Select a result</div><div class="guide-step"><span>02</span> Follow its connections</div><div class="guide-step"><span>03</span> Inspect the evidence</div></aside>
         <aside
           id="inspector"
           class="inspector"
@@ -206,6 +208,7 @@
     <script type="application/json" id="color-preference">{"mode":"thread","focus":"all"}</script>
     <script type="application/json" id="reading-preference">{"mode":"overview","view":"map","fragment":""}</script>
     <script type="application/json" id="collection-preference">[]</script>
+    <script type="application/json" id="graph-preference">{"density":"focus","theme":"dark"}</script>
     <script>
       @@JS@@
     </script>

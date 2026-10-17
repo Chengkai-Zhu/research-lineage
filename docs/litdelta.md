@@ -211,3 +211,27 @@ coverage, and stopping decisions belong to #14/#12. Display size never limits th
 
 Engineering fixtures and browser walkthroughs are not independent scholarly
 review or consented participant observations. Those remain #10.
+
+## Explore the Aurora graph
+
+Choose **Explore map** for a chronological atlas. **Focus** shows up to twelve
+results from the authored reading route and overview, plus any selected result
+or relationship endpoints. It is a reading aid, not a scientific importance
+ranking. Maps without authored reading guidance show all results.
+
+Choose **All** to display every result, or **List view** for a compact reading
+list. Search and filters always search the complete map. **Filters & colors**
+contains thread/review filters and the existing author/recorded-team controls.
+Author or team coloring shows the full matching graph so the focus view cannot
+hide another work by that name. Color marks describe identity, not inheritance.
+
+Click a card to highlight its direct connections and open the pinned evidence.
+Time runs down each column, then left to right across labeled periods; spacing
+is schematic. A dashed edge still means proposed, not independently reviewed.
+Use the **Dark / Light** selector for appearance and **Fit** to reset zoom.
+On a narrow screen the cards stack into a readable chronological column.
+
+Interactive HTML retains the appearance and focus/all preference on export.
+Every export still contains the complete underlying map, including hidden
+results, source versions, conditions, uncertainty and exclusions. The standalone
+SVG uses a light background and the full chronology for reuse and printing.
