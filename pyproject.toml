@@ -27,8 +27,8 @@ research-lineage = "research_lineage.cli:main"
 litdelta = "research_lineage.cli:main"
 
 [project.urls]
-Repository = "https://github.com/Chengkai-Zhu/research-lineage"
-Issues = "https://github.com/Chengkai-Zhu/research-lineage/issues"
+Repository = "https://github.com/Chengkai-Zhu/litdelta"
+Issues = "https://github.com/Chengkai-Zhu/litdelta/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

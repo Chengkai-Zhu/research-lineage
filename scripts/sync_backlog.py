@@ -28,7 +28,7 @@ def gh(endpoint, payload=None, listing=False):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--repo", default="Chengkai-Zhu/research-lineage")
+    parser.add_argument("--repo", default="Chengkai-Zhu/litdelta")
     parser.add_argument("--apply", action="store_true")
     args = parser.parse_args()
     plan = json.loads((ROOT / "docs/backlog.json").read_text(encoding="utf-8"))

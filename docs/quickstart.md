@@ -2,8 +2,8 @@
 
 ## Open the example
 
-Try [LitDelta online](https://chengkaizhu.site/research-lineage/) without installing
-anything, or [download all three reading examples](https://chengkaizhu.site/research-lineage/offline.zip).
+Try [LitDelta online](https://chengkaizhu.site/litdelta/) without installing
+anything, or [download all three reading examples](https://chengkaizhu.site/litdelta/offline.zip).
 Extract the archive and open `START-HERE.html`. Choose a focused comparison,
 follow shared author names, or inspect the actual research run with its PARTIAL
 status intact. Every example also has its own standalone `map.html`.
@@ -13,7 +13,7 @@ Build the current example using the checkout commands below, then open
 The sample is a bounded, abstract-grounded research draft, not an expert-certified review.
 
 Version 0.2 is available on `main` but has not been released. The latest published
-[v0.1.1 bundles](https://github.com/Chengkai-Zhu/research-lineage/releases/tag/v0.1.1)
+[v0.1.1 bundles](https://github.com/Chengkai-Zhu/litdelta/releases/tag/v0.1.1)
 use the earlier interface.
 
 ## Use the Python package
@@ -30,7 +30,7 @@ The output contains `map.html`, `map.svg`, `map.json`, and `review.md`.
 
 ## Use the standalone skill
 
-You can [download the current preview skill](https://chengkaizhu.site/research-lineage/downloads/research-lineage-skill-0.2.0.zip)
+You can [download the current preview skill](https://chengkaizhu.site/litdelta/downloads/research-lineage-skill-0.2.0.zip)
 directly from the product page. It includes its Python runtime and comparison
 sample; this preview is not a tagged package release.
 

@@ -33,7 +33,7 @@ sandbox. The three skips are hard-link creation restrictions; the corresponding
 checks remain enabled on ordinary filesystems. Measured Python line coverage is
 **97%**. This is not JavaScript interaction coverage or scientific certification.
 
-The [patch PR CI](https://github.com/Chengkai-Zhu/research-lineage/actions/runs/38935542860)
+The [patch PR CI](https://github.com/Chengkai-Zhu/litdelta/actions/runs/38935542860)
 then passed **all 82 tests on each of Windows/Linux and Python 3.11/3.14**, including
 the three hard-link cases that the local sandbox could not create.
 
@@ -110,7 +110,7 @@ historical reconstruction has been performed. The skill's bundled commands are
 tested; this is not a claim of completed user field tests on two different agent hosts.
 
 GitHub CI passed all four Windows/Linux and Python 3.11/3.14 jobs in
-[the initial release-candidate run](https://github.com/Chengkai-Zhu/research-lineage/actions/runs/38929251145).
-See [current workflow results](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml)
+[the initial release-candidate run](https://github.com/Chengkai-Zhu/litdelta/actions/runs/38929251145).
+See [current workflow results](https://github.com/Chengkai-Zhu/litdelta/actions/workflows/ci.yml)
 for subsequent commits. Coverage uploads to Codecov are configured but optional; a
 service-account connection may be needed. There is no unverified Codecov badge.
