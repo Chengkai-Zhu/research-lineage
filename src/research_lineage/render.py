@@ -76,6 +76,7 @@ def render_svg(data):
         "<desc>Publication chronology, not an as-of reconstruction. Arrows connect source and target results; the target performs the relationship. Results in one paper need not be chronologically ordered. Dashed edges await review.</desc>",
         '<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7" fill="#93a49e"/></marker></defs>',
         "<style>text{font-family:Arial,sans-serif}.node{cursor:pointer}.node rect{fill:#fff;stroke:#d6dfda;stroke-width:1.2}.node:hover rect,.node:focus rect{stroke:#147d70;stroke-width:2}.node .label{fill:#243a32;font-weight:600}.node .meta{fill:#6c7b75}.relation{cursor:pointer}.edge{fill:none;stroke:#93a49e;stroke-width:1.7}.pending .edge{stroke-dasharray:5 4}.relation:focus .edge,.relation:hover .edge{stroke:#147d70;stroke-width:3}.lane-label{fill:#78877f;font-weight:600;font-size:11px;letter-spacing:1px}.year{fill:#7b8881;font-size:12px}.band{fill:#f5f8f5}.hidden{display:none}.dim{opacity:.15}.selected rect{stroke:#147d70;stroke-width:2.5;fill:#f2faf6}.selected .edge{stroke:#147d70;stroke-width:3}.route-node rect{stroke:#147d70;stroke-width:2}</style>",
+        '<style>.identity-muted{opacity:.28}</style>',
         '<rect width="1240" height="100%" fill="#fcfdfb"/>',
     ]
     min_year, max_year = date.fromordinal(low).year, date.fromordinal(high).year
