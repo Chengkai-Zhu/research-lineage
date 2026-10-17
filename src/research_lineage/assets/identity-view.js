@@ -52,7 +52,7 @@ function createIdentityView(data, element, button) {
       const node = root.querySelector('[id="result-' + result.id + '"]');
       if (!node) return;
       node.querySelectorAll(".identity-mark").forEach((mark) => mark.remove());
-      const accent = node.querySelectorAll("rect")[1];
+      const accent = node.querySelector(".thread-mark");
       if (!accent.dataset.threadColor) accent.dataset.threadColor = accent.style.fill;
       const identities = members(result), visible = identities.filter((member) => colors.has(member.id));
       const neutral = preference.mode !== "thread" && !visible.length;
@@ -61,7 +61,7 @@ function createIdentityView(data, element, button) {
       node.setAttribute("aria-label", result.label + (identities.length ? ". " + identities.map((member) => member.label).join(", ") : ""));
       visible.forEach((member, index) => {
         const mark = svgElement("g", { class: "identity-mark" });
-        const rect = svgElement("rect", { x: 15 + index * 17, y: 70, width: 13, height: 4, rx: 1,
+        const rect = svgElement("rect", { x: 15 + index * 17, y: 113, width: 13, height: 4, rx: 1,
           style: "fill:" + colors.get(member.id) + ";stroke:none" });
         rect.append(svgElement("title", {}, member.label));
         mark.append(rect);
@@ -109,6 +109,7 @@ function createIdentityView(data, element, button) {
       }
     }
     paint($("lineage-map"));
+    document.dispatchEvent(new Event("litdelta:identity-change"));
   }
 
   function exportSvg(root, height) {

@@ -38,6 +38,7 @@
     inspect: (id) => { $("modal").close(); resetFilters(); showResult(id); },
     announce: (text) => { $("announcement").textContent = text; },
   });
+  const aurora = createAuroraGraph(data);
   let selected = null,
     selectedType = "result",
     routeStep = -1,
@@ -82,19 +83,7 @@
     }
   }
   function highlights() {
-    document.querySelectorAll(".node,.relation").forEach((node) => {
-      node.classList.toggle(
-        "selected",
-        node.dataset.id === selected &&
-          node.classList.contains(
-            selectedType === "result" ? "node" : "relation",
-          ),
-      );
-      node.classList.toggle(
-        "route-node",
-        routeStep >= 0 && data.reading_route.includes(node.dataset.id),
-      );
-    });
+    aurora.select(selected, selectedType, routeStep >= 0 ? data.reading_route : []);
   }
   function appendEvidence(parent, ids) {
     parent.append(title("THE EVIDENCE"));
@@ -151,6 +140,7 @@
     $("mode-comparison").setAttribute("aria-pressed", String(mode === "comparison"));
     document.body.classList.toggle("exploring", mode === "explore");
     document.body.classList.toggle("comparing", mode === "comparison");
+    if (mode === "explore") aurora.resize();
   }
   function finishInspector() {
     const panel = $("inspector");
@@ -159,6 +149,7 @@
       if (node.classList.contains("section-label")) {
         group = element("details", "evidence-section");
         group.append(element("summary", "", node.textContent));
+        group.open = node.textContent === "THE EVIDENCE";
         node.replaceWith(group);
       } else if (node.classList.contains("paper-meta") && !group) {
         group = element("details", "evidence-section");
@@ -177,6 +168,7 @@
       $(type + "-" + old)?.focus();
     }, "inspector-close"));
     panel.hidden = false;
+    panel.scrollTop = 0;
     $("explorer").classList.add("has-selection");
     showMode("explore");
   }
@@ -188,7 +180,8 @@
       work = works[result.work_id],
       panel = $("inspector");
     panel.replaceChildren(
-      element("div", "eyebrow", "RESULT / " + work.first_published.slice(0, 4)),
+      element("div", "eyebrow", "SELECTED RESULT"),
+      element("div", "inspector-year", work.first_published.slice(0, 4)),
       element("h2", "", result.label),
     );
     panel.append(
@@ -351,20 +344,9 @@
   function filter() {
     const visible = matching(),
       ids = new Set(visible.map((result) => result.id));
-    data.results.forEach((result) => {
-      const node = $("result-" + result.id);
-      const show = ids.has(result.id);
-      node.classList.toggle("hidden", !show);
-      node.setAttribute("tabindex", show ? "0" : "-1");
-    });
-    data.relations.forEach((edge) => {
-      const node = $("relation-" + edge.id);
-      const show = ids.has(edge.source) && ids.has(edge.target);
-      node.classList.toggle("hidden", !show);
-      node.setAttribute("tabindex", show ? "0" : "-1");
-    });
+    aurora.update(visible, Boolean($("search").value.trim()) || $("lane-filter").value !== "all" || $("review-filter").value !== "all");
     $("visible-count").textContent =
-      visible.length + " of " + data.results.length + " results";
+      visible.length === data.results.length ? "" : visible.length + " matches";
     $("empty").hidden = visible.length > 0;
     $("graph-scroll").hidden = visible.length === 0;
     const list = $("list-view");
@@ -423,6 +405,7 @@
     $("list-view").hidden = mode !== "list";
     $("view-map").setAttribute("aria-pressed", String(mode === "map"));
     $("view-list").setAttribute("aria-pressed", String(mode === "list"));
+    if (mode === "map") aurora.resize();
   }
   function modal(name) {
     $("modal-title").textContent = name;
@@ -736,21 +719,12 @@
       root = doc.documentElement;
     const box = root.getAttribute("viewBox").split(" ").map(Number),
       height = box[3];
-    const raw = JSON.parse($("export-notes").textContent);
+    const lines = JSON.parse($("export-notes").textContent);
     const metadata = doc.createElementNS("http://www.w3.org/2000/svg", "metadata");
     metadata.id = "research-lineage-data";
     metadata.textContent = JSON.stringify(data);
     root.append(metadata);
     const identityHeight = identityView.exportSvg(root, height);
-    const lines = raw.flatMap((text) => {
-      const words = text.split(" "),
-        rows = [""];
-      words.forEach((word) => {
-        if ((rows[rows.length - 1] + word).length > 145) rows.push("");
-        rows[rows.length - 1] += (rows[rows.length - 1] ? " " : "") + word;
-      });
-      return rows;
-    });
     root.setAttribute(
       "viewBox",
       "0 0 1240 " + (height + identityHeight + 60 + lines.length * 18),
@@ -777,11 +751,11 @@
     );
     const grid = element("div", "download-grid");
     grid.append(
-      downloadLink("Interactive HTML  ↓", "map.html", identityView.exportHtml(originalHtml, {
+      downloadLink("Interactive HTML  ↓", "map.html", aurora.exportHtml(identityView.exportHtml(originalHtml, {
         mode: readingState.mode,
         view: $("list-view").hidden ? "map" : "list",
         fragment: readingState.fragment,
-      }, readingWorkspace.ids()), "text/html;charset=utf-8"),
+      }, readingWorkspace.ids())), "text/html;charset=utf-8"),
       downloadLink("Editable SVG  ↓", "map.svg", svgExport(), "image/svg+xml"),
       downloadLink("Structured JSON  ↓", "map.json", JSON.stringify(data, null, 2) + "\n", "application/json"),
     );
@@ -881,21 +855,24 @@
     option.value = lane.id;
     $("lane-filter").append(option);
   });
+  function inspectGraphTarget(target) {
+    if (!target) return;
+    target.classList.contains("node")
+      ? showResult(target.dataset.id)
+      : showRelation(target.dataset.id);
+    if (window.matchMedia("(max-width: 850px)").matches) {
+      $("inspector").scrollIntoView({ block: "start", behavior: "instant" });
+    }
+  }
   $("lineage-map").addEventListener("click", (event) => {
-    const target = event.target.closest(".node,.relation");
-    if (target)
-      target.classList.contains("node")
-        ? showResult(target.dataset.id)
-        : showRelation(target.dataset.id);
+    inspectGraphTarget(event.target.closest(".node,.relation"));
   });
   $("lineage-map").addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
       const target = event.target.closest(".node,.relation");
       if (target) {
         event.preventDefault();
-        target.classList.contains("node")
-          ? showResult(target.dataset.id)
-          : showRelation(target.dataset.id);
+        inspectGraphTarget(target);
       }
     }
   });
@@ -929,7 +906,7 @@
   $("export-button").addEventListener("click", exportMenu);
   function setZoom(value) {
     zoom = Math.max(1, Math.min(2.5, value));
-    $("lineage-map").style.width = zoom * 100 + "%";
+    aurora.setZoom(zoom);
   }
   $("zoom-in").addEventListener("click", () => setZoom(zoom + 0.25));
   $("zoom-out").addEventListener("click", () => setZoom(zoom - 0.25));
@@ -951,7 +928,7 @@
       else if (type === "author" || type === "team") {
         const mode = type === "author" ? "authors" : "groups",
           key = (type === "author" ? "author:" : "group:") + decodeURIComponent(id);
-        if (identityView.follow(mode, key)) showMode("explore");
+        if (identityView.follow(mode, key)) { $("map-options").open = true; $("thread-legend").hidden = true; showMode("explore"); }
         else $("announcement").textContent = "No recorded " + type + " matches this link.";
       }
       else if (type === "explore") showMode("explore");

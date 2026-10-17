@@ -2,6 +2,10 @@
 
 ## Unreleased — 0.2.0
 
+- Add the Aurora chronological atlas with authored reading focus, complete graph
+  access, responsive CJK-safe cards, connection highlighting, and dark/light
+  appearance. Preserve author/team colors and full offline exports.
+
 - Replace the default paper quota with adaptive, source-grounded coverage and
   preserve the research-date cutoff independently of the seed's version date.
 - Add portable research-record schemas and an offline audit of execution

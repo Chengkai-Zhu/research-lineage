@@ -54,6 +54,7 @@ The workflow below is available on `main`; **0.2 is not released yet**. The late
 
 - **Begin with the story.** A short overview and source-linked turning points explain what changed.
 - **Know what to read next.** Follow a suggested route, then explore the complete map.
+- **Trace ideas in Aurora.** Read chronological cards, focus on a result’s connections, or switch to the full graph. Dark/light appearance, readable CJK labels and author/team colors work offline.
 - **Check the reasoning.** Open a connection, its exact paper version, evidence and assumptions when you need them.
 - **Turn reading into action.** Keep an ordered **My reading** collection, export source-linked research notes, and hand unfinished evidence checks to your agent. [Reader workflow](docs/litdelta.md#keep-a-personal-reading-collection)
 - **Keep the whole result.** One offline HTML, plus SVG, JSON and a review report. Filters never discard exported evidence.
@@ -126,7 +127,7 @@ Correct an assumption, improve a source anchor, or add a carefully checked readi
 python -m pip install -e ".[dev]"
 python -m pytest
 python -m ruff check src tests scripts skills
-node --test tests/js/reader-state.test.cjs tests/js/reading-workspace.test.cjs
+node --test tests/js/reader-state.test.cjs tests/js/reading-workspace.test.cjs tests/js/aurora.test.cjs
 python scripts/package_skill.py --out dist
 ```
 
