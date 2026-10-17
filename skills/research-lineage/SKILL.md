@@ -1,6 +1,6 @@
 ---
 name: research-lineage
-description: Trace the development of a research question into a source-grounded, interactive history map. Use for research lineages, competing approaches, changes in assumptions, or an update to an existing map. Produces offline HTML, SVG, JSON, and a review report.
+description: Turn a research topic, a single paper, or a question into a readable history of how the research developed, with primary-source evidence and an offline interactive map. Use for field histories, paper ancestry, competing approaches, or updates to a research map.
 ---
 
 # Research Lineage
@@ -9,7 +9,36 @@ Turn a specific question into a readable map of results and the evidence connect
 them. The distinguishing task is to explain **what changed, under which conditions,
 and according to which source**. A paper list or citation graph alone is insufficient.
 
-## Start from the question
+## One input is enough
+
+Accept a short topic request (for example, "请整理quantum signal processing这个方向的发展历史")
+or one paper: a link, DOI/arXiv identifier, title, or local attachment. Do not ask
+the user to provide a structured question, IDs, cutoff, literature list, or JSON.
+Infer sensible defaults, state the bounded scope briefly, and start researching.
+Ask only when a genuine ambiguity would lead to a substantially different topic.
+
+- **Topic:** choose a concise historical question and trace central developments
+  from foundations to checked recent work, including competing approaches.
+- **Paper:** identify the exact paper and version, read its central contribution,
+  trace the references supporting that contribution, then check follow-ups. Do
+  not assume a supplied paper is the newest without checking. Resolve a bare
+  title before assigning identity. Read private attachments locally, without upload.
+- **Defaults:** follow the user's language, use the actual research date as the
+  cutoff, and aim initially for 8–12 central works. Adjust to the question and
+  available evidence. A selected history is not an exhaustive survey.
+
+The helper prepares files; it does not perform research:
+
+```sh
+python <skill-directory>/scripts/lineage.py start "User's topic or paper" --out output/research
+```
+
+For a bare paper title pass `--kind paper`; use `--language zh` when the user asks
+in Chinese but supplies only an English paper link. Read the generated brief,
+resolve the seed using host research/document tools, and populate the empty map.
+Missing tools mean an honest incomplete draft, never a substituted demo.
+
+## Scope the research
 
 Use the user's scope, seeds, language, cutoff, and existing materials. If the topic
 is too broad to support a useful map, propose a bounded question. Ask only when a
@@ -17,14 +46,16 @@ missing choice materially changes the work. Otherwise state a reasonable scope
 and proceed. Preserve existing authorization; do not require a new approval for
 each research step.
 
-Set a bounded source budget appropriate to the task (for example 12–20 central
+Set a bounded source budget appropriate to the task (for example 8–12 central
 results for a first map). Record what was included, excluded, and not searched.
 Do not call a selected map a complete history.
 
 ## Gather and ground
 
-Use the host's available search and document tools. This skill does not provide
-credentials, subscriptions, or a search service. Consult a review plus early seed
+Use the host's available search and document tools. The optional bundled
+`discover` command provides bounded Crossref/arXiv metadata with request/failure
+logs. It is an explicit network action, not full-text access or extraction.
+This skill does not provide credentials or subscriptions. Consult a review plus early seed
 papers, then trace relevant earlier and later work. Prefer primary sources.
 
 - Verify bibliographic identity; title similarity is not enough to merge works.
@@ -55,6 +86,9 @@ python <skill-directory>/scripts/lineage.py schema --out map.schema.json
 
 Use the task's actual cutoff, not the example date. Populate `map.json` with the
 verified sources and results. Arrange thematic lanes and a short reading route.
+Write a concise orientation and 3–5 source-linked turning points when evidence
+supports them. Explain the problem, what changed, and what remains uncertain in
+plain language. Keep detailed assumptions and provenance available on demand.
 The route is a teaching suggestion, not a proof dependency graph.
 
 ```sh
@@ -64,9 +98,10 @@ python <skill-directory>/scripts/lineage.py build map.json --out output/my-quest
 
 Fix structural errors and inspect the generated HTML when a browser is available.
 Check a result, a relationship, the settings comparison, and the coverage dialog.
-Deliver links to `map.html`, `map.svg`, `map.json`, and `review.md`, with the actual
-scope and any material evidence limitation. Use the user's language for content;
-the v0.1 viewer controls are English.
+Deliver `map.html` first with a short explanation of where to start reading.
+Offer SVG, JSON and the review report as supporting downloads. Use the user's
+language for map content; viewer controls are English. Keep the actual scope and
+material evidence limits visible without overwhelming the opening view.
 
 The validator checks structure and provenance references, not scientific truth or
 reviewer identity. Never invent an external review, reviewer, or expert endorsement.
@@ -83,8 +118,9 @@ python <skill-directory>/scripts/lineage.py compare revised.json result-a result
 ```
 
 A diff is a proposal, not an automatically applied update. Changes to assumptions
-do not automatically invalidate every descendant. This version does not reconstruct
-historical as-of snapshots or monitor literature in the background.
+do not automatically invalidate every descendant. The optional `update` command
+with `--as-of YYYY-MM-DD` inspects exact source-version availability and conflicts.
+It does not reconstruct historical knowledge or monitor literature in the background.
 
 ## Try it without research tools
 

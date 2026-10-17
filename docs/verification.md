@@ -3,6 +3,10 @@
 Dates: 2026-10-16–17. This report distinguishes executable software checks from
 scientific validation. It does not certify the mathematical content of the sample.
 
+The [v0.2 workflow record](test-reports/skill-first-workflow.md) covers the later
+skill-first inputs, reading interface, research tools and bilingual documentation.
+The release-specific observations below remain historical records.
+
 ## Acceptance re-audit and corrections
 
 The immutable v0.1.0 commit `4b64f0d15fdc743bd1afa0370ccf375b9b4d691d` was

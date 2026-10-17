@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0 — 2026-10-17
+
+- Make the skill the primary entry point: start with a topic or one paper, with
+  bounded defaults, language inference and preserved source identifiers.
+- Lead with a reading overview and source-linked turning points. Reveal the
+  graph, filters and collapsible evidence when readers choose to explore.
+- Add explicit bounded Crossref/arXiv discovery, conservative identity grouping,
+  evidence gates and non-mutating source-version availability proposals.
+- Add reproducible engineering evaluation and consent-aware reading-study tools;
+  real independent review and participant validation remain open in #10.
+- Add a surface-code history from one paper seed and recheck the NMT workflow.
+- Provide equivalent English and Simplified Chinese READMEs with language links.
+
 ## 0.1.1 — 2026-10-17
 
 - Bind recorded-review full-text evidence to the result's pinned work/version or

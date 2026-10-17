@@ -19,6 +19,12 @@ from .core import (
     write_text,
 )
 from .render import OUTPUT_NAMES, build
+from .discovery import discover
+from .evaluation import evaluate, study_report
+from .extraction import assess
+from .identity import reconcile
+from .intake import start
+from .temporal import update_proposal
 
 DATA = Path(__file__).parent / "data"
 
@@ -30,6 +36,35 @@ def parser():
     )
     cli.add_argument("--version", action="version", version=__version__)
     commands = cli.add_subparsers(dest="command", required=True)
+    seed = commands.add_parser(
+        "start", help="Prepare a topic or paper for the host research agent"
+    )
+    seed.add_argument("seed")
+    seed.add_argument("--kind", choices=("auto", "topic", "paper"), default="auto")
+    seed.add_argument("--language", choices=("auto", "en", "zh"), default="auto")
+    seed.add_argument("--cutoff", default=date.today().isoformat())
+    seed.add_argument("--out", default="output/research")
+    search = commands.add_parser(
+        "discover", help="Explicit bounded online metadata search"
+    )
+    search.add_argument("query")
+    search.add_argument("--provider", choices=("crossref", "arxiv"), default="crossref")
+    search.add_argument("--limit", type=int, default=12)
+    search.add_argument("--max-requests", type=int, default=3)
+    search.add_argument("--out", required=True)
+    for name in ("reconcile", "assess", "evaluate", "study"):
+        command = commands.add_parser(
+            name, help="Inspect structured research/evaluation input"
+        )
+        command.add_argument("input")
+        command.add_argument("--out")
+    update = commands.add_parser(
+        "update", help="Propose changes with source-version availability at a cutoff"
+    )
+    update.add_argument("before")
+    update.add_argument("after")
+    update.add_argument("--as-of", required=True)
+    update.add_argument("--out")
     demo = commands.add_parser(
         "demo", help="Build the bundled QSP/QSVT example without network access"
     )
@@ -66,7 +101,57 @@ def parser():
 def main(argv=None):
     args = parser().parse_args(argv)
     try:
-        if args.command == "demo":
+        if args.command == "start":
+            print(
+                dump(
+                    start(
+                        args.seed,
+                        args.out,
+                        kind=args.kind,
+                        language=args.language,
+                        cutoff=args.cutoff,
+                    )
+                )
+            )
+        elif args.command == "discover":
+            if Path(args.out).exists():
+                raise MapError("Discovery log exists; choose a new output path.")
+            result = discover(args.query, args.provider, args.limit, args.max_requests)
+            write_text(args.out, dump(result))
+            print(
+                dump(
+                    {
+                        "log": args.out,
+                        "status": result["status"],
+                        "candidates": len(result["candidates"]),
+                    }
+                )
+            )
+            return 3 if result["failures"] else 0
+        elif args.command in ("reconcile", "assess", "evaluate", "study", "update"):
+            if args.out and Path(args.out).exists():
+                raise MapError(
+                    "Output exists; choose a new path to preserve the input and earlier reports."
+                )
+            if args.command == "update":
+                result = update_proposal(
+                    load_map(args.before), load_map(args.after), args.as_of
+                )
+            else:
+                path = Path(args.input)
+                if path.stat().st_size > 5_000_000:
+                    raise MapError("Research input exceeds 5 MB.")
+                data = json.loads(path.read_text(encoding="utf-8-sig"))
+                if args.command in ("evaluate", "study") and not isinstance(data, dict):
+                    raise MapError("Evaluation/study input must be a JSON object.")
+                result = {
+                    "reconcile": reconcile,
+                    "assess": assess,
+                    "evaluate": evaluate,
+                    "study": study_report,
+                }[args.command](data)
+            write_text(args.out, dump(result)) if args.out else print(dump(result))
+        elif args.command == "demo":
             data = load_map(DATA / "qsp-qsvt.json")
             print(dump({"created": build(data, args.out, args.force)}))
         elif args.command == "init":

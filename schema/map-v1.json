@@ -557,6 +557,58 @@
       },
       "minItems": 0,
       "maxItems": 250
+    },
+    "narrative": {
+      "type": "object",
+      "properties": {
+        "overview": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600
+        },
+        "turning_points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 360
+              },
+              "result_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[a-z0-9][a-z0-9-]*$"
+                },
+                "minItems": 1,
+                "maxItems": 4
+              }
+            },
+            "required": [
+              "title",
+              "summary",
+              "result_ids"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 5
+        }
+      },
+      "required": [
+        "overview",
+        "turning_points"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

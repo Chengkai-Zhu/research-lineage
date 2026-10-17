@@ -1,8 +1,10 @@
 include AGENTS.md CLAUDE.md Makefile
+include README.zh-CN.md
 graft scripts
 graft skills
 graft tests
 graft schema
 graft examples
 recursive-include docs *.md *.json
+recursive-include docs/assets *.png *.jpg
 global-exclude __pycache__ *.py[cod]

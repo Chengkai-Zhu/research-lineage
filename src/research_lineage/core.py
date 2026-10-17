@@ -122,9 +122,9 @@ def diff_maps(before, after):
             else None,
         }
     metadata = {
-        key: {"before": before[key], "after": after[key]}
-        for key in ("title", "question", "scope", "reading_route")
-        if before[key] != after[key]
+        key: {"before": before.get(key), "after": after.get(key)}
+        for key in ("title", "question", "scope", "reading_route", "narrative")
+        if before.get(key) != after.get(key)
     }
     return {
         "map_id": before["id"],
@@ -151,6 +151,17 @@ def review_sections(data):
         ("Exclusions", data["scope"]["exclusions"] or ["None recorded."]),
         ("Known gaps", data["scope"]["gaps"]),
     ]
+    if "narrative" in data:
+        sections.append(("Reading overview", [data["narrative"]["overview"]]))
+        sections.append(
+            (
+                "Selected turning points",
+                [
+                    f"{point['title']}: {point['summary']} | Results: {', '.join(point['result_ids'])}"
+                    for point in data["narrative"]["turning_points"]
+                ],
+            )
+        )
     sources = []
     for work in data["works"]:
         sources.append(

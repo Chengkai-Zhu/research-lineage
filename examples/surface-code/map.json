@@ -1,0 +1,327 @@
+{
+  "schema_version": "1.0",
+  "id": "https-arxiv-org-abs-2408-13687v1-98a0dde4",
+  "title": "When more qubits protect better",
+  "question": "How did the surface-code threshold become an experimentally demonstrated quantum memory?",
+  "scope": {
+    "summary": "A four-paper reading path backward from the supplied 2024 surface-code memory paper. This is a selected history, not a complete error-correction survey.",
+    "cutoff": "2024-08-24",
+    "coverage": "Four primary works from 2001–2024. Seed PDF sections I–II and the 2023 Nature results were read; the theory and primer entries use pinned abstracts. All annotations await scholarly review.",
+    "search_strategy": "Started from arXiv:2408.13687v1; followed its references 3, 13 and 17. Checked pinned arXiv metadata/abstracts, seed PDF, and the Nature version of record. A bounded follow-up web search found later work outside this seed-centered cutoff; it was not silently treated as covered. Checked 2026-10-17.",
+    "exclusions": [
+      "A complete history of quantum error correction, including Shor, stabilizer codes and all threshold proofs.",
+      "Bosonic, ion-trap and quantum LDPC alternatives.",
+      "Later work after the selected 2024 seed cutoff."
+    ],
+    "gaps": [
+      "No independent scholarly review.",
+      "Two entries remain abstract-grounded; no proof verification is claimed.",
+      "A memory experiment does not establish universal fault-tolerant computation or cross-device comparability."
+    ]
+  },
+  "lanes": [
+    {
+      "id": "theory",
+      "label": "Threshold and construction",
+      "color": "teal"
+    },
+    {
+      "id": "experiment",
+      "label": "Scaling quantum memories",
+      "color": "blue"
+    }
+  ],
+  "works": [
+    {
+      "id": "threshold",
+      "title": "Topological quantum memory",
+      "authors": [
+        "Eric Dennis",
+        "Alexei Kitaev",
+        "Andrew Landahl",
+        "John Preskill"
+      ],
+      "first_published": "2001-10-24",
+      "versions": [
+        {
+          "id": "threshold-read",
+          "label": "arXiv v1",
+          "published": "2001-10-24",
+          "url": "https://arxiv.org/abs/quant-ph/0110143v1"
+        }
+      ]
+    },
+    {
+      "id": "primer",
+      "title": "A primer on surface codes: Developing a machine language for a quantum computer",
+      "authors": [
+        "Austin G. Fowler",
+        "Matteo Mariantoni",
+        "John M. Martinis",
+        "Andrew N. Cleland"
+      ],
+      "first_published": "2012-08-04",
+      "versions": [
+        {
+          "id": "primer-read",
+          "label": "arXiv v1",
+          "published": "2012-08-04",
+          "url": "https://arxiv.org/abs/1208.0928v1"
+        }
+      ]
+    },
+    {
+      "id": "scaling",
+      "title": "Suppressing quantum errors by scaling a surface code logical qubit",
+      "authors": [
+        "Google Quantum AI"
+      ],
+      "first_published": "2022-07-13",
+      "versions": [
+        {
+          "id": "scaling-v1",
+          "label": "arXiv v1 (recorded, not the cited version)",
+          "published": "2022-07-13",
+          "url": "https://arxiv.org/abs/2207.06431v1"
+        },
+        {
+          "id": "scaling-read",
+          "label": "Nature version of record",
+          "published": "2023-02-22",
+          "url": "https://www.nature.com/articles/s41586-022-05434-1"
+        }
+      ]
+    },
+    {
+      "id": "below-threshold",
+      "title": "Quantum error correction below the surface code threshold",
+      "authors": [
+        "Google Quantum AI and Collaborators"
+      ],
+      "first_published": "2024-08-24",
+      "versions": [
+        {
+          "id": "below-threshold-read",
+          "label": "arXiv v1",
+          "published": "2024-08-24",
+          "url": "https://arxiv.org/pdf/2408.13687v1"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "r-threshold",
+      "work_id": "threshold",
+      "version_id": "threshold-read",
+      "label": "A threshold for protection",
+      "summary": "Surface-code recovery has a threshold: below it, increasing the code block can protect encoded information increasingly well, under explicit locality and processing assumptions.",
+      "lane": "theory",
+      "kind": "foundation",
+      "settings": {
+        "input": "Topological codes on a two-dimensional qubit array.",
+        "assumptions": "Local gates, rapid measurements and instantaneous polynomial-size classical processing in the analyzed threshold setting.",
+        "cost": null,
+        "error": "A threshold statement under the stated noise and recovery assumptions; no numeric threshold is extracted here."
+      },
+      "evidence": [
+        "e-threshold"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-primer",
+      "work_id": "primer",
+      "version_id": "primer-read",
+      "label": "From code to architecture",
+      "summary": "The primer connects stabilizers, two-dimensional arrays, logical operations and resource estimates into a practical introduction to surface-code computing.",
+      "lane": "theory",
+      "kind": "tutorial",
+      "settings": {
+        "input": "Logical qubits encoded in a surface-code array.",
+        "assumptions": "Surface-code architecture and logical operations; exact resource assumptions require reading the full source.",
+        "cost": null,
+        "error": null
+      },
+      "evidence": [
+        "e-primer"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-scaling",
+      "work_id": "scaling",
+      "version_id": "scaling-read",
+      "label": "A first scaling advantage",
+      "summary": "A superconducting distance-5 logical memory modestly outperforms the measured distance-3 comparison. The gain depends on the device errors and decoding method.",
+      "lane": "experiment",
+      "kind": "result",
+      "settings": {
+        "input": "Superconducting surface-code memories at distances 3 and 5.",
+        "assumptions": "Repeated syndrome extraction; decoder and device-specific error budget.",
+        "cost": null,
+        "error": "Logical error per cycle is measured within the experiment. This map does not rank it against a different processor."
+      },
+      "evidence": [
+        "e-scaling"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-below-threshold",
+      "work_id": "below-threshold",
+      "version_id": "below-threshold-read",
+      "label": "Memory below threshold",
+      "summary": "The seed demonstrates error suppression with code distance and a distance-7 memory, alongside a distance-5 real-time decoder. Rare correlated errors and longer computations remain distinct challenges.",
+      "lane": "experiment",
+      "kind": "result",
+      "settings": {
+        "input": "Superconducting surface-code memories at distances 3, 5 and 7.",
+        "assumptions": "Device-calibrated decoding and active leakage removal; memory experiments rather than universal logical computation.",
+        "cost": "The distance-7 memory uses 101 physical qubits including leakage removal; this is not a gate-complexity claim.",
+        "error": "The seed reports a distance-7 logical error per cycle of 0.143% ± 0.003%, with decoder and experimental conditions stated in section II."
+      },
+      "evidence": [
+        "e-below-threshold"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "e-threshold",
+      "work_id": "threshold",
+      "version_id": "threshold-read",
+      "url": "https://arxiv.org/abs/quant-ph/0110143v1",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "Surface-code recovery has a threshold: below it, increasing the code block can protect encoded information increasingly well, under explicit locality and processing assumptions.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "e-primer",
+      "work_id": "primer",
+      "version_id": "primer-read",
+      "url": "https://arxiv.org/abs/1208.0928v1",
+      "locator": "Abstract",
+      "kind": "abstract",
+      "summary": "The primer connects stabilizers, two-dimensional arrays, logical operations and resource estimates into a practical introduction to surface-code computing.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "e-scaling",
+      "work_id": "scaling",
+      "version_id": "scaling-read",
+      "url": "https://www.nature.com/articles/s41586-022-05434-1",
+      "locator": "Abstract; Logical performance and Fig. 3",
+      "kind": "full_text",
+      "summary": "A superconducting distance-5 logical memory modestly outperforms the measured distance-3 comparison. The gain depends on the device errors and decoding method.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "e-below-threshold",
+      "work_id": "below-threshold",
+      "version_id": "below-threshold-read",
+      "url": "https://arxiv.org/pdf/2408.13687v1",
+      "locator": "Sections I–II, PDF pp. 1–3; Fig. 1; references 3, 13 and 17",
+      "kind": "full_text",
+      "summary": "The seed demonstrates error suppression with code distance and a distance-7 memory, alongside a distance-5 real-time decoder. Rare correlated errors and longer computations remain distinct challenges.",
+      "checked": "2026-10-17"
+    }
+  ],
+  "relations": [
+    {
+      "id": "threshold-to-primer",
+      "source": "r-threshold",
+      "target": "r-primer",
+      "type": "addresses",
+      "summary": "An editorial reading connection from the threshold conditions to a surface-code introduction; not a verified theorem dependency.",
+      "evidence": [
+        "e-primer"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "threshold-to-below-threshold",
+      "source": "r-threshold",
+      "target": "r-below-threshold",
+      "type": "addresses",
+      "summary": "The seed introduces threshold scaling with reference 3 and then measures suppression as code distance increases.",
+      "evidence": [
+        "e-below-threshold"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "primer-to-below-threshold",
+      "source": "r-primer",
+      "target": "r-below-threshold",
+      "type": "addresses",
+      "summary": "The primer provides architectural context for the memory experiment. The seed cites the later journal paper; this map inspected the earlier v1 primer and does not equate their content.",
+      "evidence": [
+        "e-below-threshold"
+      ],
+      "basis": "editorial_inference",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "scaling-to-below-threshold",
+      "source": "r-scaling",
+      "target": "r-below-threshold",
+      "type": "uses_result",
+      "summary": "Section II explicitly follows the memory-operation methods in reference 17, the 2023 version of record. This is a method-use claim, not a cross-device bound improvement.",
+      "evidence": [
+        "e-below-threshold"
+      ],
+      "basis": "author_explicit",
+      "comparability": "not_assessed",
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "reading_route": [
+    "r-threshold",
+    "r-primer",
+    "r-scaling",
+    "r-below-threshold"
+  ],
+  "narrative": {
+    "overview": "Adding qubits can introduce more errors—or protect a logical qubit better. This reading path follows the conditions that make the second outcome possible, from a theoretical threshold to measured quantum memories.",
+    "turning_points": [
+      {
+        "title": "Protection has conditions",
+        "summary": "Threshold theory and surface-code constructions explain why a larger code can help, provided the physical operations and recovery procedure meet the assumptions.",
+        "result_ids": [
+          "r-threshold",
+          "r-primer"
+        ]
+      },
+      {
+        "title": "Test whether scaling helps",
+        "summary": "The 2022 preprint, published in 2023, finds a modest advantage when moving from distance 3 to distance 5 on the tested processor.",
+        "result_ids": [
+          "r-scaling"
+        ]
+      },
+      {
+        "title": "Reach below-threshold memory",
+        "summary": "The 2024 seed demonstrates stronger distance scaling and studies real-time decoding. A reliable memory remains one component of a larger computation.",
+        "result_ids": [
+          "r-below-threshold"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "recorded_utc": "2026-10-17T01:17:38.294448+00:00",
+  "measurements": "Command wall time only. Source-reading and active authoring effort were not instrumented; no participant data exists.",
+  "maps": [
+    {
+      "map": "qsp",
+      "source": "src/research_lineage/data/qsp-qsvt.json",
+      "works": 8,
+      "results": 8,
+      "relations": 6,
+      "evidence": 8,
+      "command_seconds": {
+        "validate": 0.5513,
+        "build": 0.5586
+      },
+      "validation": "pass",
+      "build": "pass"
+    },
+    {
+      "map": "nmt",
+      "source": "examples/nmt-attention/map.json",
+      "works": 6,
+      "results": 6,
+      "relations": 6,
+      "evidence": 6,
+      "command_seconds": {
+        "validate": 0.5309,
+        "build": 0.5311
+      },
+      "validation": "pass",
+      "build": "pass"
+    },
+    {
+      "map": "surface-code",
+      "source": "examples/surface-code/map.json",
+      "works": 4,
+      "results": 4,
+      "relations": 4,
+      "evidence": 4,
+      "command_seconds": {
+        "validate": 0.5039,
+        "build": 0.5343
+      },
+      "validation": "pass",
+      "build": "pass"
+    }
+  ],
+  "provider_smokes": [
+    {
+      "provider": "crossref",
+      "query": "quantum signal processing",
+      "status": "partial",
+      "requests": [
+        {
+          "url": "https://api.crossref.org/works?query.bibliographic=quantum+signal+processing&rows=3&cursor=%2A",
+          "timestamp": "2026-10-16T17:26:28.358746+00:00",
+          "offset": 0,
+          "requested": 3,
+          "status": "ok",
+          "returned": 3
+        }
+      ],
+      "failures": [],
+      "truncated": true,
+      "candidate_count": 3
+    },
+    {
+      "provider": "arxiv",
+      "query": "all:surface AND all:code",
+      "status": "partial",
+      "requests": [
+        {
+          "url": "https://export.arxiv.org/api/query?search_query=all%3Asurface+AND+all%3Acode&start=0&max_results=3",
+          "timestamp": "2026-10-16T17:26:30.652964+00:00",
+          "offset": 0,
+          "requested": 3,
+          "status": "failed",
+          "error": {
+            "request": 1,
+            "reason": "The read operation timed out",
+            "http_status": null
+          }
+        }
+      ],
+      "failures": [
+        {
+          "request": 1,
+          "reason": "The read operation timed out",
+          "http_status": null
+        }
+      ],
+      "truncated": true,
+      "candidate_count": 0
+    }
+  ],
+  "gate_evaluation": {
+    "provenance": {
+      "kind": "engineering_fixture",
+      "method": "Hand-authored synthetic boundary cases; source access is simulated. No human scientific labels."
+    },
+    "cases": 6,
+    "per_type": {
+      "generalizes": {
+        "cases": 1,
+        "proposed": 0,
+        "decision_precision": null,
+        "coverage": 0.0,
+        "abstention": 1.0
+      },
+      "improves_bound": {
+        "cases": 1,
+        "proposed": 0,
+        "decision_precision": null,
+        "coverage": 0.0,
+        "abstention": 1.0
+      },
+      "uses_result": {
+        "cases": 4,
+        "proposed": 2,
+        "decision_precision": 1.0,
+        "coverage": 0.5,
+        "abstention": 0.5
+      }
+    },
+    "outcomes": [
+      {
+        "id": "explicit-method",
+        "type": "uses_result",
+        "decision": "propose",
+        "reasons": [],
+        "review_status": "proposed",
+        "source_access": "full_text",
+        "meaning": "Evidence gate only; a proposal is not an accepted scientific claim.",
+        "expected": "propose",
+        "correct": true
+      },
+      {
+        "id": "no-text",
+        "type": "uses_result",
+        "decision": "abstain",
+        "reasons": [
+          "Readable source text is unavailable; metadata is insufficient."
+        ],
+        "review_status": "proposed",
+        "source_access": "unavailable",
+        "meaning": "Evidence gate only; a proposal is not an accepted scientific claim.",
+        "expected": "abstain",
+        "correct": true
+      },
+      {
+        "id": "abstract",
+        "type": "uses_result",
+        "decision": "propose",
+        "reasons": [],
+        "review_status": "proposed",
+        "source_access": "abstract",
+        "meaning": "Evidence gate only; a proposal is not an accepted scientific claim.",
+        "expected": "propose",
+        "correct": true
+      },
+      {
+        "id": "citation-not-generalization",
+        "type": "generalizes",
+        "decision": "abstain",
+        "reasons": [
+          "A citation cannot support a semantic relationship."
+        ],
+        "review_status": "proposed",
+        "source_access": "full_text",
+        "meaning": "Evidence gate only; a proposal is not an accepted scientific claim.",
+        "expected": "abstain",
+        "correct": true
+      },
+      {
+        "id": "unknown-cost-unit",
+        "type": "improves_bound",
+        "decision": "abstain",
+        "reasons": [
+          "A bound improvement needs explicit comparable settings and cost units."
+        ],
+        "review_status": "proposed",
+        "source_access": "full_text",
+        "meaning": "Evidence gate only; a proposal is not an accepted scientific claim.",
+        "expected": "abstain",
+        "correct": true
+      },
+      {
+        "id": "wrong-version",
+        "type": "uses_result",
+        "decision": "abstain",
+        "reasons": [
+          "Evidence must match the exact source version_id."
+        ],
+        "review_status": "proposed",
+        "source_access": "full_text",
+        "meaning": "Evidence gate only; a proposal is not an accepted scientific claim.",
+        "expected": "abstain",
+        "correct": true
+      }
+    ],
+    "external_validation": false,
+    "interpretation": "These metrics measure agreement with supplied labels. Engineering fixtures do not measure scientific precision; reviewer identity is recorded, not authenticated."
+  },
+  "study": {
+    "participants": 0,
+    "paired_tasks": 0,
+    "status": "awaiting_participants",
+    "conditions": {
+      "baseline": {
+        "observations": 0,
+        "mean_seconds": null,
+        "accuracy": null
+      },
+      "map": {
+        "observations": 0,
+        "mean_seconds": null,
+        "accuracy": null
+      }
+    },
+    "limitations": [
+      "No independent participants recruited or consented yet.",
+      "No observed user benefit or scholarly accuracy is claimed."
+    ],
+    "interpretation": "Descriptive paired observations only; no causal claim or scientific certification."
+  },
+  "filtered_exports": {
+    "visible_results": 2,
+    "retained_results": 6,
+    "retained_relations": 6,
+    "html_svg_json_equal_input": true,
+    "file_protocol_reopen": "unavailable in browser automation"
+  },
+  "narrow_layout": {
+    "measured_css_width": 389,
+    "document_client_width": 367,
+    "document_scroll_width": 367
+  }
+}

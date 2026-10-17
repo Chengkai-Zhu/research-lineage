@@ -117,6 +117,41 @@
       parent.append(link(review.name + " ↗", review.url)),
     );
   }
+  function showMode(mode) {
+    $("story-view").hidden = mode !== "overview";
+    $("explorer").hidden = mode !== "explore";
+    $("mode-overview").setAttribute("aria-pressed", String(mode === "overview"));
+    $("mode-explore").setAttribute("aria-pressed", String(mode === "explore"));
+    document.body.classList.toggle("exploring", mode === "explore");
+  }
+  function finishInspector() {
+    const panel = $("inspector");
+    let group = null;
+    [...panel.children].forEach((node) => {
+      if (node.classList.contains("section-label")) {
+        group = element("details", "evidence-section");
+        group.append(element("summary", "", node.textContent));
+        node.replaceWith(group);
+      } else if (node.classList.contains("paper-meta") && !group) {
+        group = element("details", "evidence-section");
+        group.append(element("summary", "", "PAPER & VERSION"));
+        node.before(group);
+        group.append(node);
+      } else if (group) group.append(node);
+    });
+    panel.prepend(button("Close details ×", () => {
+      const old = selected, type = selectedType;
+      selected = null;
+      panel.hidden = true;
+      $("explorer").classList.remove("has-selection");
+      highlights();
+      try { history.replaceState(null, "", "#explore"); } catch (_) {}
+      $(type + "-" + old)?.focus();
+    }, "inspector-close"));
+    panel.hidden = false;
+    $("explorer").classList.add("has-selection");
+    showMode("explore");
+  }
   function showResult(id, update = true) {
     if (!results[id]) return;
     selected = id;
@@ -189,6 +224,7 @@
       });
     }
     appendReviews(panel, result);
+    finishInspector();
     highlights();
     if (update) updateHash("result", id);
   }
@@ -244,6 +280,7 @@
       ),
     );
     appendReviews(panel, edge);
+    finishInspector();
     highlights();
     if (update) updateHash("relation", id);
   }
@@ -308,7 +345,10 @@
         row.append(body);
         list.append(row);
       });
-    if (!visible.length) {
+    if (!selected) {
+      $("inspector").hidden = true;
+      $("explorer").classList.remove("has-selection");
+    } else if (!visible.length) {
       $("inspector").replaceChildren(
         element("div", "eyebrow", "EVIDENCE INSPECTOR"),
         element("h2", "", "No selected result"),
@@ -482,16 +522,18 @@
       behavior: "instant",
     });
   }
-  function download(name, content, type) {
+  function downloadLink(label, name, content, type) {
     const url = URL.createObjectURL(new Blob([content], { type }));
-    const anchor = element("a");
+    const anchor = element("a", "button", label);
     anchor.href = url;
     anchor.download = name;
-    document.body.append(anchor);
-    anchor.click();
-    anchor.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    $("announcement").textContent = "Exported " + name;
+    anchor.addEventListener("click", () => {
+      $("announcement").textContent = "Download requested: " + name;
+    });
+    $("modal").addEventListener("close", () => {
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }, {once:true});
+    return anchor;
   }
   function svgExport() {
     const doc = new DOMParser().parseFromString(originalSvg, "image/svg+xml"),
@@ -538,20 +580,9 @@
     );
     const grid = element("div", "download-grid");
     grid.append(
-      button("Interactive HTML  ↓", () => {
-        $("modal").close();
-        download("map.html", originalHtml, "text/html;charset=utf-8");
-      }),
-      button("Editable SVG  ↓", () =>
-        download("map.svg", svgExport(), "image/svg+xml"),
-      ),
-      button("Structured JSON  ↓", () =>
-        download(
-          "map.json",
-          JSON.stringify(data, null, 2) + "\n",
-          "application/json",
-        ),
-      ),
+      downloadLink("Interactive HTML  ↓", "map.html", originalHtml, "text/html;charset=utf-8"),
+      downloadLink("Editable SVG  ↓", "map.svg", svgExport(), "image/svg+xml"),
+      downloadLink("Structured JSON  ↓", "map.json", JSON.stringify(data, null, 2) + "\n", "application/json"),
     );
     body.append(
       grid,
@@ -564,6 +595,24 @@
   }
 
   $("question").textContent = data.question;
+  $("overview-summary").textContent = data.narrative?.overview || "";
+  $("overview-summary").hidden = !data.narrative;
+  document.body.classList.toggle("has-narrative", Boolean(data.narrative));
+  $("route-caption").textContent = data.reading_route.length
+    ? data.reading_route.length + " steps · a suggested path through the ideas"
+    : "No reading route recorded · explore the map instead";
+  $("mode-overview").addEventListener("click", () => {
+    showMode("overview");
+    try { history.replaceState(null, "", "#overview"); } catch (_) {}
+  });
+  $("mode-explore").addEventListener("click", () => showMode("explore"));
+  document.querySelectorAll(".story-source").forEach((node) => {
+    node.addEventListener("click", () => {
+      resetFilters();
+      showResult(node.dataset.result);
+      $("explorer").scrollIntoView({block:"start", behavior:"instant"});
+    });
+  });
   $("map-category").textContent = data.id.replaceAll("-", " ").toUpperCase();
   const years = data.works.map((work) =>
     Number(work.first_published.slice(0, 4)),
@@ -583,9 +632,9 @@
   $("coverage-short").textContent =
     data.results.filter((result) => result.review_status === "proposed")
       .length +
-    " draft results · " +
+    " results awaiting review · " +
     data.evidence.filter((item) => item.kind === "abstract").length +
-    " abstract-level sources · Evidence limits stay visible.";
+    " abstract-level sources";
   $("cutoff-label").textContent = "SCOPE CUTOFF / " + data.scope.cutoff;
   data.lanes.forEach((lane) => {
     const option = element("option", "", lane.label);
@@ -622,7 +671,7 @@
   $("modal-close").addEventListener("click", () => $("modal").close());
   $("compare-button").addEventListener("click", () =>
     showCompare(
-      selectedType === "result" ? selected : data.results[0].id,
+      selectedType === "result" && selected ? selected : data.results[0].id,
       data.results.find((result) => result.id !== selected)?.id ||
         data.results[0].id,
     ),
@@ -651,15 +700,13 @@
         showRelation(decodeURIComponent(id), false);
       else if (type === "result" && results[decodeURIComponent(id)])
         showResult(decodeURIComponent(id), false);
+      else if (type === "explore") showMode("explore");
+      else if (type === "overview") showMode("overview");
     } catch (_) {
       /* Invalid fragments do not prevent using the map. */
     }
   }
-  showResult(
-    data.results.find((result) => result.kind === "framework")?.id ||
-      data.results[0].id,
-    false,
-  );
+  showMode("overview");
   restoreHash();
   filter();
   window.addEventListener("hashchange", restoreHash);

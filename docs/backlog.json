@@ -5,12 +5,12 @@
       "description": "Installable skill, evidence-linked map contract, offline interactive viewer, grounded draft example, reproducible tests and first release. Software readiness does not imply scientific certification."
     },
     {
-      "title": "v0.2 — Auditable discovery and assisted authoring",
-      "description": "Bounded retrieval, explicit provider failures, identity/version reconciliation, and independently evaluated extraction. No unsupported automatic semantic claims."
+      "title": "v0.2 — Simple inputs and readable research histories",
+      "description": "Skill-first topic/paper intake, bounded discovery, proposal gates, calm progressive reading, bilingual documentation, temporal proposals and reproducible evaluation tools."
     },
     {
-      "title": "v0.3 — Reviewed maps and accountable updates",
-      "description": "Real external review, source-version-aware updates, and transfer beyond the flagship example. Requires actual review and user-study evidence."
+      "title": "External validation — independent review and user study",
+      "description": "Requires real consenting participants and actual observations. Software fixtures and agent self-checks do not close this milestone."
     }
   ],
   "issues": [
@@ -115,7 +115,7 @@
       "milestone": 1,
       "problem": "Host research tools are currently the only retrieval route; provider behavior is not captured in a reusable log.",
       "deliverable": "Add a no-paid-default Crossref/arXiv adapter with explicit candidate/request limits, pagination, query logs, and partial-result status.",
-      "acceptance": "Implement and run `python -m pytest tests/test_discovery.py -q`. A fixture with two pages and a candidate cap must stop at the cap, preserving queries, timestamps, truncation, and rejected candidates.",
+      "acceptance": "Implement and run `python -m pytest tests/test_discovery.py -q`. A fixture with two pages and a candidate cap must stop at the cap, preserving queries, timestamps, truncation, and rejected candidates. Run a bounded live smoke query and record actual provider status; failure is not a successful search. Discovery remains an explicit network command; rendering stays offline.",
       "negative": "Inject timeout, HTTP 429, and malformed data. Preserve available results and a failure record; do not synthesize missing papers.",
       "original": "RL-010, RL-014",
       "dependencies": [
@@ -124,11 +124,11 @@
     },
     {
       "key": 9,
-      "title": "Reconcile source identities and evaluate assisted extraction",
+      "title": "Reconcile source identities and gate assisted extraction proposals",
       "milestone": 1,
       "problem": "Title similarity and LLM confidence are insufficient for version reconciliation or semantic relation acceptance.",
-      "deliverable": "Add identifier-based reconciliation and an explicitly bounded assisted-extraction interface. Evaluate on independently labeled positive and incomparable cases.",
-      "acceptance": "Implement `tests/test_identity.py` and `tests/test_extraction.py`; publish the evaluation manifest, source access status, per-type precision/coverage/abstention, and reviewer provenance.",
+      "deliverable": "Add identifier-based reconciliation and a bounded interface for host-authored extraction candidates. Preserve conflicts, source access and abstentions. Provide a reproducible evaluation runner with honest provenance.",
+      "acceptance": "Run `python -m pytest tests/test_identity.py tests/test_extraction.py -q`. Same-title/different-DOI records stay separate; arXiv revisions group without losing versions; contradictory identifiers are flagged. Candidate gates abstain on unavailable text, missing locators, unknown comparison units and citation-only semantic claims. Publish an engineering-fixture evaluation manifest with per-type decision precision/coverage/abstention; label it explicitly as fixture validation, not independent semantic accuracy. Independent human labeling remains in #10.",
       "negative": "Same-title different-DOI works must not merge automatically. Unknown cost units must not become an accepted bound improvement. Unavailable full text must remain unavailable.",
       "original": "RL-011, RL-012, RL-016, RL-017, RL-018, RL-019",
       "dependencies": [
@@ -141,7 +141,7 @@
       "milestone": 2,
       "problem": "The flagship example has no external scholarly review or measured user outcomes.",
       "deliverable": "Recruit real independent reviewers, document conflicts and disagreements, and run bounded reading tasks that measure source-checking accuracy and time.",
-      "acceptance": "Publish actual review references and anonymized study results with consent. Document participant counts, methods, failures, and baseline comparisons; do not replace missing observations with estimates.",
+      "acceptance": "Publish actual review references and anonymized study results with consent. Document participant counts, methods, failures, and baseline comparisons; do not replace missing observations with estimates. User decision on 2026-10-17: no participants or review materials are currently available. Keep this issue open until genuine external evidence exists. Software evaluation tooling and engineering fixtures are tracked separately and do not satisfy this issue.",
       "negative": "Agent-generated reviewer names and self-assessed precision do not satisfy acceptance.",
       "original": "RL-008, RL-009, RL-019, RL-024",
       "dependencies": [
@@ -151,7 +151,7 @@
     {
       "key": 11,
       "title": "Propose source-version-aware frontier updates",
-      "milestone": 2,
+      "milestone": 1,
       "problem": "Current diffs compare map files but cannot reconstruct what was known at a historical cutoff.",
       "deliverable": "Specify temporal semantics and implement update proposals that preserve source-version availability and unresolved conflicts.",
       "acceptance": "Implement `tests/test_temporal_updates.py`; a revision published after a historical cutoff must be excluded or explicitly make reconstruction unavailable. Proposals must preserve old map files.",
@@ -165,16 +165,67 @@
     {
       "key": 12,
       "title": "Evaluate transfer beyond the flagship map",
-      "milestone": 2,
+      "milestone": 1,
       "problem": "One quantum example does not establish that the workflow generalizes to other questions.",
-      "deliverable": "Produce a second quantum map and one non-quantum map with actual source checks, domain-specific settings, and recorded review effort.",
-      "acceptance": "Publish both maps, source records, validation reports, review limitations, and measured authoring/review effort. Run each through the same build and browser workflow.",
+      "deliverable": "Produce a second quantum map from a single paper seed and rerun the non-quantum NMT map with the revised reading experience. Preserve source/version checks, domain-specific settings, and measured agent authoring/checking effort.",
+      "acceptance": "Publish both checked map inputs, research logs, validation/build records, and actual browser observations. Record observed effort and limitations, distinguishing agent work from external human review. Both maps must work with the same generic runtime. Human quality/transfer studies remain in #10.",
       "negative": "Do not copy QSVT-specific settings into another domain or claim cross-domain quality from synthetic data.",
       "original": "RL-025, RL-028",
       "dependencies": [
-        9,
-        10
+        9
       ]
+    },
+    {
+      "title": "Start a research history from one topic or one paper",
+      "problem": "Users should not need to write a research specification, choose IDs, or fill JSON to invoke the skill.",
+      "deliverable": "Make the skill the primary product. Accept a short topic, DOI/arXiv link, paper title, or local paper. Infer a bounded brief, language and source budget; use host research tools to author the map. Add a deterministic start helper without pretending it performs research.",
+      "acceptance": "Run `python -m pytest tests/test_intake.py -q`. Topic and paper seeds produce empty drafts and useful research briefs, with preserved pinned versions and no network. Exercise one natural-language topic and one paper seed through real authoring/build/viewer runs.",
+      "negative": "A local/private PDF is not uploaded; an empty draft is not replaced with bundled content; a bare paper title is resolved before identity is asserted.",
+      "key": 14,
+      "milestone": 1,
+      "dependencies": [
+        7
+      ],
+      "original": "User-requested product refinement, 2026-10-17"
+    },
+    {
+      "title": "Lead with a calm reading overview and reveal evidence on demand",
+      "problem": "The initial map presents a graph, filters, warnings and a full inspector together, leaving new researchers unsure where to begin.",
+      "deliverable": "Create a restrained overview with a concise source-linked narrative, a short reading entry point and a secondary explore view. Keep provenance, comparison and full exports one step away. Preserve old maps and keyboard access.",
+      "acceptance": "Build QSP, NMT and the new paper-seed map. In the actual browser, verify the initial overview has one primary reading action and no open inspector/filter panel; reveal the explorer, complete the route, recover empty filters, inspect source versions and export the complete input from a filtered view. Check desktop and narrow layout and record screenshots.",
+      "negative": "Simplification must not hide proposed status, invent turning points, truncate the exported dataset, break deep links, or remove source/version evidence.",
+      "key": 15,
+      "milestone": 1,
+      "dependencies": [
+        7
+      ],
+      "original": "User-requested product refinement, 2026-10-17"
+    },
+    {
+      "title": "Offer equivalent English and Chinese READMEs with a clear skill-first quickstart",
+      "problem": "The repository currently has only an English README and exposes implementation commands before the simple user workflow.",
+      "deliverable": "Add README.zh-CN.md and reciprocal language links at the top. Both explain topic/paper inputs, skill installation, output navigation, honest boundaries and advanced CLI usage.",
+      "acceptance": "Follow both README paths from installation to topic/paper examples; verify reciprocal local links, equivalent commands and limitations, and include the Chinese README in the source distribution.",
+      "negative": "Language switching must resolve to real files; neither version may imply an autonomous hosted research service or completed external certification.",
+      "key": 16,
+      "milestone": 1,
+      "dependencies": [
+        7
+      ],
+      "original": "User-requested product refinement, 2026-10-17"
+    },
+    {
+      "title": "Provide reproducible evaluation and consent-aware reading-study tools",
+      "problem": "External evaluation cannot yet run, and invented or self-assessed scientific scores would be misleading.",
+      "deliverable": "Provide extraction-gate evaluation and a reading-task study protocol/report tool. Require explicit provenance, consent, actual timings, paired baseline observations and source-check outcomes. Keep missing data visibly unavailable.",
+      "acceptance": "Run `python -m pytest tests/test_evaluation.py -q`. Valid labeled fixture decisions produce known per-type metrics; missing predictions, non-consented observations and duplicate participant/task rows are rejected. An empty study yields zero participants and unavailable metrics. Publish a blank study template and protocol without fabricated participants.",
+      "negative": "Engineering fixtures must not be labeled independent human review, and an empty study must not report perfect accuracy.",
+      "key": 17,
+      "milestone": 1,
+      "dependencies": [
+        7
+      ],
+      "original": "User-requested product refinement, 2026-10-17"
     }
   ]
 }

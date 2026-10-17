@@ -439,5 +439,34 @@
     "r-luong",
     "r-convs2s",
     "r-transformer"
-  ]
+  ],
+  "narrative": {
+    "overview": "Translation models first compressed a sentence into one representation. Attention let the decoder look back at its input. Later architectures changed how those representations were built, culminating in the Transformer.",
+    "turning_points": [
+      {
+        "title": "A sentence becomes a vector",
+        "summary": "Early encoder–decoder models learn fixed-length representations of phrases and sentences.",
+        "result_ids": [
+          "r-cho",
+          "r-sutskever"
+        ]
+      },
+      {
+        "title": "The decoder learns where to look",
+        "summary": "Learned alignment replaces a single fixed context with access to source positions; global and local attention explore that choice.",
+        "result_ids": [
+          "r-bahdanau",
+          "r-luong"
+        ]
+      },
+      {
+        "title": "Rethink the sequence model",
+        "summary": "Convolution and then self-attention change the representation machinery. Their experimental settings still need to be compared carefully.",
+        "result_ids": [
+          "r-convs2s",
+          "r-transformer"
+        ]
+      }
+    ]
+  }
 }

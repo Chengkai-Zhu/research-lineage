@@ -147,6 +147,55 @@ def export_svg(data):
     )
 
 
+def render_story(data):
+    """Source-linked orientation, never invented from a citation graph."""
+    results = {r["id"]: r for r in data["results"]}
+    works = {w["id"]: w for w in data["works"]}
+    narrative = data.get("narrative")
+    if narrative:
+        points = narrative["turning_points"]
+    else:
+        route = data["reading_route"] or list(results)
+        chosen = list(dict.fromkeys((route[0], route[len(route) // 2], route[-1])))
+        points = [
+            {
+                "title": results[r]["label"],
+                "summary": results[r]["summary"],
+                "result_ids": [r],
+            }
+            for r in chosen
+        ]
+    cards = []
+    for index, point in enumerate(points):
+        years = sorted(
+            {
+                works[results[r]["work_id"]]["first_published"][:4]
+                for r in point["result_ids"]
+            }
+        )
+        dates = years[0] if len(years) == 1 else years[0] + "–" + years[-1]
+        sources = "".join(
+            f'<button class="story-source" data-result="{ref}">{html.escape(results[ref]["label"])} <span aria-hidden="true">↗</span></button>'
+            for ref in point["result_ids"]
+        )
+        cards.append(
+            f'<article class="story-card"><div class="story-date"><span>{index + 1:02}</span>{dates}</div>'
+            f"<h3>{html.escape(point['title'])}</h3><p>{html.escape(point['summary'])}</p>"
+            f'<div class="story-sources">{sources}</div></article>'
+        )
+    heading = "The turning points" if narrative else "A few places to begin"
+    note = (
+        "A selected account, with the evidence one step away."
+        if narrative
+        else "Selected from the reading route; no authored historical overview is recorded."
+    )
+    return (
+        f'<div class="story-heading"><h2>{heading}</h2><p>{note}</p></div><div class="story-grid">'
+        + "".join(cards)
+        + "</div>"
+    )
+
+
 def render_html(data):
     serialized = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     serialized = (
@@ -161,6 +210,7 @@ def render_html(data):
         "JS": (ASSETS / "viewer.js").read_text(encoding="utf-8"),
         "DATA": serialized,
         "SVG": render_svg(data),
+        "STORY": render_story(data),
         "EXPORT_NOTES": json.dumps(export_notes(data), ensure_ascii=False)
         .replace("<", "\\u003c")
         .replace(">", "\\u003e")
@@ -170,7 +220,7 @@ def render_html(data):
     import re
 
     return re.sub(
-        r"@@(TITLE|CSS|JS|DATA|SVG|EXPORT_NOTES)@@",
+        r"@@(TITLE|CSS|JS|DATA|SVG|EXPORT_NOTES|STORY)@@",
         lambda match: values[match[1]],
         template,
     )

@@ -527,5 +527,35 @@
     "r-comment",
     "r-un",
     "r-decision"
-  ]
+  ],
+  "narrative": {
+    "overview": "A way to shape quantum signals became a common language for quantum algorithms. Follow the move from a single signal to singular values, then see why adding more variables makes the conditions matter again.",
+    "turning_points": [
+      {
+        "title": "Shape a quantum signal",
+        "summary": "QSP and qubitization connect controlled polynomial transformations with the design of quantum algorithms.",
+        "result_ids": [
+          "r-qsp",
+          "r-qubitization"
+        ]
+      },
+      {
+        "title": "A common language emerges",
+        "summary": "Singular value transformation organizes a wider family of algorithms around a shared construction.",
+        "result_ids": [
+          "r-qsvt",
+          "r-tutorial"
+        ]
+      },
+      {
+        "title": "More variables, new conditions",
+        "summary": "Multivariable proposals and subsequent discussion make the assumptions part of the story, rather than an invisible footnote.",
+        "result_ids": [
+          "r-mqsp",
+          "r-comment",
+          "r-decision"
+        ]
+      }
+    ]
+  }
 }
