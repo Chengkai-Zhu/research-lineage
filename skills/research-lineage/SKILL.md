@@ -122,6 +122,12 @@ python <skill-directory>/scripts/lineage.py audit-research run-manifest.json
 ```
 
 Fix structural errors and inspect the generated HTML when a browser is available.
+For a request about what changed or competing approaches, use format 1.1's
+explicit comparison records when the evidence supports them. Record each question,
+regime, tradeoff and version-bound sources; retain unknown/incomparable cases.
+The reader's **Save this explanation** copies or downloads a selected comparison
+with its conditions, source versions, review status and scope gaps for reuse in
+notes. It never upgrades those records to independent scholarly review.
 Check a result, a relationship, the settings comparison, and the coverage dialog.
 Deliver `map.html` first with a short explanation of where to start reading.
 Include the actual search trace, candidate/branch coverage ledger and audit

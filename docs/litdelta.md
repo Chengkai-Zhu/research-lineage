@@ -53,6 +53,20 @@ They select only labels already present in the map. Saved HTML also records the
 reading view and selected comparison or result; a URL fragment takes precedence
 over the saved location. Filters never remove data from the downloaded file.
 
+## Use an explanation outside the map
+
+In **Compare**, choose **Save this explanation**. Copy the Markdown into your
+notes or download the `.md` file for a journal club or collaborator. The note
+includes the selected question, applicability, tradeoffs, compared result
+settings, conditions, source versions and locators, rationale, recorded reviews,
+exclusions and gaps. Unknown values remain **Not extracted**; an incomparable
+question stays incomparable. Source-check outcomes are recorded, not rerun.
+
+The note is a selected explanation, not the complete map or an independent
+scientific review. The full HTML/JSON exports remain available. Imported strings
+are escaped as Markdown data; they are never inserted as executable HTML. Saving
+does not publish a map or create a shared account.
+
 ## Author and check records
 
 Use the [data guide](../skills/research-lineage/references/data-guide.md) for the
@@ -104,10 +118,15 @@ and the actual 52-work research run, explicitly labeled PARTIAL.
 
 The homepage's **Open the example** button opens the comparison directly, without
 a setup dialog. Other research stories, the skill and offline download follow.
-**Use your own paper** leads to the research-agent prompt and optional setup
-instructions. **Copy prompt** copies only that prompt; if clipboard access is
-denied, it selects the text for manual copying. The website itself does not run
-new research or send the prompt anywhere.
+**Use your own paper** accepts a paper link, title, DOI or research question.
+Optionally choose a goal: trace developments, compare approaches or prepare a
+journal club. **Copy research request** includes your input and the selected
+goal, ready to paste into an agent with the skill installed. Preview it before
+copying if desired. Empty inputs cannot be copied; clearing the field also clears
+the generated request. Clipboard failure reveals and selects it for manual copying.
+The page processes input in memory, without sending it to a server or saving it
+to browser storage. It does not run new research. Setup instructions remain
+available beside the request.
 
 Every reader uses the canonical renderer. The complete `offline.zip` preserves
 all three maps, their HTML/SVG/JSON/review exports, source notes, the recorded

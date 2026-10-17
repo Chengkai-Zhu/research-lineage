@@ -695,6 +695,30 @@
     }, {once:true});
     return anchor;
   }
+  function saveExplanation() {
+    if (!activeComparison) return;
+    const note = comparisonBrief(data, activeComparison),
+      body = modal("Take this explanation to your notes"),
+      preview = element("textarea", "brief-preview"),
+      status = element("p", "source-meta");
+    preview.readOnly = true;
+    preview.value = note;
+    preview.setAttribute("aria-label", "Comparison note in Markdown");
+    status.setAttribute("role", "status");
+    body.append(element("p", "", "The selected question, conditions and sources travel together. Review status and map gaps stay in the note."));
+    const actions = element("div", "brief-actions");
+    actions.append(button("Copy Markdown", async () => {
+      try {
+        await navigator.clipboard.writeText(note);
+        status.textContent = "Copied. Paste it into your notes or journal-club outline.";
+      } catch (_) {
+        preview.focus();
+        preview.select();
+        status.textContent = "Note selected. Copy it with Ctrl+C or ⌘C.";
+      }
+    }, "button primary"), downloadLink("Markdown ↓", "comparison-" + activeComparison + ".md", note, "text/markdown;charset=utf-8"));
+    body.append(actions, status, preview);
+  }
   function svgExport() {
     const doc = new DOMParser().parseFromString(originalSvg, "image/svg+xml"),
       root = doc.documentElement;
@@ -808,6 +832,7 @@
     const record = comparisons[activeComparison];
     if (record) showCompare(record.left, record.right, record.id);
   });
+  $("save-explanation").addEventListener("click", saveExplanation);
   $("comparison-map").addEventListener("click", () => {
     const record = comparisons[activeComparison];
     if (record) { resetFilters(); showResult(record.right); }

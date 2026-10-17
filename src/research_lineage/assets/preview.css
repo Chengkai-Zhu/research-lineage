@@ -94,3 +94,13 @@ footer { border-top: 1px solid var(--line); padding-top: 22px; padding-bottom: 2
   .keep-offline { align-items: flex-start; flex-direction: column; margin-top: 28px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+.seed-label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 12px; }
+#seed-input { background: #fff; border: 1px solid #cbdaca; border-radius: 6px; padding: 12px; min-height: 85px; font: 13px/1.7 system-ui, sans-serif; }
+.prompt-card>.quiet { margin: 8px 0 13px; font-size: 11px; }
+.request-options, #request-preview { font-size: 11px; color: var(--muted); margin: 14px 0; }
+.request-options label { display: block; margin-top: 12px; }
+.request-options select { display: block; width: 100%; padding: 9px; margin-top: 7px; background: #fff; color: var(--ink); border: 1px solid #cbdaca; border-radius: 5px; }
+#copy-prompt { width: 100%; cursor: pointer; }
+#copy-prompt:disabled { cursor: default; opacity: .5; }
+#research-prompt { margin-top: 12px; min-height: 230px; font-size: 11px; }

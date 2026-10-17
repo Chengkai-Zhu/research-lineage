@@ -214,6 +214,8 @@ def render_html(data):
         "CSS": (ASSETS / "viewer.css").read_text(encoding="utf-8"),
         "JS": (ASSETS / "view-state.js").read_text(encoding="utf-8")
         + "\n"
+        + (ASSETS / "comparison-brief.js").read_text(encoding="utf-8")
+        + "\n"
         + (ASSETS / "identity-view.js").read_text(encoding="utf-8")
         + "\n"
         + (ASSETS / "viewer.js").read_text(encoding="utf-8"),
