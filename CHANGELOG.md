@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 — 2026-10-17
+## Unreleased — 0.2.0
 
 - Make the skill the primary entry point: start with a topic or one paper, with
   bounded defaults, language inference and preserved source identifiers.
