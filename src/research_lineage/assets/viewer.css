@@ -1097,3 +1097,58 @@ h1 { font-size: clamp(38px, 5.1vw, 68px); max-width: 990px; line-height: 1.06; l
   .comparison-card { padding: 19px; }
   .comparison-table-wrap .compare-table { min-width: 620px; }
 }
+
+/* A selected question is a reading page, not a setup dialog. */
+.overview-context { max-width: 780px; color: var(--muted); font-size: 12px; margin-top: 14px; }
+.overview-context summary { cursor: pointer; }
+.overview-context .overview-summary { margin-top: 15px; font-size: 14px; }
+.exploring .overview-context { display: none; }
+.comparing main { padding-top: 27px; }
+.comparing .intro, .comparing .context-bar { display: none; }
+.comparison-reader { display: grid; grid-template-columns: 255px minmax(0, 1fr); gap: 56px; max-width: 1100px; margin: 0 auto; }
+.question-rail { padding-top: 13px; }
+.question-rail>.eyebrow { margin-bottom: 18px; }
+.question-link { display: flex; gap: 12px; align-items: baseline; width: 100%; padding: 16px 12px; border: 0; border-left: 2px solid transparent; background: transparent; text-align: left; color: #64786b; font-size: 12px; line-height: 1.7; }
+.question-link[aria-pressed="true"] { border-color: var(--green); background: #eaf1e6; color: var(--ink); }
+.question-number { font: 11px ui-monospace, monospace; color: #7d9585; }
+.comparison-main { min-width: 0; padding: 10px 0; }
+.mobile-question { display: none; }
+.comparison-status { display: flex; align-items: center; gap: 13px; flex-wrap: wrap; color: var(--muted); font-size: 10px; margin-bottom: 22px; }
+.assessment { padding: 5px 9px; border: 1px solid #cddfce; border-radius: 4px; color: #2f6548; background: #eff5e9; }
+.assessment.conditional, .assessment.unknown, .assessment.incomparable { color: #836129; border-color: #dfd1b5; background: #f6f1e6; }
+#comparison-answer .comparison-title { font: 400 clamp(28px, 3.3vw, 42px)/1.16 var(--serif); letter-spacing: -1px; margin: 0 0 20px; max-width: 740px; }
+.comparison-pair { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 11px; color: #62776a; margin-bottom: 24px; }
+.comparison-pair span:not(:nth-child(2)) { background: white; border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; }
+.comparison-takeaway { font-size: 21px; line-height: 1.55; margin: 0 0 26px; color: var(--ink); }
+.comparison-context { border-top: 1px solid var(--line); padding-top: 19px; margin-bottom: 24px; }
+.comparison-context>div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 18px; margin-bottom: 14px; }
+.comparison-context h2 { font: 600 11px/1.8 var(--sans); margin: 0; color: #6b7f70; }
+.comparison-context p { margin: 0; font-size: 13px; line-height: 1.7; color: #4f6759; }
+#comparison-answer>.evidence-section { padding: 18px 0; border-bottom: 1px solid var(--line); }
+#comparison-answer>.evidence-section>summary { font-size: 12px; letter-spacing: 0; color: var(--green); }
+.comparison-permalink { display: inline-block; margin-top: 17px; color: var(--muted); font-size: 10px; }
+.table-hint { display: none; }
+.comparison-actions { display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding-top: 22px; margin-top: 26px; }
+.comparison-actions button { font-size: 11px; }
+.comparing .page-footer { margin-top: 45px; }
+@media (max-width: 850px) {
+  .comparison-reader { grid-template-columns: 205px minmax(0, 1fr); gap: 28px; }
+  .comparison-context>div { grid-template-columns: 1fr; gap: 3px; }
+}
+@media (max-width: 650px) {
+  .reading-nav { gap: 23px; }
+  .comparing main { padding-top: 12px; }
+  .comparison-reader { display: block; }
+  .question-rail { display: none; }
+  .mobile-question { display: grid; gap: 7px; font-size: 11px; color: var(--muted); margin-bottom: 25px; }
+  .mobile-question select { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 5px; color: var(--ink); background: white; font: inherit; }
+  .comparison-status { margin-bottom: 17px; gap: 8px; }
+  #comparison-answer .comparison-title { font-size: 31px; letter-spacing: -.6px; }
+  .comparison-takeaway { font-size: 19px; }
+  .comparison-actions { flex-wrap: wrap; }
+  .table-hint { display: block; font-size: 11px; color: var(--green); margin: 18px 0 8px; }
+}
+@media print {
+  .comparison-reader { display: block; }
+  .question-rail, .mobile-question, .comparison-actions { display: none; }
+}

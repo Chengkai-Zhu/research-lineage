@@ -26,6 +26,44 @@ test("saved context preserves the selected question and full canonical data", ()
   assert.equal((updated.match(/id="reading-preference"/g) || []).length, 1);
 });
 
+test("comparison reading mode survives repeated saves and explicit map links still win", () => {
+  const original = slot("map-data", { results: ["a", "b"], exclusions: ["access gap"] }) + slot("color-preference", {}) + slot("reading-preference", {});
+  const preference = { mode: "comparison", view: "map", fragment: "#comparison=c-quality" };
+  const first = context.exportViewPreferences(original, { mode: "authors", focus: "all" }, preference);
+  const restored = context.readReadingPreference(JSON.stringify(extract(first, "reading-preference")), "");
+  assert.deepEqual(JSON.parse(JSON.stringify(restored)), preference);
+  const second = context.exportViewPreferences(first, { mode: "authors", focus: "all" }, restored);
+  assert.deepEqual(extract(second, "reading-preference"), preference);
+  assert.deepEqual(extract(second, "map-data"), { results: ["a", "b"], exclusions: ["access gap"] });
+  const explicit = context.readReadingPreference(JSON.stringify(preference), "#result=r-attention");
+  assert.equal(explicit.fragment, "#result=r-attention");
+});
+
+test("copying the research prompt reports success or selects it when clipboard access is denied", async () => {
+  const source = fs.readFileSync(path.join(__dirname, "../../src/research_lineage/assets/preview.js"), "utf8");
+  for (const denied of [false, true]) {
+    let action;
+    const copied = [], selected = [];
+    const nodes = {
+      "copy-prompt": { hidden: true, addEventListener(_type, handler) { action = handler; } },
+      "research-prompt": { value: "Use research-lineage with my paper.", focus() { selected.push("focus"); }, select() { selected.push("select"); } },
+      "copy-status": {},
+    };
+    vm.runInNewContext(source, {
+      document: { getElementById(id) { return nodes[id]; } },
+      navigator: { clipboard: { async writeText(text) {
+        if (denied) throw new Error("Clipboard permission denied");
+        copied.push(text);
+      } } },
+    });
+    assert.equal(nodes["copy-prompt"].hidden, false);
+    await action();
+    assert.deepEqual(copied, denied ? [] : ["Use research-lineage with my paper."]);
+    assert.deepEqual(selected, denied ? ["focus", "select"] : []);
+    assert.match(nodes["copy-status"].textContent, denied ? /selected.*Ctrl\+C/ : /Copied.*research agent/);
+  }
+});
+
 test("imported labels and fragments cannot close a preference script", () => {
   const hostile = '</script><img src=x onerror="globalThis.INJECTED=true">&';
   const original = slot("color-preference", {}) + slot("reading-preference", {});
@@ -104,5 +142,33 @@ test("closing the production inspector clears its saved result even when history
     assert.deepEqual(focused, ["result-r-attention"]);
     assert.deepEqual(removed, ["has-selection"]);
     assert.equal(state.url, restricted ? undefined : "#explore");
+  }
+});
+
+test("dismissing the advanced comparison preserves the visible result or relation and saved location", () => {
+  const source = fs.readFileSync(path.join(__dirname, "../../src/research_lineage/assets/viewer.js"), "utf8");
+  const helper = source.match(/function updateHash\(type[\s\S]*?\n  }/)[0];
+  const close = source.match(/function finishComparisonDialog\(\)[\s\S]*?\n  }/)[0];
+  const cases = [
+    ["explore", "result", "r-attention", "#result=r-attention", "#result=r-attention"],
+    ["explore", "relation", "rel-depth", "#relation=rel-depth", "#relation=rel-depth"],
+    ["explore", "result", "r-attention", "#compare=r-a%2Cr-b", "#result=r-attention"],
+    ["overview", "result", null, "#compare=r-a%2Cr-b", "#overview"],
+    ["comparison", "result", null, "#compare=r-a%2Cr-b", "#comparison=c-quality"],
+  ];
+  for (const [mode, selectedType, selected, fragment, expected] of cases) {
+    for (const restricted of [false, true]) {
+      const state = {
+        selected, selectedType, activeComparison: "c-quality", readingState: { mode, fragment },
+        $(id) { assert.equal(id, "modal-content"); return { querySelector() { return {}; } }; },
+        history: { replaceState() { if (restricted) throw new Error("History denied"); } },
+      };
+      vm.runInNewContext(helper + "\n" + close + "\nfinishComparisonDialog();", state);
+      assert.equal(state.selected, selected);
+      assert.equal(state.readingState.fragment, expected);
+      const original = slot("color-preference", {}) + slot("reading-preference", {});
+      const saved = context.exportViewPreferences(original, {}, state.readingState);
+      assert.equal(extract(saved, "reading-preference").fragment, expected);
+    }
   }
 });

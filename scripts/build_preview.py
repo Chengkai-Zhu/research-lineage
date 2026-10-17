@@ -52,6 +52,7 @@ def source_revision():
 def landing(maps, research_status, skill_name, provenance, *, offline=False):
     values = {
         "STYLE": (ASSETS / "preview.css").read_text(encoding="utf-8"),
+        "JS": (ASSETS / "preview.js").read_text(encoding="utf-8"),
         "OFFLINE_ACTION": (
             '<span class="quiet">You have the complete offline collection.</span>'
             if offline

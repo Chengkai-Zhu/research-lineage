@@ -16,9 +16,14 @@ python -m pip install -e ".[dev]"
 litdelta demo --example comparisons --out output/comparisons
 ```
 
-Open `output/comparisons/map.html`. Start with **What actually changed?** and choose
-a question. The explanation leads with the change, its applicability, and its
-tradeoffs. Expand conditions and evidence to inspect exact versions and locators.
+Open `output/comparisons/map.html`. Maps with authored comparisons start with a
+question and its answer. Choose another question in the left column, or use the
+question picker on a narrow screen. The answer keeps its applicability, tradeoffs
+and review status visible. Expand **Conditions & sources** for exact versions,
+locators and the complete assessment. **Choose other results** opens the advanced
+pair comparison; **Read this question** returns an authored answer to the page.
+**Explore map** opens the graph, while **Overview** provides a reading route and
+an optional **About this map** summary.
 Comparison URLs use `#comparison=<id>` and work in the downloaded HTML as well.
 
 One pair can answer multiple questions. For example, sequential layer depth and
@@ -96,6 +101,13 @@ Open `http://127.0.0.1:8765/`. The same product is published at
 [LitDelta](https://chengkaizhu.site/litdelta/). The landing page offers
 three fixed public examples: the one-paper comparisons, the NMT author history,
 and the actual 52-work research run, explicitly labeled PARTIAL.
+
+The homepage's **Open the example** button opens the comparison directly, without
+a setup dialog. Other research stories, the skill and offline download follow.
+**Use your own paper** leads to the research-agent prompt and optional setup
+instructions. **Copy prompt** copies only that prompt; if clipboard access is
+denied, it selects the text for manual copying. The website itself does not run
+new research or send the prompt anywhere.
 
 Every reader uses the canonical renderer. The complete `offline.zip` preserves
 all three maps, their HTML/SVG/JSON/review exports, source notes, the recorded

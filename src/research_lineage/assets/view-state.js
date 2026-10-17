@@ -7,7 +7,7 @@ function readReadingPreference(text, urlFragment = "") {
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) saved = parsed;
   } catch (_) { /* A malformed saved preference leaves the reader usable. */ }
   return {
-    mode: saved.mode === "explore" ? "explore" : "overview",
+    mode: ["explore", "comparison"].includes(saved.mode) ? saved.mode : "overview",
     view: saved.view === "list" ? "list" : "map",
     fragment: urlFragment || (typeof saved.fragment === "string" && saved.fragment.startsWith("#") && saved.fragment.length <= 2048
       ? saved.fragment : ""),
