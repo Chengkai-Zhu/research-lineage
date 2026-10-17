@@ -23,9 +23,9 @@ Ask only when a genuine ambiguity would lead to a substantially different topic.
   trace the references supporting that contribution, then check follow-ups. Do
   not assume a supplied paper is the newest without checking. Resolve a bare
   title before assigning identity. Read private attachments locally, without upload.
-- **Defaults:** follow the user's language, use the actual research date as the
-  cutoff, and aim initially for 8–12 central works. Adjust to the question and
-  available evidence. A selected history is not an exhaustive survey.
+- **Defaults:** follow the user's language and use the actual research date as
+  the cutoff. A seed's version pins what you read; its publication date does not
+  end the research history. Keep an explicitly requested cutoff unchanged.
 
 The helper prepares files; it does not perform research:
 
@@ -46,17 +46,38 @@ missing choice materially changes the work. Otherwise state a reasonable scope
 and proceed. Preserve existing authorization; do not require a new approval for
 each research step.
 
-Set a bounded source budget appropriate to the task (for example 8–12 central
-results for a first map). Record what was included, excluded, and not searched.
-Do not call a selected map a complete history.
+Separate the **research corpus** from the **presentation**. Do not set a default
+paper quota or stop because the overview or reading route is full. Select works
+for their role in the question, including relevant competing developments, rather
+than to make a small map. A short route introduces a richer corpus; the other
+works remain accessible in the map and source index. If runtime map limits are
+reached, use linked focused maps and preserve the candidate ledger.
+
+Read [the research record guide](references/research-record.md) before searching.
+It defines the search trail, candidate decisions, source-grounded coverage checks
+and offline audit. Start recording during research, including failed attempts;
+do not reconstruct a plausible search history after authoring the answer.
 
 ## Gather and ground
 
 Use the host's available search and document tools. The optional bundled
 `discover` command provides bounded Crossref/arXiv metadata with request/failure
 logs. It is an explicit network action, not full-text access or extraction.
-This skill does not provide credentials or subscriptions. Consult a review plus early seed
-papers, then trace relevant earlier and later work. Prefer primary sources.
+This skill does not provide credentials or subscriptions. Use a relevant review
+to orient the field, and use the seed's bibliography and primary papers to build
+a coverage plan. Follow relevant references backward and search forward for
+follow-ups, competing methods and recent work through the cutoff. Bibliographic
+discovery alone is not a source reading.
+
+Compare the emerging corpus against these reference sets. Investigate missing
+central branches and newly found central papers; repeat targeted searches when
+they expose an important omission. Record why each candidate is included,
+excluded or deferred. Stop when the scoped central branches have evidence and
+the remaining candidates have reasoned decisions, with follow-up checks yielding
+no unresolved central omission. This is a documented stopping judgment, not a
+proof of exhaustive coverage. A time/access limit produces a **partial** result
+with the actual unfinished searches and branches, not a smaller scope invented
+to declare success. A brief disclaimer does not repair missing research.
 
 - Verify bibliographic identity; title similarity is not enough to merge works.
 - Distinguish first publication from the exact version being read.
@@ -64,6 +85,8 @@ papers, then trace relevant earlier and later work. Prefer primary sources.
   Use `null` when a setting was not extracted; do not fill it with plausible knowledge.
 - Each result and relationship needs source evidence with a version and locator.
   Abstract-only access is useful, but label it `abstract` and keep it proposed.
+  Read the relevant full-text passages for central turning points and semantic
+  connections; if access prevents this, expose the unresolved evidence gap.
 - Describe relations with evidence. Citation alone supports `cites`, not
   `generalizes`, `uses_result`, or `improves_bound`.
 - A critique targets a specific claim or condition, not an entire paper or field.
@@ -85,7 +108,8 @@ python <skill-directory>/scripts/lineage.py schema --out map.schema.json
 ```
 
 Use the task's actual cutoff, not the example date. Populate `map.json` with the
-verified sources and results. Arrange thematic lanes and a short reading route.
+verified sources and results from the researched corpus. Arrange thematic lanes
+and a short reading route; the route need not include every mapped work.
 Write a concise orientation and 3–5 source-linked turning points when evidence
 supports them. Explain the problem, what changed, and what remains uncertain in
 plain language. Keep detailed assumptions and provenance available on demand.
@@ -94,11 +118,14 @@ The route is a teaching suggestion, not a proof dependency graph.
 ```sh
 python <skill-directory>/scripts/lineage.py validate map.json
 python <skill-directory>/scripts/lineage.py build map.json --out output/my-question
+python <skill-directory>/scripts/lineage.py audit-research run-manifest.json
 ```
 
 Fix structural errors and inspect the generated HTML when a browser is available.
 Check a result, a relationship, the settings comparison, and the coverage dialog.
 Deliver `map.html` first with a short explanation of where to start reading.
+Include the actual search trace, candidate/branch coverage ledger and audit
+verdict. Report corpus size separately from the overview and route length.
 Offer SVG, JSON and the review report as supporting downloads. Use the user's
 language for map content; viewer controls are English. Keep the actual scope and
 material evidence limits visible without overwhelming the opening view.

@@ -1,0 +1,8 @@
+{
+  "seed": "https://arxiv.org/abs/2408.13687v1",
+  "cutoff": "2026-10-17",
+  "language": "zh",
+  "kind": "paper",
+  "status": "manual-fallback-not-helper-generated",
+  "note": "CLI start rejected. Preserves input and cutoff; not an original helper artifact."
+}

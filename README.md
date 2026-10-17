@@ -29,7 +29,9 @@ claiming a public demo is available.
 
 Or just supply a paper link, DOI, title or PDF and ask for the history behind it.
 
-[Get the skill](docs/quickstart.md#use-the-standalone-skill) · [Download examples](https://github.com/Chengkai-Zhu/research-lineage/releases/latest) · [Research tools](docs/research-tools.md)
+[Get the skill](docs/quickstart.md#use-the-standalone-skill) · [Worked histories](#worked-histories) · [Research tools](docs/research-tools.md)
+
+The workflow below is available on `main`; **0.2 is not released yet**. The latest published bundle is [v0.1.1](https://github.com/Chengkai-Zhu/research-lineage/releases/tag/v0.1.1).
 
 ![The reading overview, with details revealed on demand](docs/assets/reading-overview.png)
 
@@ -44,9 +46,15 @@ The host agent does the research using its search and document tools. The bundle
 
 ## Use the skill
 
-1. Download the self-contained skill ZIP from [Releases](https://github.com/Chengkai-Zhu/research-lineage/releases/latest).
-2. Extract its `research-lineage` folder into your agent's skill directory; see the [installation guide](docs/quickstart.md).
-3. Give it a topic or paper:
+Build the current self-contained skill with Python 3.11+:
+
+```sh
+git clone https://github.com/Chengkai-Zhu/research-lineage.git
+cd research-lineage
+python scripts/package_skill.py --out dist
+```
+
+Extract the `research-lineage` folder from `dist/research-lineage-skill-0.2.0.zip` into your agent's skill directory; see the [installation guide](docs/quickstart.md). Then give it a topic or paper:
 
 > Use research-lineage to trace the history of quantum signal processing.
 
@@ -54,13 +62,20 @@ The host agent does the research using its search and document tools. The bundle
 
 The skill chooses a bounded scope and follows your language. You do not need to supply IDs, dates, a bibliography or JSON. A paper title is resolved before its identity is asserted. Private attachments stay local unless you explicitly authorize otherwise. Viewer controls are currently English; research content can be Chinese.
 
+Research coverage has no default paper quota. The host follows references and
+follow-ups, records candidate decisions and source-grounded branches, and keeps
+the researched corpus available behind the concise overview. The
+[research-run audit](docs/research-tools.md#recorded-research-coverage) reports
+missing evidence as partial or failed; it does not certify scientific completeness.
+
 ## Worked histories
 
 | Start | Reading history | Evidence boundary |
 | --- | --- | --- |
 | A topic | [QSP to QSVT](docs/sources.md) | Eight-paper, abstract-grounded draft |
 | A new question | [Sentence vectors to attention](examples/nmt-attention/README.md) | Six primary papers with section-level checks |
-| One paper | [Surface-code quantum memories](examples/surface-code/README.md) | Four works; mixed full-text and abstract access |
+| One pinned paper, fresh agent | [Surface-code research run](docs/test-reports/surface-code-rerun/README.md) · [Interactive notebook](docs/test-reports/surface-code-rerun/report.html) | 52 works; real search/candidate logs; PARTIAL because one central full-text branch remains unresolved |
+| Authored illustration | [Surface-code quantum memories](examples/surface-code/README.md) | Four-work reading path; single-input research acceptance reopened in #12 |
 
 These are selected histories with proposed annotations. Source checks and passing software tests do not establish scientific truth or independent expert review. Genuine external review and participant studies remain [open work](https://github.com/Chengkai-Zhu/research-lineage/issues/10).
 

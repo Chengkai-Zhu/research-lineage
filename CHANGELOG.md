@@ -1,7 +1,11 @@
 # Changelog
 
-## 0.2.0 — 2026-10-17
+## Unreleased — 0.2.0
 
+- Replace the default paper quota with adaptive, source-grounded coverage and
+  preserve the research-date cutoff independently of the seed's version date.
+- Add portable research-record schemas and an offline audit of execution
+  provenance, cutoff consistency, source trails and research-plan completion.
 - Make the skill the primary entry point: start with a topic or one paper, with
   bounded defaults, language inference and preserved source identifiers.
 - Lead with a reading overview and source-linked turning points. Reveal the

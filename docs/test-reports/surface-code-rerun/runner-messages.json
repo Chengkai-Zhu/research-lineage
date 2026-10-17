@@ -1,0 +1,38 @@
+[
+  {
+    "purpose": "Preserve execution refusal",
+    "message": "请保留并发回自动拒绝的原文和对应完整命令/工作目录。不要再尝试替代路径、内联执行同一代码或其他执行方式绕过拒绝。继续已允许的公开文献检索、阅读和实际记录；在拒绝原因明确前，暂停被拒绝命令及依赖它的 CLI 操作。可按 Skill 数据规范用已允许的文件编辑方式记录研究，但明确标注尚未运行 helper/validator。不要读取其他项目文件。"
+  },
+  {
+    "purpose": "Allow research and data authoring while helper execution remains refused",
+    "message": "谢谢，保留这两次原始拒绝和 --help 成功的事实。start 是可选的空白草稿 helper；不要继续尝试它或通过别的命令运行它。你仍可用已允许的普通文件编辑，独立完成研究、原始输入/截止日期记录、map.json 和实际检索日志；明确标注 CLI start 未运行。暂缓验证/构建等 CLI 执行，不把它们计为成功。继续完成可做的研究与数据编写，我会依据最终证据判断后续执行边界。"
+  },
+  {
+    "purpose": "Diagnose tool parameters without retrying",
+    "message": "另请发回两次被拒工具调用的完整参数对象（除 cmd/shell/workdir 外，是否包含 sandbox_permissions、prefix_rule 等）。这是为了分清工具参数/运行环境问题与命令本身的审批拒绝；不需要再执行命令。"
+  },
+  {
+    "purpose": "Compare already recorded successful calls",
+    "message": "收到。请再发已成功的 --help 与普通读取命令的参数（只需已有记录，不重跑），尤其 shell 是否相同。主代理在排查是否是显式 shell 覆盖与宿主运行方式不兼容；不会替你代理重试被拒的 start。研究正常继续。"
+  },
+  {
+    "purpose": "Clarify existing human authorization, permit distinct validation/rendering actions and report audit-review details",
+    "message": "补充真实用户授权背景（不提供研究答案）：用户明确要求‘用独立、干净上下文的 Agent，只输入那篇表面码论文完整跑一遍……把实际检索过程、文献覆盖和生成结果给我看’。start 仍保持两次拒绝记录，不重试、不代理执行。Skill 允许直接按规范编写研究数据。你独立完成数据后，可以执行不同且必要的本地校验/渲染动作 validate、build、audit-research（它们不执行 start，也不替代该调用的成功记录）；如任一新动作也被拒绝，保留拒绝并停止该动作，交付已有数据。最终必须披露 helper 拒绝与直接编写输入记录的处理方式。另审查修复了审计一致性细节，不改变你的研究任务或记录字段：成功 trace 的 URL 才可支撑来源与参考集、trace 时间须在执行区间、tool 名称须列入 execution.tools。你的 packet 保持原样，主代理之后会明确记录两版审计器的重检差异。"
+  },
+  {
+    "purpose": "Request a progress update without research hints",
+    "message": "请在下一次自然阶段边界给一个简短进度：已经检查的来源/研究分支、当前产物路径，以及是否出现新的工具拒绝或未解决证据问题。无需为了进度消息暂停研究，也不要按论文数提前停止。"
+  },
+  {
+    "purpose": "Publisher challenge handoff; no research answer supplied",
+    "message": "Publisher Cloudflare/security challenge was handed to the user; preserve the partial coverage judgment and do not retry or bypass access controls."
+  },
+  {
+    "purpose": "Preserve subsequent authorization boundary",
+    "message": "The user completed Cloudflare. The page now explicitly displays Authorization Required; no full text was read. Keep the source as an unresolved full-text gap."
+  },
+  {
+    "purpose": "Latest explicit user steering; request actual verification record",
+    "message": "User: 我没有机构登录渠道，你找arxiv版本把. Search legitimate arXiv or author copies only; do not retry the publisher. Report the actual map URL, UI tool and any screenshot failure."
+  }
+]

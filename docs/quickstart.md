@@ -2,9 +2,13 @@
 
 ## Open the example
 
-Download `research-lineage-demo.zip` from [Releases](https://github.com/Chengkai-Zhu/research-lineage/releases/latest),
-extract it, and open `map.html`. It works offline, with no server or account.
+Build the current example using the checkout commands below, then open
+`output/demo/map.html`. It works offline, with no server or account.
 The sample is a bounded, abstract-grounded research draft, not an expert-certified review.
+
+Version 0.2 is available on `main` but has not been released. The latest published
+[v0.1.1 bundles](https://github.com/Chengkai-Zhu/research-lineage/releases/tag/v0.1.1)
+use the earlier interface.
 
 ## Use the Python package
 
@@ -20,11 +24,20 @@ The output contains `map.html`, `map.svg`, `map.json`, and `review.md`.
 
 ## Use the standalone skill
 
-Download `research-lineage-skill-0.2.0.zip` from the release. Extract the contained
+Build the current skill from the repository root using Python 3.11+:
+
+```sh
+python scripts/package_skill.py --out dist
+```
+
+No package installation is required for this build command. Extract the contained
 `research-lineage` directory into your host's skills directory, for example
 `~/.agents/skills/` for Codex or `~/.claude/skills/` for Claude Code. On Windows,
 use the equivalent folder under your user profile. Preserve existing skills.
 Restart/reload the host's skill discovery if required by your host.
+
+The generated archive is `dist/research-lineage-skill-0.2.0.zip`; a GitHub Release
+for this version is intentionally deferred.
 
 The ZIP includes the runtime. Copying only `SKILL.md`, or copying the unbuilt skill
 folder out of the repository, does not include that runtime. Within a full clone,
@@ -43,6 +56,12 @@ The host chooses a bounded scope, resolves the sources, authors the map and
 opens the result. You do not need to provide IDs, dates or JSON. A bare paper
 title is resolved before its identity is asserted. Private PDFs stay local
 unless you explicitly authorize another destination.
+
+The overview and reading route are selections from the researched corpus, not
+paper-count limits. The host records searches, candidate decisions and coverage
+branches, checks follow-ups through the cutoff, and delivers the
+[research record](../skills/research-lineage/references/research-record.md) with
+the map. Unfinished research must be identified as partial.
 
 The skill uses your host's research tools. It does not include model credentials,
 full-text subscriptions, or an autonomous search engine.

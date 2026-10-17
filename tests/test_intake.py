@@ -14,7 +14,9 @@ def test_topic_is_a_research_brief_not_a_hidden_demo(tmp_path):
     brief = json.loads((tmp_path / "research-brief.json").read_text(encoding="utf-8"))
     assert output["kind"] == "topic"
     assert draft["question"] == text and draft["works"] == draft["results"] == []
-    assert brief["language"] == "zh" and brief["source_budget"] == 12
+    assert brief["language"] == "zh" and brief["source_budget"] is None
+    assert brief["research_plan"]["corpus_limit"] is None
+    assert brief["cutoff_origin"] == "run_date"
     assert (
         main(["build", str(tmp_path / "map.json"), "--out", str(tmp_path / "built")])
         == 2

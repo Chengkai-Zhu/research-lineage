@@ -1,0 +1,23 @@
+{
+  "events": [
+    {
+      "parameters": {
+        "cmd": "python 'D:\\research_lineage\\isolated-runs\\surface-code-20261017\\packet\\research-lineage\\scripts\\lineage.py' start 'https://arxiv.org/abs/2408.13687v1' --language zh --out 'D:\\research_lineage\\isolated-runs\\surface-code-20261017\\run'",
+        "shell": "powershell",
+        "workdir": "D:\\research_lineage\\isolated-runs\\surface-code-20261017",
+        "max_output_tokens": 4000
+      },
+      "error_raw": "CreateProcess { message: \"Rejected(\\\"`\\\\\\\"C:\\\\\\\\\\\\\\\\Users\\\\\\\\\\\\\\\\C\\\\\\\\\\\\\\\\.cache\\\\\\\\\\\\\\\\codex-runtimes\\\\\\\\\\\\\\\\codex-primary-runtime\\\\\\\\\\\\\\\\dependencies\\\\\\\\\\\\\\\\native\\\\\\\\\\\\\\\\powershell\\\\\\\\\\\\\\\\pwsh.exe\\\\\\\" -Command \\\\\\\"python 'D:\\\\\\\\\\\\\\\\research_lineage\\\\\\\\\\\\\\\\isolated-runs\\\\\\\\\\\\\\\\surface-code-20261017\\\\\\\\\\\\\\\\packet\\\\\\\\\\\\\\\\research-lineage\\\\\\\\\\\\\\\\scripts\\\\\\\\\\\\\\\\lineage.py' start 'https://arxiv.org/abs/2408.13687v1' --language zh --out 'D:\\\\\\\\\\\\\\\\research_lineage\\\\\\\\\\\\\\\\isolated-runs\\\\\\\\\\\\\\\\surface-code-20261017\\\\\\\\\\\\\\\\run'\\\\\\\"` rejected: blocked by policy\\\")\" }"
+    },
+    {
+      "parameters": {
+        "cmd": "python .\\packet\\research-lineage\\scripts\\lineage.py start https://arxiv.org/abs/2408.13687v1 --language zh --out .\\run",
+        "shell": "powershell",
+        "workdir": "D:\\research_lineage\\isolated-runs\\surface-code-20261017",
+        "max_output_tokens": 4000
+      },
+      "error_raw": "CreateProcess { message: \"Rejected(\\\"`\\\\\\\"C:\\\\\\\\\\\\\\\\Users\\\\\\\\\\\\\\\\C\\\\\\\\\\\\\\\\.cache\\\\\\\\\\\\\\\\codex-runtimes\\\\\\\\\\\\\\\\codex-primary-runtime\\\\\\\\\\\\\\\\dependencies\\\\\\\\\\\\\\\\native\\\\\\\\\\\\\\\\powershell\\\\\\\\\\\\\\\\pwsh.exe\\\\\\\" -Command \\\\\\\"python .\\\\\\\\\\\\\\\\packet\\\\\\\\\\\\\\\\research-lineage\\\\\\\\\\\\\\\\scripts\\\\\\\\\\\\\\\\lineage.py start https://arxiv.org/abs/2408.13687v1 --language zh --out .\\\\\\\\\\\\\\\\run\\\\\\\"` rejected: blocked by policy\\\")\" }"
+    }
+  ],
+  "note": "Both returned Script error, no start artifacts. Subsequent --help succeeded before parent stop instruction; no sandbox_permissions, prefix_rule, justification or other fields were sent. Brief was authored manually and explicitly labeled."
+}

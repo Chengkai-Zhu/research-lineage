@@ -1,0 +1,74 @@
+{
+  "validation_failure": {
+    "started_at": "2026-10-17 02:26:43 UTC",
+    "args": {
+      "cmd": "python -X utf8 .\\packet\\research-lineage\\scripts\\lineage.py validate .\\run\\map.json",
+      "workdir": "D:\\research_lineage\\isolated-runs\\surface-code-20261017",
+      "max_output_tokens": 3000
+    },
+    "result": {
+      "chunk_id": "38ea91",
+      "wall_time_seconds": 1.0388684,
+      "exit_code": 1,
+      "original_token_count": 21,
+      "output": "error: $.narrative.turning_points[4].result_ids: item count outside allowed range\r\n"
+    }
+  },
+  "validation_final": {
+    "args": {
+      "cmd": "python -X utf8 .\\packet\\research-lineage\\scripts\\lineage.py validate .\\run\\map.json",
+      "workdir": "D:\\research_lineage\\isolated-runs\\surface-code-20261017",
+      "max_output_tokens": 3000
+    },
+    "result": {
+      "chunk_id": "3455a3",
+      "wall_time_seconds": 0.9931712,
+      "exit_code": 0,
+      "original_token_count": 52,
+      "output": "{\r\n  \"valid\": true,\r\n  \"errors\": [],\r\n  \"warnings\": [\r\n    \"112 results/relationships await scholarly review.\",\r\n    \"Some evidence is abstract/metadata level; no proof verification is implied.\"\r\n  ]\r\n}\r\n\r\n"
+    },
+    "at": "2026-10-17 02:26:56 UTC"
+  },
+  "build_existing_output_failure": {
+    "at": "2026-10-17 02:26:58 UTC",
+    "args": {
+      "cmd": "python -X utf8 .\\packet\\research-lineage\\scripts\\lineage.py build .\\run\\map.json --out .\\run\\viewer",
+      "workdir": "D:\\research_lineage\\isolated-runs\\surface-code-20261017",
+      "max_output_tokens": 3000
+    },
+    "result": {
+      "chunk_id": "54acc6",
+      "wall_time_seconds": 0.9310733,
+      "exit_code": 1,
+      "original_token_count": 24,
+      "output": "error: Output already exists; choose a new folder or use --force to replace generated files.\r\n"
+    }
+  },
+  "build_final": {
+    "at": "2026-10-17 02:27:05 UTC",
+    "args": {
+      "cmd": "python -X utf8 .\\packet\\research-lineage\\scripts\\lineage.py build .\\run\\map.json --out .\\run\\viewer --force",
+      "workdir": "D:\\research_lineage\\isolated-runs\\surface-code-20261017",
+      "max_output_tokens": 3000
+    },
+    "result": {
+      "chunk_id": "8d5fb9",
+      "wall_time_seconds": 1.0489329,
+      "exit_code": 0,
+      "original_token_count": 37,
+      "output": "{\r\n  \"created\": [\r\n    \"run\\\\viewer\\\\map.json\",\r\n    \"run\\\\viewer\\\\map.html\",\r\n    \"run\\\\viewer\\\\map.svg\",\r\n    \"run\\\\viewer\\\\review.md\"\r\n  ]\r\n}\r\n\r\n"
+    }
+  },
+  "browser": {
+    "tool": "mcp__cua_repl.js",
+    "url": "http://127.0.0.1:8767/map.html",
+    "checks": [
+      "Overview renders 52 source papers,58 connections,54 results;scope cutoff and gap visible",
+      "Pinned result/version/source/conditions inspected",
+      "Prior 47-work stage: relation inspector and seed-realtime vs FPGA settings comparison inspected"
+    ],
+    "failure": "One SVG accessibility activation unsupported; ordinary inspector connection buttons worked. Screenshot call failed: Unable to capture screenshot. No pixel-level QA claimed.",
+    "approval_prompts_or_rejections": false,
+    "temporary_tab_closed": true
+  }
+}

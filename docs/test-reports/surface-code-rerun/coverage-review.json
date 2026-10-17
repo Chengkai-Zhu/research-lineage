@@ -1,0 +1,56 @@
+{
+  "status": "PARTIAL",
+  "author": "Parent implementation agent; separate from the fresh research agent, not an external researcher",
+  "summary": "The new run establishes substantially broader, inspectable research than the four-work baseline. It accounts for backward and forward branches through 2026-10-17 without a paper quota. Representative source checks support the distinctions below, but the independent all-microwave experiment remains abstract-only. Research acceptance in #12 remains open.",
+  "checks": [
+    {
+      "status": "PASS",
+      "criterion": "Threshold foundations and experimental break-even",
+      "observation": "The foundations branch includes Shor, stabilizer formalism, topological memory and surface-code constructions; the separate repeated-correction branch traces experimental scaling. Seed v1 PDF sections I-II and bibliography pp. 8-10 support this separation. The map does not turn a finite-size memory improvement into a universal gate threshold proof."
+    },
+    {
+      "status": "PASS",
+      "criterion": "Experimental development and adjacent platforms",
+      "observation": "The candidate ledger accounts for repeated detection, correction and scaling work, with explicit ion, bosonic, neutral-atom and lower-overhead alternatives. Their settings retain cycle, code and sample-selection differences. Inclusion is a scope judgment, not evidence that every relevant experiment was discovered."
+    },
+    {
+      "status": "PASS",
+      "criterion": "Decoder accuracy, throughput, latency and feedback",
+      "observation": "Seed v1 PDF section V supports sustained d=5 decoding with 63 microsecond average endpoint latency and explicitly excludes logical feedback. Result seed-realtime preserves that distinction. Relation rel-020 identifies Sparse Blossom use; rel-021 and rel-022 remain citation-only rather than claiming adoption of particular parallel implementations."
+    },
+    {
+      "status": "PARTIAL",
+      "criterion": "Noise, leakage and independent replication",
+      "observation": "Seed v1 PDF sections III-IV support DQLR sensitivity and a repetition-code rare-event floor, not a measured 2D surface-code floor. Relations rel-013 and rel-018 retain this distinction. The all-microwave PRL full text remains unavailable; no matching arXiv or author copy was confirmed. Its abstract supports only a provisional parallel-development annotation, not a complete methods comparison."
+    },
+    {
+      "status": "PASS",
+      "criterion": "Forward coverage through the actual cutoff",
+      "observation": "The held-out dynamic-code and heavy-hex works are present with explicit versions and directional-scaling limits. Searches also inspect 2026 real-time decoders and logical operations, including an October preprint. This demonstrates forward expansion rather than stopping at the 2024 seed; it does not establish exhaustive recall."
+    },
+    {
+      "status": "PASS",
+      "criterion": "Pinned input and later corrections",
+      "observation": "The supplied 2408.13687v1 remains pinned. The later Nature author correction is a separate work and rel-024 targets the repetition-code axis/legend correction. Parent verification used the pinned seed PDF because generated HTML showed a misleading later date and shifted reference numbering. Journal access failures are not counted as parent full-text reads."
+    },
+    {
+      "status": "PASS",
+      "criterion": "Representative later relationships and conditions",
+      "observation": "Checked 2607.01473v1 main Discussion and Appendix A against logical-cliffords-result and rel-053: a different d=3 logical-operation experiment, without post-selection, using the earlier processor/leakage protocols. Checked 2606.06598v1 section III against lattice-processor-result: leakage filtering precedes decoded Bell characterization; the detected-error-free subset is a further condition. Checked 2512.13908v1 sections II-III and 2409.17595v1 PDF section 2.6 against cultivation entries and rel-056: preparation post-selection, grafted-code idle degradation and the theory v1 sign issue remain explicit. These are passage spot checks, not verification of all 112 proposed annotations."
+    },
+    {
+      "status": "PASS",
+      "criterion": "Concise overview with the complete corpus retained",
+      "observation": "The SHA-bound HTML embeds the exact complete map: 52 works, 54 results and 58 relations. Five overview moments and nine route steps are presentation choices. The agent performed browser AX/DOM interactions; screenshot capture failed, so pixel-level visual acceptance is unavailable."
+    }
+  ],
+  "primary_checks": [
+    {"url": "https://arxiv.org/pdf/2408.13687v1", "locator": "sections I-V; bibliography pp. 8-10"},
+    {"url": "https://www.nature.com/articles/s41586-026-10559-8", "locator": "official indexed correction paragraph; direct journal access limited"},
+    {"url": "https://arxiv.org/abs/2510.18847", "locator": "abstract and version history; parent did not independently read the full heavy-hex paper"},
+    {"url": "https://arxiv.org/html/2607.01473v1", "locator": "main text Fig. 3, Discussion; Appendix A"},
+    {"url": "https://arxiv.org/html/2606.06598v1", "locator": "section III, Fig. 2; separate filtering conditions"},
+    {"url": "https://arxiv.org/html/2512.13908v1", "locator": "sections II-III, Figs. 3-4"},
+    {"url": "https://arxiv.org/pdf/2409.17595v1", "locator": "section 2.6, PDF pp. 10-11"}
+  ]
+}

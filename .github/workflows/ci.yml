@@ -30,6 +30,8 @@ jobs:
         run: |
           python -m research_lineage build examples/nmt-attention/map.json --out output/nmt
           python -m research_lineage build examples/surface-code/map.json --out output/surface-code
+          python -m research_lineage build docs/test-reports/surface-code-rerun/map.json --out output/surface-code-expanded
+          python scripts/check_research_controls.py docs/test-reports/surface-code-rerun/manifest.json
           python -m research_lineage evaluate examples/evaluation/gates.json --out output/gate-report.json
           python -m research_lineage study examples/evaluation/study-empty.json --out output/study-report.json
           python scripts/verify_litdelta.py --out output/litdelta-acceptance
