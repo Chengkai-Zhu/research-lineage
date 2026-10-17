@@ -1,7 +1,7 @@
 # LitDelta — Product Design
 
 Implementation issue: [#20 — Deliver LitDelta's result-comparison reading
-experience](https://github.com/Chengkai-Zhu/research-lineage/issues/20).
+experience](https://github.com/Chengkai-Zhu/litdelta/issues/20).
 
 ## Parallel implementation agreement
 

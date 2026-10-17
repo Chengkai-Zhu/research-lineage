@@ -94,7 +94,7 @@ def source_notes(source, destination, revision):
         if not path.is_relative_to(ROOT):
             raise ValueError("A source-note link leaves the repository.")
         relative = quote(path.relative_to(ROOT).as_posix(), safe="/")
-        url = f"https://github.com/Chengkai-Zhu/research-lineage/blob/{revision or 'main'}/{relative}"
+        url = f"https://github.com/Chengkai-Zhu/litdelta/blob/{revision or 'main'}/{relative}"
         if target.fragment:
             url += "#" + target.fragment
         return f"{match[1]}({url})"

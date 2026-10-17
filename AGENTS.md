@@ -1,6 +1,6 @@
 # Agent instructions
 
-Research Lineage turns a research question into an inspectable map of results,
+LitDelta turns a research question into an inspectable map of results,
 evidence, and changes in assumptions. See `docs/design/research-lineage.md`.
 
 ## Working rules
