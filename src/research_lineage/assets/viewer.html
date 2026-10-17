@@ -16,7 +16,7 @@
   <body>
     <a class="skip" href="#workspace">Skip to research map</a>
     <header class="topbar">
-      <a class="brand" href="#"
+      <a class="brand" href="#overview"
         ><svg viewBox="0 0 32 32" aria-hidden="true">
           <path d="M7 24V8m0 9 17-9M7 24l17-7" />
           <circle cx="7" cy="8" r="3" />
@@ -26,6 +26,10 @@
         ><span>research<span class="brand-light">lineage</span></span></a
       >
       <span class="tagline">Ideas have a history. Follow it.</span>
+      <nav class="reading-nav" aria-label="Reading mode">
+        <button id="mode-overview" aria-pressed="true">Overview</button>
+        <button id="mode-explore" aria-pressed="false">Explore map</button>
+      </nav>
       <div class="top-actions">
         <button id="scope-button" class="text-button">
           Scope & sources <span aria-hidden="true">↗</span></button
@@ -44,13 +48,14 @@
           </div>
           <h1 id="map-title">@@TITLE@@</h1>
           <p id="question" class="question"></p>
+          <p id="overview-summary" class="overview-summary"></p>
+          <div class="reading-start">
+            <button class="button primary" id="route-start">Start reading <span aria-hidden="true">→</span></button>
+            <span id="route-caption"></span>
+          </div>
         </div>
         <div class="intro-aside">
-          <p class="mini-label">THE THREAD, AT A GLANCE</p>
           <div id="stats" class="stats"></div>
-          <button class="button primary" id="route-start">
-            Follow the reading route <span aria-hidden="true">→</span>
-          </button>
         </div>
       </section>
       <div class="context-bar">
@@ -59,7 +64,8 @@
           Read the scope →
         </button>
       </div>
-      <section class="atlas" aria-label="Research explorer">
+      <section id="story-view" aria-label="Research overview">@@STORY@@</section>
+      <section id="explorer" class="atlas" aria-label="Research explorer" hidden>
         <div class="map-column">
           <div class="toolbar">
             <div class="segmented" role="group" aria-label="View">
@@ -137,6 +143,7 @@
           class="inspector"
           aria-label="Evidence inspector"
           aria-live="polite"
+          hidden
         ></aside>
       </section>
       <footer class="page-footer">
@@ -159,10 +166,10 @@
     <p class="sr-only" id="announcement" aria-live="polite"></p>
     <noscript
       ><div class="noscript">
-        The map is visible without JavaScript. Enable JavaScript for evidence
+        Enable JavaScript for interactive evidence
         inspection and filtering, or use the accompanying review.md and
         map.json.
-      </div></noscript
+      </div><style>#explorer[hidden]{display:block!important}#inspector{display:none!important}.story-source{pointer-events:none}.reading-nav,.reading-start{display:none}</style></noscript
     >
     <script type="application/json" id="map-data">
       @@DATA@@

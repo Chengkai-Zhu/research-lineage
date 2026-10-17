@@ -20,7 +20,7 @@ The output contains `map.html`, `map.svg`, `map.json`, and `review.md`.
 
 ## Use the standalone skill
 
-Download `research-lineage-skill-0.1.1.zip` from the release. Extract the contained
+Download `research-lineage-skill-0.2.0.zip` from the release. Extract the contained
 `research-lineage` directory into your host's skills directory, for example
 `~/.agents/skills/` for Codex or `~/.claude/skills/` for Claude Code. On Windows,
 use the equivalent folder under your user profile. Preserve existing skills.
@@ -32,12 +32,33 @@ the skill runner automatically uses the repository's canonical source.
 
 Try a prompt:
 
-> Use research-lineage to trace how quantum signal processing developed into
-> QSVT. Focus on changes in input models and assumptions. Give me an interactive
-> offline map and make every relationship's evidence inspectable.
+> Please trace the development of quantum signal processing.
+
+Or supply one paper:
+
+> Use research-lineage with https://arxiv.org/abs/2408.13687v1.
+
+Chinese works too: “请整理 quantum signal processing 这个方向的发展历史。”
+The host chooses a bounded scope, resolves the sources, authors the map and
+opens the result. You do not need to provide IDs, dates or JSON. A bare paper
+title is resolved before its identity is asserted. Private PDFs stay local
+unless you explicitly authorize another destination.
 
 The skill uses your host's research tools. It does not include model credentials,
 full-text subscriptions, or an autonomous search engine.
+
+## Prepare a topic or paper directly
+
+```sh
+research-lineage start "quantum signal processing" --out output/topic
+research-lineage start "https://arxiv.org/abs/2408.13687v1" --out output/paper
+```
+
+This deterministic helper writes an empty `map.json` and a `research-brief.json`.
+It does not perform research. The host uses its research tools and the
+[data guide](../skills/research-lineage/references/data-guide.md) to populate the
+map from checked sources. Optional explicit discovery and evaluation commands
+are documented in [Research tools](research-tools.md).
 
 ## Author a map directly
 
@@ -64,7 +85,9 @@ Diffs are proposals: the command does not alter either input.
 
 ## What to inspect
 
-- Click a **result** for its statement, source version, and conditions.
+- Start with the **overview**, then select **Start reading** for the suggested route.
+- Select **Explore map** for filters, comparisons and the full graph.
+- Click a **result**, then expand the evidence sections for its source version and conditions.
 - Click a **connection** for the specific evidence and whether the relationship
   is author-stated or an editorial inference.
 - Use **Compare settings** before treating a later work as an improvement.
@@ -73,6 +96,7 @@ Diffs are proposals: the command does not alter either input.
 - Export the complete map as HTML, editable SVG, or JSON. Active filters do not
   silently delete data from exports.
 
-Version 0.1 supports English viewer controls and Unicode content. It does not fetch
-papers, reconstruct historical snapshots, authenticate reviewers, or establish
-scientific correctness automatically.
+Version 0.2 supports English viewer controls and Unicode research content. Explicit
+discovery retrieves metadata/available abstracts, not unrestricted paper full text.
+The tools do not reconstruct historical knowledge, authenticate reviewers, or
+establish scientific correctness automatically.

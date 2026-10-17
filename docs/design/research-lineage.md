@@ -2,6 +2,9 @@
 
 Decision date: 2026-10-16. First software release: v0.1.0.
 
+The [v0.2 reading design](skill-first-reading.md) refines the input and presentation
+decisions below. The evidence and review boundaries remain in force.
+
 ## Need
 
 Researchers entering a specific question need to understand how results evolved,

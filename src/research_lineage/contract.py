@@ -142,6 +142,13 @@ SCHEMA = {
         reading_route=array(ID, maximum=250),
     ),
 }
+# Optional reading layer; all v1 maps remain valid without authored narrative.
+SCHEMA["properties"]["narrative"] = obj(
+    overview=text(600),
+    turning_points=array(
+        obj(title=text(80), summary=text(360), result_ids=array(ID, 1, 4)), 1, 5
+    ),
+)
 
 
 def safe_url(value):
@@ -352,6 +359,11 @@ def validate(data):
         set(data["reading_route"])
     ) != len(data["reading_route"]):
         errors.append("reading_route: missing or duplicate result")
+    for point in data.get("narrative", {}).get("turning_points", []):
+        if any(ref not in results for ref in point["result_ids"]) or len(
+            set(point["result_ids"])
+        ) != len(point["result_ids"]):
+            errors.append("narrative: missing or duplicate result reference")
     if not results:
         warnings.append(
             "Empty draft: add source-grounded results before building a map."

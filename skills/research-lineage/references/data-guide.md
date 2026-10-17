@@ -15,6 +15,20 @@ and hyphens, and are unique within their collection; version IDs are globally un
 | Evidence | `id`, `work_id`, `version_id`, `url` (same as pinned version), `locator`, `kind`, `summary` (paraphrase), `checked` |
 | Relationship | `id`, `source`, `target`, `type`, `summary`, `evidence` (IDs), `basis`, `comparability`, `review_status`, `reviews` |
 
+## Optional reading overview
+
+Add `narrative` when you have authored a concise, source-grounded account. It has
+`overview` (at most 600 characters) and 1–5 `turning_points`. Each point has `title`
+(80 characters), `summary` (360 characters), and `result_ids` (1–4 existing result
+IDs). Prefer three clear changes in the problem, method or assumptions; every
+point must be supported by the referenced results' evidence. An overview is
+editorial synthesis, not a review certification. Unknown or duplicate IDs fail
+validation. The narrative is preserved in JSON, HTML, SVG, reports and diffs.
+
+Without this optional field, the opening page shows clearly labeled selections
+from the reading route. It does not automatically invent turning points. All
+existing version 1 maps remain valid with the current renderer.
+
 `settings` has four required keys: `input`, `assumptions`, `cost`, `error`. Values
 are a supported textual statement or `null` (not extracted). A different input
 model or resource measure is not evidence of an improvement.

@@ -1,0 +1,137 @@
+{
+  "provenance": {
+    "kind": "engineering_fixture",
+    "method": "Hand-authored synthetic boundary cases; source access is simulated. No human scientific labels."
+  },
+  "cases": [
+    {
+      "candidate": {
+        "id": "explicit-method",
+        "type": "uses_result",
+        "claim": "Synthetic candidate for testing the gate, not a scientific statement.",
+        "basis": "author_explicit",
+        "source": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "access": "full_text"
+        },
+        "evidence": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "locator": "Synthetic section 2"
+        }
+      },
+      "expected": "propose"
+    },
+    {
+      "candidate": {
+        "id": "no-text",
+        "type": "uses_result",
+        "claim": "Synthetic candidate for testing the gate, not a scientific statement.",
+        "basis": "author_explicit",
+        "source": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "access": "unavailable"
+        },
+        "evidence": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "locator": "Synthetic section 2"
+        }
+      },
+      "expected": "abstain"
+    },
+    {
+      "candidate": {
+        "id": "abstract",
+        "type": "uses_result",
+        "claim": "Synthetic candidate for testing the gate, not a scientific statement.",
+        "basis": "author_explicit",
+        "source": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "access": "abstract"
+        },
+        "evidence": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "locator": "Synthetic section 2"
+        }
+      },
+      "expected": "propose"
+    },
+    {
+      "candidate": {
+        "id": "citation-not-generalization",
+        "type": "generalizes",
+        "claim": "Synthetic candidate for testing the gate, not a scientific statement.",
+        "basis": "citation_only",
+        "source": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "access": "full_text"
+        },
+        "evidence": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "locator": "Synthetic section 2"
+        }
+      },
+      "expected": "abstain"
+    },
+    {
+      "candidate": {
+        "id": "unknown-cost-unit",
+        "type": "improves_bound",
+        "claim": "Synthetic candidate for testing the gate, not a scientific statement.",
+        "basis": "author_explicit",
+        "source": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "access": "full_text"
+        },
+        "evidence": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "locator": "Synthetic section 2"
+        },
+        "comparison": {
+          "comparability": "not_assessed"
+        }
+      },
+      "expected": "abstain"
+    },
+    {
+      "candidate": {
+        "id": "wrong-version",
+        "type": "uses_result",
+        "claim": "Synthetic candidate for testing the gate, not a scientific statement.",
+        "basis": "author_explicit",
+        "source": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v1",
+          "url": "https://example.org/fixture/v1",
+          "access": "full_text"
+        },
+        "evidence": {
+          "work_id": "fixture-paper",
+          "version_id": "fixture-v2",
+          "url": "https://example.org/fixture/v1",
+          "locator": "Synthetic section 2"
+        }
+      },
+      "expected": "abstain"
+    }
+  ]
+}

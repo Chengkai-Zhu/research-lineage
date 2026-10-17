@@ -26,6 +26,12 @@ jobs:
       - run: python -m ruff check src tests scripts skills
       - run: python -m pytest --cov=research_lineage --cov-report=term-missing --cov-report=xml
       - run: python -m research_lineage demo --out output/demo
+      - name: Build authored histories and evaluation reports
+        run: |
+          python -m research_lineage build examples/nmt-attention/map.json --out output/nmt
+          python -m research_lineage build examples/surface-code/map.json --out output/surface-code
+          python -m research_lineage evaluate examples/evaluation/gates.json --out output/gate-report.json
+          python -m research_lineage study examples/evaluation/study-empty.json --out output/study-report.json
       - run: python scripts/package_skill.py --out dist
       - run: python -m build
       - uses: codecov/codecov-action@v7.1.1
@@ -40,5 +46,5 @@ jobs:
           name: research-lineage-release-candidate
           path: |
             dist/
-            output/demo/
+            output/
             coverage.xml

@@ -1,45 +1,54 @@
+[English](README.md) · [简体中文](README.zh-CN.md)
+
 # Research Lineage
 
-**Ideas have a history. Follow it.**
+**Start with a topic. Understand how the ideas developed.**
 
 [![CI](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml/badge.svg)](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml)
 
-Turn a research question into an interactive map of results, assumptions, and the
-evidence connecting them. An agent skill plus a small Python toolkit. Local files,
-no account, no runtime dependencies, and no external assets in your exported map.
+An **agent skill** that turns a research topic or one paper into a clear, source-grounded reading history. Give your agent one sentence; receive an interactive map you can keep, inspect and share offline.
 
-[Download the demo](https://github.com/Chengkai-Zhu/research-lineage/releases/latest)
-· [Install the skill](docs/quickstart.md#use-the-standalone-skill)
-· [Data format](skills/research-lineage/references/data-guide.md)
-· [Roadmap](docs/roadmap.md)
+> Please trace the development of quantum signal processing.
 
-![The QSP/QSVT map with an inspectable evidence sidebar](docs/assets/map-preview.jpg)
+Or just supply a paper link, DOI, title or PDF and ask for the history behind it.
 
-## See the story, check the evidence
+[Get the skill](docs/quickstart.md#use-the-standalone-skill) · [Download examples](https://github.com/Chengkai-Zhu/research-lineage/releases/latest) · [Research tools](docs/research-tools.md)
 
-- **Follow results, not only papers.** Trace a generalization, a changed condition,
-  a targeted critique, or a tutorial through a chronological map.
-- **Inspect every connection.** Open its source version, locator, explanation,
-  and review status. Citation alone does not establish intellectual inheritance.
-- **Compare the setting before the claim.** Put input models, assumptions, costs,
-  and error side by side. Unknowns stay visible.
-- **Read it as a route.** A guided sequence and a text reading list make the map
-  useful for a first reading, a class, or a research-group discussion.
-- **Take it with you.** Export interactive HTML, editable SVG, structured JSON,
-  and a review report. Keep a map in Git and inspect its changes.
+![The reading overview, with details revealed on demand](docs/assets/reading-overview.png)
 
-The first example follows eight QSP/QSVT papers and six proposed relationships.
-It is an **abstract-grounded draft**, not an expert-certified or complete history.
-See [source checks and limitations](docs/sources.md).
+## Understand first. Explore when ready.
 
-A second worked map follows [neural machine translation from fixed vectors to
-attention](examples/nmt-attention/README.md): six primary papers checked at
-section level, including an explicit multi-version source. See the
-[new-question end-to-end test](docs/test-reports/test-feature-20261017-nmt.md).
+- **Begin with the story.** A short overview and source-linked turning points explain what changed.
+- **Know what to read next.** Follow a suggested route, then explore the complete map.
+- **Check the reasoning.** Open a connection, its exact paper version, evidence and assumptions when you need them.
+- **Keep the whole result.** One offline HTML, plus SVG, JSON and a review report. Filters never discard exported evidence.
 
-## Try it in a minute
+The host agent does the research using its search and document tools. The bundled Python toolkit prepares inputs, validates records and builds the reading experience. No account or paid service is required by the local core. Python 3.11+ is needed for the skill; the exported HTML needs only a browser.
 
-Requires Python 3.11+. No model key or network is needed to run the demo.
+## Use the skill
+
+1. Download the self-contained skill ZIP from [Releases](https://github.com/Chengkai-Zhu/research-lineage/releases/latest).
+2. Extract its `research-lineage` folder into your agent's skill directory; see the [installation guide](docs/quickstart.md).
+3. Give it a topic or paper:
+
+> Use research-lineage to trace the history of quantum signal processing.
+
+> Use research-lineage with https://arxiv.org/abs/2408.13687v1 and explain the developments behind this paper.
+
+The skill chooses a bounded scope and follows your language. You do not need to supply IDs, dates, a bibliography or JSON. A paper title is resolved before its identity is asserted. Private attachments stay local unless you explicitly authorize otherwise. Viewer controls are currently English; research content can be Chinese.
+
+## Worked histories
+
+| Start | Reading history | Evidence boundary |
+| --- | --- | --- |
+| A topic | [QSP to QSVT](docs/sources.md) | Eight-paper, abstract-grounded draft |
+| A new question | [Sentence vectors to attention](examples/nmt-attention/README.md) | Six primary papers with section-level checks |
+| One paper | [Surface-code quantum memories](examples/surface-code/README.md) | Four works; mixed full-text and abstract access |
+
+These are selected histories with proposed annotations. Source checks and passing software tests do not establish scientific truth or independent expert review. Genuine external review and participant studies remain [open work](https://github.com/Chengkai-Zhu/research-lineage/issues/10).
+
+<details>
+<summary>Use the Python tools directly</summary>
 
 ```sh
 git clone https://github.com/Chengkai-Zhu/research-lineage.git
@@ -48,66 +57,34 @@ python -m pip install .
 research-lineage demo --out output/demo
 ```
 
-Open `output/demo/map.html`. Or download and extract the demo ZIP from
-[Releases](https://github.com/Chengkai-Zhu/research-lineage/releases/latest) and open
-`map.html` directly, with no Python installation.
-
-## Give the skill a question
-
-Install the self-contained skill ZIP from the release into your agent's skills
-folder. It includes the Python runtime code; it does not require this checkout.
-See [installation and usage](docs/quickstart.md).
-
-> Use research-lineage to map how quantum signal processing developed into QSVT.
-> Show which assumptions changed and where each connection is supported. Give me
-> an offline map I can use in a reading group.
-
-The skill uses the search/document capabilities of your host agent. It does not
-provide credentials, a hosted research agent, or automatic scientific verification.
-You can use the same format for other questions; worked examples cover quantum
-algorithms and neural machine translation.
+Open `output/demo/map.html`. The demo requires no network or model key.
 
 ```sh
-research-lineage init "How did this research question evolve?" --id my-question --out map.json
-# Populate the draft with checked sources, results, settings, and evidence.
-research-lineage validate map.json
-research-lineage build map.json --out output/my-question
-research-lineage diff previous.json revised.json --out changes.json
+research-lineage start "quantum signal processing" --out output/topic
+# The host researches and authors the empty draft; start does not fabricate a map.
+research-lineage validate output/topic/map.json
+research-lineage build output/topic/map.json --out output/topic/reading
 ```
 
-`init` creates an empty draft. `build` refuses empty or invalid maps. No hidden model
-call fills missing evidence. Read the [data guide](skills/research-lineage/references/data-guide.md)
-for the full authoring contract.
+[Data guide](skills/research-lineage/references/data-guide.md) · [Discovery, identity and evaluation commands](docs/research-tools.md)
 
-## Where this fits
+</details>
 
-[Connected Papers](https://www.connectedpapers.com/about),
-[ResearchRabbit](https://www.researchrabbit.ai/), and [Litmaps](https://www.litmaps.com/)
-already make discovery and visual exploration useful. Open skills such as
-[research-genealogy](https://github.com/unumbrela/research-genealogy) also trace research history.
+## Contribute
 
-Research Lineage focuses on the combination of **result-level evidence, explicit
-setting changes, and portable reading experiences**. We aim to make checking and
-maintaining a map easier. That is a product hypothesis, not a claim of global novelty.
-
-## Development
+Correct an assumption, improve a source anchor, or add a carefully checked reading history. Contributions should preserve uncertainty and source versions.
 
 ```sh
 python -m pip install -e ".[dev]"
-python -m pytest --cov=research_lineage
+python -m pytest
 python -m ruff check src tests scripts skills
 python scripts/package_skill.py --out dist
-python -m build
 ```
 
-[Product design](docs/design/research-lineage.md) · [Plan audit](docs/product-audit.md)
-· [Verification](docs/verification.md) · [Contributing](CONTRIBUTING.md)
+[Design](docs/design/skill-first-reading.md) · [Verification](docs/test-reports/skill-first-workflow.md) · [Roadmap](docs/roadmap.md) · [Contributing](CONTRIBUTING.md)
 
-A useful contribution can be a single corrected assumption or a better source
-anchor. Keep it inspectable. If this helps your research, sharing a map or starring
-the repository helps others find it.
+If it helps you understand a field, sharing your map or starring the repository helps others find it.
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE). Papers retain their own copyrights; the repository
-contains original annotations and source links, not redistributed full-text papers.
+[Apache-2.0](LICENSE). Papers retain their own copyrights; the repository contains original annotations and source links, not redistributed papers.
