@@ -692,7 +692,11 @@
     );
     const grid = element("div", "download-grid");
     grid.append(
-      downloadLink("Interactive HTML  ↓", "map.html", identityView.exportHtml(originalHtml), "text/html;charset=utf-8"),
+      downloadLink("Interactive HTML  ↓", "map.html", identityView.exportHtml(originalHtml, {
+        mode: $("explorer").hidden ? "overview" : "explore",
+        view: $("list-view").hidden ? "map" : "list",
+        fragment: location.hash,
+      }), "text/html;charset=utf-8"),
       downloadLink("Editable SVG  ↓", "map.svg", svgExport(), "image/svg+xml"),
       downloadLink("Structured JSON  ↓", "map.json", JSON.stringify(data, null, 2) + "\n", "application/json"),
     );
@@ -814,9 +818,9 @@
   $("zoom-in").addEventListener("click", () => setZoom(zoom + 0.25));
   $("zoom-out").addEventListener("click", () => setZoom(zoom - 0.25));
   $("zoom-fit").addEventListener("click", () => setZoom(1));
-  function restoreHash() {
+  function restoreHash(fragment = location.hash) {
     try {
-      const [type, id] = location.hash.slice(1).split("=");
+      const [type, id] = fragment.slice(1).split("=");
       if (type === "relation" && relations[decodeURIComponent(id)])
         showRelation(decodeURIComponent(id), false);
       else if (type === "result" && results[decodeURIComponent(id)])
@@ -828,6 +832,12 @@
         const [left, right] = decodeURIComponent(id).split(",");
         if (results[left] && results[right]) showCompare(left, right, null, false);
       }
+      else if (type === "author" || type === "team") {
+        const mode = type === "author" ? "authors" : "groups",
+          key = (type === "author" ? "author:" : "group:") + decodeURIComponent(id);
+        if (identityView.follow(mode, key)) showMode("explore");
+        else $("announcement").textContent = "No recorded " + type + " matches this link.";
+      }
       else if (type === "explore") showMode("explore");
       else if (type === "overview") showMode("overview");
     } catch (_) {
@@ -835,7 +845,10 @@
     }
   }
   showMode("overview");
-  restoreHash();
+  const saved = readReadingPreference($("reading-preference").textContent);
+  showMode(saved.mode);
+  view(saved.view);
+  restoreHash(location.hash || saved.fragment);
   filter();
-  window.addEventListener("hashchange", restoreHash);
+  window.addEventListener("hashchange", () => restoreHash());
 })();

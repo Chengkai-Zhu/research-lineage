@@ -179,6 +179,10 @@ def diff_maps(before, after):
 
 def review_sections(data):
     """Shared readable provenance for Markdown, CLI SVG, and browser SVG."""
+    def condition_value(row, side):
+        value = row[side] if row[side] is not None else "Not extracted"
+        return str(value) + (f" [{row[side + '_unit']}]" if row[side + "_unit"] else "")
+
     sections = [
         (
             "Scope",
@@ -260,7 +264,7 @@ def review_sections(data):
             ]
         )
         comparisons.extend(
-            f"{row['dimension']}: {row['left']} [{row['left_unit']}] vs {row['right']} [{row['right_unit']}] — {row['reason']} | Left evidence: {', '.join(row['left_evidence'])} | Right evidence: {', '.join(row['right_evidence'])}"
+            f"{row['dimension']}: {condition_value(row, 'left')} vs {condition_value(row, 'right')} — {row['reason']} | Left evidence: {', '.join(row['left_evidence'])} | Right evidence: {', '.join(row['right_evidence'])}"
             for row in record["conditions"]
         )
         if record["conversion"]:

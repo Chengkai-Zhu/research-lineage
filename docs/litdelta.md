@@ -38,6 +38,10 @@ use **Follow a name** to trace that label across papers; other work stays visibl
 in gray. Team mode uses explicit version-bound assignments from the data guide.
 It never infers a team from shared coauthors. Recorded names may be ambiguous.
 HTML downloads retain the selected mode; SVG downloads include its legend.
+Author and team links use `#author=<recorded name>` and `#team=<group ID>`.
+They select only labels already present in the map. Saved HTML also records the
+reading view and selected comparison or result; a URL fragment takes precedence
+over the saved location. Filters never remove data from the downloaded file.
 
 ## Author and check records
 
@@ -83,15 +87,44 @@ python scripts/build_preview.py --out output/litdelta-preview
 python -m http.server 8765 --directory output/litdelta-preview
 ```
 
-Open `http://127.0.0.1:8765/`. The builder uses the same committed example and
-renderer as `demo --example comparisons`. `index.html` is the complete offline
-reading file; `offline.zip` contains HTML, SVG, JSON, review report and source notes.
-No original papers or local/private inputs are published.
+Open `http://127.0.0.1:8765/`. The same product is published at
+[LitDelta](https://chengkaizhu.site/research-lineage/). The landing page offers
+three fixed public examples: the one-paper comparisons, the NMT author history,
+and the actual 52-work research run, explicitly labeled PARTIAL.
 
-The Pages workflow is an explicit publication path after the feature is merged.
-It builds the same artifact and publishes through the repository's Pages
-environment. A successful build alone does not establish public availability.
-Record the actual deployment URL and browser observations before closing #20.
+Every reader uses the canonical renderer. The complete `offline.zip` preserves
+all three maps, their HTML/SVG/JSON/review exports, source notes, the recorded
+research audit and the current standalone skill. Extract it, then open
+`START-HERE.html`; individual `map.html` files also work independently. The online
+landing page is omitted from the archive so its download link cannot become a
+broken link back to the archive itself. No original papers or private inputs are
+published. Browser file-navigation restrictions may require a manual check in
+the user's own browser.
+
+`manifest.json` records source revision, local-change status, sizes and SHA-256
+checksums. Verify local files or explicitly check the published downloads:
+
+```sh
+python scripts/verify_preview.py --directory output/litdelta-preview --out output/local-preview-check.json
+python scripts/verify_preview.py --url https://chengkaizhu.site/research-lineage/ --out output/public-preview-check.json
+```
+
+The URL check makes bounded, explicit HTTP requests. It checks availability and
+byte integrity, not scientific truth. Tampered files and inconsistent offline
+archives fail with exit 2; an existing report is never overwritten.
+
+Publication is explicit. For this PR, dispatch the existing CI workflow against
+the product branch with its publication input:
+
+```sh
+gh workflow run ci.yml --repo Chengkai-Zhu/research-lineage --ref issue-20-litdelta -f publish_preview=true
+```
+
+All four Windows/Linux test jobs must pass before the reusable Pages job runs.
+After merge, the standalone **Publish LitDelta preview** workflow can also be
+dispatched; it runs tests and local artifact verification before deployment.
+The `github-pages` environment controls allowed branches. Normal pushes and PR
+checks never publish the site. Deployment does not merge a PR or tag a release.
 
 ## Acceptance evidence
 

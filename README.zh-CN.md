@@ -7,11 +7,19 @@
 产品名为 LitDelta；安装包和 skill 继续使用 `research-lineage`。`litdelta`、
 `research-lineage` 和 `python -m research_lineage` 使用同一套本地工具。
 
+[在线试用 LitDelta](https://chengkaizhu.site/research-lineage/) ·
+[下载完整离线集合](https://chengkaizhu.site/research-lineage/offline.zip) ·
+[下载当前预览版 Skill](https://chengkaizhu.site/research-lineage/downloads/research-lineage-skill-0.2.0.zip)
+
+无需安装即可阅读结果比较、按作者追踪脉络，以及保留 PARTIAL 状态的真实 52 篇论文研究案例。
+离线集合解压后打开 `START-HERE.html`；研究新主题则将 Skill 交给你的研究助手运行。
+预览版工具包与最新的已标记 Release 分开提供。
+
 安装当前 checkout 后，可运行 `litdelta demo --example comparisons --out output/comparisons`，
 打开 `output/comparisons/map.html`。这个限定范围的例子展示同一论文中的层级并行性、
 总工作量、生成依赖和翻译质量；它是结果比较阅读案例，完整研究流程另由 #14/#12 验证。
 查看[来源与阅读任务](examples/attention-comparisons/README.md)及
-[浏览器预览构建与发布](docs/litdelta.md#browser-preview)。公开预览是否已部署须以实际可访问链接为准。
+[浏览器预览构建与验证](docs/litdelta.md#browser-preview)，包括下载文件的校验方法。
 
 **从一个方向出发，读懂研究如何发展。**
 

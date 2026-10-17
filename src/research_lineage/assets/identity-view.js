@@ -127,10 +127,16 @@ function createIdentityView(data, element, button) {
     return 50 + legend.length * 18;
   }
 
-  function exportHtml(original) {
-    const serialized = JSON.stringify(preference).replaceAll("<", "\\u003c").replaceAll(">", "\\u003e").replaceAll("&", "\\u0026");
-    return original.replace(/(<script type="application\/json" id="color-preference">)[\s\S]*?(<\/script>)/,
-      (_whole, start, end) => start + serialized + end);
+  function follow(mode, id) {
+    if (!["authors", "groups"].includes(mode)) return false;
+    const previous = preference;
+    preference = { mode, focus: id };
+    if (!catalog().some((member) => member.id === id)) {
+      preference = previous;
+      return false;
+    }
+    apply();
+    return true;
   }
 
   $("color-mode").addEventListener("change", () => {
@@ -142,5 +148,9 @@ function createIdentityView(data, element, button) {
     apply();
   });
   apply();
-  return { exportSvg, exportHtml };
+  return {
+    exportSvg,
+    exportHtml: (original, reading) => exportViewPreferences(original, preference, reading),
+    follow,
+  };
 }

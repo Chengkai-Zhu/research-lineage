@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Read what research changes, when a comparison applies, and where to check the evidence. Try LitDelta without signing up.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+  <title>LitDelta — See how research moves forward.</title>
+  <style>@@STYLE@@</style>
+</head>
+<body>
+  <a class="skip" href="#examples">Skip to examples</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="LitDelta home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 24V8m0 9 17-9M7 24l17-7"/><circle cx="7" cy="8" r="3"/><circle cx="7" cy="24" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="24" cy="17" r="3"/></svg>Lit<span>Delta</span></a>
+    <nav aria-label="Main"><a href="#examples">Try it</a><a href="#your-research">Your research</a><a href="https://github.com/Chengkai-Zhu/research-lineage">GitHub ↗</a></nav>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="headline">
+      <div class="eyebrow"><span></span> SEE HOW RESEARCH MOVES FORWARD</div>
+      <h1 id="headline">Understand what changed.<br><em>Know when it applies.</em></h1>
+      <p class="lead">Go beyond a paper list. Follow results, compare their conditions, and inspect the evidence behind each connection.</p>
+      <div class="actions"><a class="button primary" href="map.html#comparison=c-parallel-depth">Read a comparison <span aria-hidden="true">→</span></a>@@OFFLINE_ACTION@@</div>
+      <p class="quiet">No sign-up. No model key to read the examples. Keep the complete map offline.</p>
+      <div class="reading-preview" aria-label="An example of a carefully scoped comparison">
+        <div><span class="step">01 / WHAT CHANGED</span><h2>A layer needs fewer sequential steps.</h2><p>Self-attention exposes a different kind of parallelism than a recurrent layer.</p></div>
+        <div><span class="step">02 / WHEN IT APPLIES</span><h2>All input positions are available.</h2><p>The layer-level comparison does not remove autoregressive generation dependencies.</p></div>
+        <div><span class="step">03 / WHERE TO CHECK</span><h2>Open the exact source and assumptions.</h2><p>Inspect Table 1, its pinned paper version, and the separate total-work comparison.</p></div>
+      </div>
+    </section>
+    <section id="examples" aria-labelledby="examples-title">
+      <div class="section-heading"><div><p class="eyebrow">THREE WAYS TO READ</p><h2 id="examples-title">Start with a question.</h2></div><p>Each example keeps its sources, review state, and limits visible.</p></div>
+      <div class="examples">
+        <article class="example featured"><span class="badge">COMPARE RESULTS</span><h3>Does parallel mean less work?</h3><p>Four distinct results from one Transformer paper. Compare sequential depth and arithmetic work, then see why a quality comparison does not hold.</p><p class="counts">@@COMPARISON_COUNTS@@ · proposed annotations</p><a class="example-link" href="map.html#comparison=c-parallel-depth">Read the explanation →</a><a class="secondary-link" href="map.html#comparison=c-quality">Try a mismatched comparison ↗</a></article>
+        <article class="example"><span class="badge">FOLLOW AUTHORS</span><h3>From sentence vectors to attention.</h3><p>Follow an idea across papers. Color shared author names consistently and see collaborations without merging every coauthor into one team.</p><p class="counts">@@AUTHOR_COUNTS@@ · proposed annotations</p><a class="example-link" href="nmt/map.html#author=Yoshua%20Bengio">Follow Yoshua Bengio →</a><a class="secondary-link" href="nmt/map.html#overview">Begin with the story ↗</a></article>
+        <article class="example"><span class="badge partial">@@RESEARCH_STATUS@@ RESEARCH</span><h3>How did surface-code memories develop?</h3><p>Explore the actual fresh research run, with the full corpus behind its reading route. A central full-text access gap remains visible.</p><p class="counts">@@RESEARCH_COUNTS@@ · recorded execution trail</p><a class="example-link" href="surface-code/map.html#overview">Explore the researched history →</a><a class="secondary-link" href="https://github.com/Chengkai-Zhu/research-lineage/tree/main/docs/test-reports/surface-code-rerun">Inspect the research record ↗</a></article>
+      </div>
+    </section>
+    <section class="own-research" id="your-research" aria-labelledby="own-title">
+      <div><p class="eyebrow">BRING YOUR OWN QUESTION</p><h2 id="own-title">Your agent researches.<br>You get a map you can check.</h2><p>Give a compatible research agent a topic or paper. The skill guides source discovery and authors the reading history; the local toolkit checks its structure and builds your files.</p><p>No JSON forms to fill. New research uses the search and document tools available to your agent.</p><a class="button" href="downloads/@@SKILL_FILE@@" download>Download the current skill ↓</a><p class="quiet">Python 3.11+ and an agent host are required for research. The reading files need only a browser.</p></div>
+      <div class="steps"><div><span>1</span><div><h3>Add the skill to your agent.</h3><p>Extract the <code>research-lineage</code> folder into your host's skills directory. <a href="https://github.com/Chengkai-Zhu/research-lineage/blob/main/docs/quickstart.md">Installation guide ↗</a></p></div></div><div><span>2</span><div><h3>Ask one research question.</h3><pre>Use research-lineage to trace the developments
+behind this paper: [paper link]. Explain what
+changed and when the results can be compared.</pre></div></div><div><span>3</span><div><h3>Read, inspect, and keep the result.</h3><p>Open the generated HTML. Check the source versions and gaps, then share the complete offline files.</p></div></div></div>
+    </section>
+    <section class="limits" aria-labelledby="limits-title"><h2 id="limits-title">A map should show what it cannot establish.</h2><p>Source checks and software validation do not certify scientific truth. These examples retain proposed annotations, uncertainty, and exclusions. The surface-code run remains @@RESEARCH_STATUS@@; no completed research coverage, independent scholarly review, or measured reader benefit is claimed.</p><a href="sources.md">Comparison source notes</a><span aria-hidden="true"> · </span><a href="manifest.json">Download checksums and provenance</a></section>
+  </main>
+  <footer><p><strong>LitDelta</strong> · Your map. Your sources. Yours to share.</p><p>@@PROVENANCE@@ · Apache-2.0 tools; original papers retain their copyrights.</p></footer>
+</body>
+</html>

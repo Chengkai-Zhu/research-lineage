@@ -212,7 +212,9 @@ def render_html(data):
     values = {
         "TITLE": html.escape(data["title"]),
         "CSS": (ASSETS / "viewer.css").read_text(encoding="utf-8"),
-        "JS": (ASSETS / "identity-view.js").read_text(encoding="utf-8")
+        "JS": (ASSETS / "view-state.js").read_text(encoding="utf-8")
+        + "\n"
+        + (ASSETS / "identity-view.js").read_text(encoding="utf-8")
         + "\n"
         + (ASSETS / "viewer.js").read_text(encoding="utf-8"),
         "DATA": serialized,
