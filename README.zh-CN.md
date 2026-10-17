@@ -12,7 +12,9 @@
 
 也可以只提供论文链接、DOI、标题或 PDF，让它梳理这篇论文背后的研究发展。
 
-[安装 Skill](docs/quickstart.md#use-the-standalone-skill) · [下载示例](https://github.com/Chengkai-Zhu/research-lineage/releases/latest) · [研究工具说明](docs/research-tools.md)
+[安装 Skill](docs/quickstart.md#use-the-standalone-skill) · [实际研究案例](#实际研究案例) · [研究工具说明](docs/research-tools.md)
+
+下述新版功能已合并到 `main`，**0.2 暂未发布 Release**。目前已发布的安装包仍为 [v0.1.1](https://github.com/Chengkai-Zhu/research-lineage/releases/tag/v0.1.1)。
 
 ![先看发展脉络，需要时再展开细节](docs/assets/reading-overview.png)
 
@@ -27,9 +29,15 @@
 
 ## 使用 Skill
 
-1. 在 [Releases](https://github.com/Chengkai-Zhu/research-lineage/releases/latest) 下载独立 Skill ZIP。
-2. 将其中的 `research-lineage` 文件夹解压到宿主的技能目录，参见[安装说明](docs/quickstart.md)。
-3. 提供研究方向或论文：
+使用 Python 3.11+ 从源码构建当前独立 Skill：
+
+```sh
+git clone https://github.com/Chengkai-Zhu/research-lineage.git
+cd research-lineage
+python scripts/package_skill.py --out dist
+```
+
+将 `dist/research-lineage-skill-0.2.0.zip` 中的 `research-lineage` 文件夹解压到宿主的技能目录，参见[安装说明](docs/quickstart.md)。然后提供研究方向或论文：
 
 > 使用 research-lineage，整理 quantum signal processing 的发展历史。
 

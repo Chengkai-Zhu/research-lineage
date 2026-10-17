@@ -12,7 +12,9 @@ An **agent skill** that turns a research topic or one paper into a clear, source
 
 Or just supply a paper link, DOI, title or PDF and ask for the history behind it.
 
-[Get the skill](docs/quickstart.md#use-the-standalone-skill) · [Download examples](https://github.com/Chengkai-Zhu/research-lineage/releases/latest) · [Research tools](docs/research-tools.md)
+[Get the skill](docs/quickstart.md#use-the-standalone-skill) · [Worked histories](#worked-histories) · [Research tools](docs/research-tools.md)
+
+The workflow below is available on `main`; **0.2 is not released yet**. The latest published bundle is [v0.1.1](https://github.com/Chengkai-Zhu/research-lineage/releases/tag/v0.1.1).
 
 ![The reading overview, with details revealed on demand](docs/assets/reading-overview.png)
 
@@ -27,9 +29,15 @@ The host agent does the research using its search and document tools. The bundle
 
 ## Use the skill
 
-1. Download the self-contained skill ZIP from [Releases](https://github.com/Chengkai-Zhu/research-lineage/releases/latest).
-2. Extract its `research-lineage` folder into your agent's skill directory; see the [installation guide](docs/quickstart.md).
-3. Give it a topic or paper:
+Build the current self-contained skill with Python 3.11+:
+
+```sh
+git clone https://github.com/Chengkai-Zhu/research-lineage.git
+cd research-lineage
+python scripts/package_skill.py --out dist
+```
+
+Extract the `research-lineage` folder from `dist/research-lineage-skill-0.2.0.zip` into your agent's skill directory; see the [installation guide](docs/quickstart.md). Then give it a topic or paper:
 
 > Use research-lineage to trace the history of quantum signal processing.
 
