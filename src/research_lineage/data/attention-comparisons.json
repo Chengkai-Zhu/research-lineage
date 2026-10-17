@@ -1,0 +1,468 @@
+{
+  "schema_version": "1.1",
+  "id": "attention-comparisons",
+  "title": "Attention: gains, limits, and different questions",
+  "question": "Which computation becomes more parallel, and which claims need a different comparison?",
+  "scope": {
+    "summary": "A scoped comparison reading example from one paper; not a completed field history.",
+    "cutoff": "2026-10-17",
+    "coverage": "Selected layer, generation, and evaluation claims in one pinned source.",
+    "search_strategy": "Explicit single-paper reading scope; Table 1 and Sections 1, 3, 4, and 6.1 inspected.",
+    "exclusions": [
+      "A field-history search and follow-up coverage are outside this reading example."
+    ],
+    "gaps": [
+      "Fresh research-run integration is pending #14/#12.",
+      "No independent scholarly review."
+    ]
+  },
+  "lanes": [
+    {
+      "id": "layers",
+      "label": "Layer computation",
+      "color": "teal"
+    },
+    {
+      "id": "tasks",
+      "label": "Generation and evaluation",
+      "color": "blue"
+    }
+  ],
+  "works": [
+    {
+      "id": "transformer",
+      "title": "Attention Is All You Need",
+      "authors": [
+        "Ashish Vaswani",
+        "Noam Shazeer",
+        "Niki Parmar",
+        "Jakob Uszkoreit",
+        "Llion Jones",
+        "Aidan N. Gomez",
+        "Lukasz Kaiser",
+        "Illia Polosukhin"
+      ],
+      "first_published": "2017-06-12",
+      "versions": [
+        {
+          "id": "transformer-v7",
+          "label": "arXiv v7",
+          "published": "2023-08-02",
+          "url": "https://arxiv.org/html/1706.03762v7"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "r-recurrent",
+      "work_id": "transformer",
+      "version_id": "transformer-v7",
+      "label": "Recurrent layer",
+      "summary": "Position-dependent sequential computation.",
+      "lane": "layers",
+      "kind": "result",
+      "settings": {
+        "input": "n positions, representation width d",
+        "assumptions": "Recurrent sequence mapping",
+        "cost": "O(n d²) work; O(n) sequential operations",
+        "error": "No translation-error bound"
+      },
+      "evidence": [
+        "e-recurrent"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-attention",
+      "work_id": "transformer",
+      "version_id": "transformer-v7",
+      "label": "Self-attention layer",
+      "summary": "Constant sequential depth; quadratic sequence-length work.",
+      "lane": "layers",
+      "kind": "result",
+      "settings": {
+        "input": "n positions, representation width d",
+        "assumptions": "All layer input positions available",
+        "cost": "O(n² d) work; O(1) sequential operations",
+        "error": "No translation-error bound"
+      },
+      "evidence": [
+        "e-attention"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-decoding",
+      "work_id": "transformer",
+      "version_id": "transformer-v7",
+      "label": "Autoregressive generation",
+      "summary": "Each output depends on its preceding outputs.",
+      "lane": "tasks",
+      "kind": "result",
+      "settings": {
+        "input": "Sequence transduction",
+        "assumptions": "Autoregressive output dependency",
+        "cost": null,
+        "error": "No decoding-speed guarantee extracted"
+      },
+      "evidence": [
+        "e-decoding"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "r-quality",
+      "work_id": "transformer",
+      "version_id": "transformer-v7",
+      "label": "Translation quality",
+      "summary": "Full-model empirical translation evaluation.",
+      "lane": "tasks",
+      "kind": "result",
+      "settings": {
+        "input": "Sequence transduction",
+        "assumptions": "Reported EN-DE evaluation protocol",
+        "cost": null,
+        "error": "28.4 BLEU, Table 2"
+      },
+      "evidence": [
+        "e-quality"
+      ],
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "e-recurrent",
+      "work_id": "transformer",
+      "version_id": "transformer-v7",
+      "url": "https://arxiv.org/html/1706.03762v7",
+      "locator": "Table 1, recurrent row; Section 1",
+      "kind": "full_text",
+      "summary": "Per layer: O(n d²) work and O(n) sequential operations.",
+      "checked": "2026-10-17",
+      "quote": {
+        "exact": "This inherently sequential nature precludes parallelization within training examples",
+        "prefix": "",
+        "suffix": ""
+      }
+    },
+    {
+      "id": "e-attention",
+      "work_id": "transformer",
+      "version_id": "transformer-v7",
+      "url": "https://arxiv.org/html/1706.03762v7",
+      "locator": "Table 1, self-attention row; Section 4",
+      "kind": "full_text",
+      "summary": "Per layer: O(n² d) work and O(1) sequential operations.",
+      "checked": "2026-10-17",
+      "quote": {
+        "exact": "a self-attention layer connects all positions with a constant number",
+        "prefix": "",
+        "suffix": ""
+      }
+    },
+    {
+      "id": "e-decoding",
+      "work_id": "transformer",
+      "version_id": "transformer-v7",
+      "url": "https://arxiv.org/html/1706.03762v7",
+      "locator": "Section 3, model architecture; Section 3.1 decoder",
+      "kind": "full_text",
+      "summary": "Output generation conditions on previously generated symbols.",
+      "checked": "2026-10-17"
+    },
+    {
+      "id": "e-quality",
+      "work_id": "transformer",
+      "version_id": "transformer-v7",
+      "url": "https://arxiv.org/html/1706.03762v7",
+      "locator": "Section 6.1, Table 2, Transformer (big), EN-DE",
+      "kind": "full_text",
+      "summary": "28.4 BLEU is an experimental model score, not a layer complexity bound.",
+      "checked": "2026-10-17"
+    }
+  ],
+  "relations": [
+    {
+      "id": "layer-depth-edge",
+      "source": "r-recurrent",
+      "target": "r-attention",
+      "type": "improves_bound",
+      "summary": "A sequential-depth comparison within Table 1, not a chronological development between papers.",
+      "evidence": [
+        "e-recurrent",
+        "e-attention"
+      ],
+      "basis": "author_explicit",
+      "comparison_id": "c-parallel-depth",
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "c-parallel-depth",
+      "left": "r-recurrent",
+      "right": "r-attention",
+      "question": "Which layer has less sequential depth?",
+      "summary": "Sequential depth changes from O(n) to O(1).",
+      "regime": "The layer comparison in Table 1, with all input positions available.",
+      "tradeoffs": "Total work and translation quality require separate criteria.",
+      "rationale": "Table 1 compares the same sequential-operation metric.",
+      "assessment": "comparable",
+      "outcome": "improvement",
+      "improvement": "O(1) versus O(n) sequential operations as n grows.",
+      "conditions": [
+        {
+          "dimension": "input",
+          "left": "n positions of width d",
+          "right": "n positions of width d",
+          "reason": "Same layer-level task.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-recurrent"
+          ],
+          "right_evidence": [
+            "e-attention"
+          ]
+        },
+        {
+          "dimension": "assumptions",
+          "left": "Sequential recurrence",
+          "right": "Positions jointly available",
+          "reason": "Scheduling differs.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-recurrent"
+          ],
+          "right_evidence": [
+            "e-attention"
+          ]
+        },
+        {
+          "dimension": "cost",
+          "left": "O(n)",
+          "right": "O(1)",
+          "reason": "Sequential depth, not total work.",
+          "left_unit": "sequential operations",
+          "right_unit": "sequential operations",
+          "left_evidence": [
+            "e-recurrent"
+          ],
+          "right_evidence": [
+            "e-attention"
+          ]
+        },
+        {
+          "dimension": "error",
+          "left": "No translation-error bound",
+          "right": "No translation-error bound",
+          "reason": "No quality ordering follows.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-recurrent"
+          ],
+          "right_evidence": [
+            "e-attention"
+          ]
+        }
+      ],
+      "conversion": null,
+      "evidence": [
+        "e-recurrent",
+        "e-attention"
+      ],
+      "basis": "author_explicit",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "c-total-work",
+      "left": "r-recurrent",
+      "right": "r-attention",
+      "question": "Does total layer work improve for every sequence length?",
+      "summary": "The resource tradeoff depends on n relative to d.",
+      "regime": "Table 1 asymptotic layer model; positive n and d.",
+      "tradeoffs": "The sequential-depth gain is not an unconditional total-work gain.",
+      "rationale": "Section 4 identifies the n < d regime; keep both parameters visible.",
+      "assessment": "comparable",
+      "outcome": "tradeoff",
+      "improvement": null,
+      "conditions": [
+        {
+          "dimension": "input",
+          "left": "n positions of width d",
+          "right": "n positions of width d",
+          "reason": "Same layer-level task.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-recurrent"
+          ],
+          "right_evidence": [
+            "e-attention"
+          ]
+        },
+        {
+          "dimension": "assumptions",
+          "left": "Sequential recurrence",
+          "right": "Positions jointly available",
+          "reason": "Scheduling differs.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-recurrent"
+          ],
+          "right_evidence": [
+            "e-attention"
+          ]
+        },
+        {
+          "dimension": "cost",
+          "left": "O(n d²)",
+          "right": "O(n² d)",
+          "reason": "Their ratio depends on n/d.",
+          "left_unit": "per-layer arithmetic work",
+          "right_unit": "per-layer arithmetic work",
+          "left_evidence": [
+            "e-recurrent"
+          ],
+          "right_evidence": [
+            "e-attention"
+          ]
+        },
+        {
+          "dimension": "error",
+          "left": "No translation-error bound",
+          "right": "No translation-error bound",
+          "reason": "No quality ordering follows.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-recurrent"
+          ],
+          "right_evidence": [
+            "e-attention"
+          ]
+        }
+      ],
+      "conversion": null,
+      "evidence": [
+        "e-recurrent",
+        "e-attention"
+      ],
+      "basis": "editorial_inference",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "c-decoding",
+      "left": "r-attention",
+      "right": "r-decoding",
+      "question": "Does parallel layer computation establish parallel generation?",
+      "summary": "Layer scheduling and output dependency address different tasks.",
+      "regime": "The two explicitly selected result scopes.",
+      "tradeoffs": "A separate task-specific comparison is needed.",
+      "rationale": "Layer scheduling and output dependency address different tasks.",
+      "assessment": "incomparable",
+      "outcome": "not_assessed",
+      "improvement": null,
+      "conditions": [
+        {
+          "dimension": "metric",
+          "left": "Layer operation count",
+          "right": "Output dependency",
+          "reason": "Layer scheduling and output dependency address different tasks.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-attention"
+          ],
+          "right_evidence": [
+            "e-decoding"
+          ]
+        }
+      ],
+      "conversion": null,
+      "evidence": [
+        "e-attention",
+        "e-decoding"
+      ],
+      "basis": "editorial_inference",
+      "review_status": "proposed",
+      "reviews": []
+    },
+    {
+      "id": "c-quality",
+      "left": "r-attention",
+      "right": "r-quality",
+      "question": "Does a layer bound establish better translation quality?",
+      "summary": "Operation counts and BLEU have different metrics.",
+      "regime": "The two explicitly selected result scopes.",
+      "tradeoffs": "A separate task-specific comparison is needed.",
+      "rationale": "Operation counts and BLEU have different metrics.",
+      "assessment": "incomparable",
+      "outcome": "not_assessed",
+      "improvement": null,
+      "conditions": [
+        {
+          "dimension": "metric",
+          "left": "Layer operation count",
+          "right": "BLEU",
+          "reason": "Operation counts and BLEU have different metrics.",
+          "left_unit": null,
+          "right_unit": null,
+          "left_evidence": [
+            "e-attention"
+          ],
+          "right_evidence": [
+            "e-quality"
+          ]
+        }
+      ],
+      "conversion": null,
+      "evidence": [
+        "e-attention",
+        "e-quality"
+      ],
+      "basis": "editorial_inference",
+      "review_status": "proposed",
+      "reviews": []
+    }
+  ],
+  "reading_route": [
+    "r-recurrent",
+    "r-attention",
+    "r-decoding",
+    "r-quality"
+  ],
+  "narrative": {
+    "overview": "Follow one question through distinct results in the same paper. Inspect a layer-level gain, its resource tradeoff, and the limits of carrying it to a different task.",
+    "turning_points": [
+      {
+        "title": "A layer-level comparison",
+        "summary": "Separate sequential depth from total work.",
+        "result_ids": [
+          "r-recurrent",
+          "r-attention"
+        ]
+      },
+      {
+        "title": "A different question needs different evidence",
+        "summary": "Generation and model quality need their own criteria.",
+        "result_ids": [
+          "r-decoding",
+          "r-quality"
+        ]
+      }
+    ]
+  }
+}

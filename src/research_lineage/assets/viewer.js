@@ -7,7 +7,8 @@
   const results = index(data.results),
     works = index(data.works),
     evidence = index(data.evidence),
-    relations = index(data.relations);
+    relations = index(data.relations),
+    comparisons = index(data.comparisons || []);
   const labels = {
     generalizes: "generalizes",
     uses_result: "uses a result from",
@@ -32,7 +33,8 @@
   let selected = null,
     selectedType = "result",
     routeStep = -1,
-    zoom = 1;
+    zoom = 1,
+    comparisonSelection = null;
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -98,7 +100,18 @@
         ),
       );
       card.append(element("p", "source-title", work.title));
+      if (item.quote) {
+        card.append(
+          element("p", "source-meta", "SOURCE EXCERPT"),
+          element("blockquote", "source-quote", item.quote.exact),
+          element("p", "source-meta", "ANNOTATION / INTERPRETATION"),
+        );
+      }
       card.append(element("p", "", item.summary));
+      if (item.quote) card.append(element("p", "source-meta",
+        item.anchor_check
+          ? "Recorded local text check: " + item.anchor_check.outcome + ". Not reproduced here; a match does not establish scientific support."
+          : "Local text match: unchecked. Use the locator and pinned source to check this excerpt."));
       card.append(
         element(
           "p",
@@ -223,6 +236,12 @@
         panel.append(node);
       });
     }
+    const relatedComparisons = (data.comparisons || []).filter((record) => record.left === id || record.right === id);
+    if (relatedComparisons.length) {
+      panel.append(title("WHAT CHANGES BETWEEN RESULTS?"));
+      relatedComparisons.forEach((record) => panel.append(button(record.question,
+        () => showCompare(record.left, record.right, record.id), "relation-link")));
+    }
     appendReviews(panel, result);
     finishInspector();
     highlights();
@@ -254,7 +273,7 @@
         "Basis: " +
           edge.basis.replaceAll("_", " ") +
           ". Comparability: " +
-          edge.comparability.replaceAll("_", " ") +
+          (edge.comparability ? "legacy author annotation: " + edge.comparability.replaceAll("_", " ") : "see the authored comparison, if recorded") +
           ".",
       ),
     );
@@ -275,7 +294,7 @@
     panel.append(
       button(
         "Compare their settings →",
-        () => showCompare(edge.source, edge.target),
+        () => showCompare(edge.source, edge.target, edge.comparison_id),
         "relation-link",
       ),
     );
@@ -427,14 +446,15 @@
       });
     });
   }
-  function showCompare(left, right) {
-    const body = modal("What changed in the setting?"),
+  function showCompare(left, right, comparisonId = null, update = true) {
+    comparisonSelection = comparisonId;
+    const body = modal("What changes between these results?"),
       pickers = element("div", "compare-pickers");
     ["left", "right"].forEach((side, index) => {
       const label = element(
         "label",
         "",
-        index === 0 ? "EARLIER / FIRST RESULT" : "LATER / SECOND RESULT",
+        index === 0 ? "RESULT A" : "RESULT B",
       );
       const select = element("select");
       select.id = "compare-" + side;
@@ -450,16 +470,52 @@
       select.value = index === 0 ? left : right;
       label.append(select);
       pickers.append(label);
-      select.addEventListener("change", updateComparison);
+      select.addEventListener("change", () => {
+        comparisonSelection = null;
+        updateComparison();
+      });
     });
     body.append(pickers, element("div", "", undefined));
     body.lastChild.id = "comparison-output";
-    updateComparison();
+    updateComparison(update);
   }
-  function updateComparison() {
+  function updateComparison(update = true) {
     const a = results[$("compare-left").value],
       b = results[$("compare-right").value],
       output = $("comparison-output");
+    output.replaceChildren();
+    const choices = (data.comparisons || []).filter((record) => record.left === a.id && record.right === b.id);
+    const chosen = choices.find((record) => record.id === comparisonSelection) || (choices.length === 1 ? choices[0] : null);
+    if (choices.length > 1) {
+      const label = element("label", "comparison-question", "Question and applicable regime"),
+        picker = element("select");
+      picker.id = "comparison-choice";
+      const empty = element("option", "", "Choose the question to compare…");
+      empty.value = "";
+      picker.append(empty);
+      choices.forEach((record) => {
+        const option = element("option", "", record.question + " — " + record.regime);
+        option.value = record.id;
+        picker.append(option);
+      });
+      picker.value = chosen?.id || "";
+      picker.addEventListener("change", () => {
+        comparisonSelection = picker.value || null;
+        updateComparison();
+        $("comparison-choice")?.focus();
+      });
+      label.append(picker);
+      output.append(label);
+    }
+    if (chosen) {
+      appendComparison(output, chosen);
+      if (update) updateHash("comparison", chosen.id);
+      return;
+    }
+    if (update) updateHash("compare", a.id + "," + b.id);
+    output.append(element("p", "comparison-note", choices.length > 1
+      ? "Several questions are recorded for this pair. Choose one; no assessment has been selected."
+      : "No authored assessment is recorded for this ordered pair. Comparability remains unknown."));
     const table = element("table", "compare-table"),
       head = element("tr");
     ["Setting", a.label, b.label].forEach((name) =>
@@ -482,7 +538,7 @@
       );
       table.append(row);
     });
-    output.replaceChildren(
+    output.append(
       table,
       element(
         "p",
@@ -505,6 +561,48 @@
       ),
     );
     output.append(sources);
+  }
+  function appendComparison(output, record) {
+    output.append(element("h3", "", record.question));
+    [
+      ["What changed", record.summary],
+      ["When it applies", record.regime],
+      ["What it costs or leaves unresolved", record.tradeoffs],
+    ].forEach(([heading, content]) => output.append(element("h3", "section-label", heading), element("p", "summary", content)));
+    const meanings = {
+      comparable: "Comparable in the stated regime",
+      conditional: "Comparison depends on an unresolved condition",
+      incomparable: "The requested comparison does not hold",
+      unknown: "Insufficient evidence to assess this comparison",
+    };
+    output.append(element("p", "comparison-note", meanings[record.assessment] + ". " + record.rationale));
+    output.append(element("p", "source-meta", "Authored outcome: " + record.outcome.replaceAll("_", " ") + " · " + reviewLabel(record)));
+    const permalink = element("a", "inline-button", "Link to this comparison ↗");
+    permalink.href = "#comparison=" + encodeURIComponent(record.id);
+    output.append(permalink);
+    const details = element("details", "evidence-section");
+    details.append(element("summary", "", "Inspect the conditions and source evidence"));
+    const table = element("table", "compare-table"), head = element("tr");
+    ["Condition", results[record.left].label, results[record.right].label, "Why it matters"].forEach((text) => head.append(element("th", "", text)));
+    table.append(head);
+    record.conditions.forEach((condition) => {
+      const row = element("tr");
+      row.append(element("th", "", condition.dimension));
+      ["left", "right"].forEach((side) => {
+        const unit = condition[side + "_unit"];
+        row.append(element("td", "", unknown(condition[side]) + (unit ? " [" + unit + "]" : "")));
+      });
+      row.append(element("td", "", condition.reason));
+      table.append(row);
+    });
+    const wrap = element("div", "comparison-table-wrap");
+    wrap.append(table);
+    details.append(wrap, element("p", "source-meta", "Basis: " + record.basis.replaceAll("_", " ") + ". This is an authored assessment; source matching and structural checks do not certify it."));
+    if (record.conversion) details.append(element("p", "", "Conversion: " + record.conversion.summary + " Assumptions: " + record.conversion.assumptions));
+    if (record.improvement) details.append(element("p", "", "Specific improvement claim: " + record.improvement));
+    appendEvidence(details, record.evidence);
+    appendReviews(details, record);
+    output.append(details);
   }
   function reading(step) {
     routeStep = Math.max(0, Math.min(step, data.reading_route.length - 1));
@@ -613,14 +711,23 @@
       $("explorer").scrollIntoView({block:"start", behavior:"instant"});
     });
   });
+  document.querySelectorAll(".comparison-open").forEach((node) => node.addEventListener("click", () => {
+    const record = comparisons[node.dataset.comparison];
+    showCompare(record.left, record.right, record.id);
+  }));
+  $("all-comparisons")?.addEventListener("click", () => {
+    const body = modal("Choose a comparison question");
+    (data.comparisons || []).forEach((record) => body.append(button(record.question,
+      () => showCompare(record.left, record.right, record.id), "relation-link")));
+  });
   $("map-category").textContent = data.id.replaceAll("-", " ").toUpperCase();
   const years = data.works.map((work) =>
     Number(work.first_published.slice(0, 4)),
   );
   [
-    [data.works.length, "source papers"],
-    [data.relations.length, "connections"],
-    [Math.min(...years) + "–" + Math.max(...years), "publication span"],
+    [data.works.length, data.works.length === 1 ? "source paper" : "source papers"],
+    [data.relations.length, data.relations.length === 1 ? "connection" : "connections"],
+    [Math.min(...years) === Math.max(...years) ? String(years[0]) : Math.min(...years) + "–" + Math.max(...years), "publication span"],
   ].forEach(([number, label]) => {
     const item = element("div", "stat");
     item.append(
@@ -700,6 +807,13 @@
         showRelation(decodeURIComponent(id), false);
       else if (type === "result" && results[decodeURIComponent(id)])
         showResult(decodeURIComponent(id), false);
+      else if (type === "comparison" && comparisons[decodeURIComponent(id)]) {
+        const record = comparisons[decodeURIComponent(id)];
+        showCompare(record.left, record.right, record.id, false);
+      } else if (type === "compare") {
+        const [left, right] = decodeURIComponent(id).split(",");
+        if (results[left] && results[right]) showCompare(left, right, null, false);
+      }
       else if (type === "explore") showMode("explore");
       else if (type === "overview") showMode("overview");
     } catch (_) {

@@ -73,7 +73,7 @@ def render_svg(data):
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 {height}" role="group" aria-label="Interactive research lineage map" id="lineage-map">',
         f"<title>{esc(data['title'])}</title>",
-        "<desc>Publication chronology, not an as-of reconstruction. Arrows point from an earlier result to a later result; the later result performs the relationship. Dashed edges await review.</desc>",
+        "<desc>Publication chronology, not an as-of reconstruction. Arrows connect source and target results; the target performs the relationship. Results in one paper need not be chronologically ordered. Dashed edges await review.</desc>",
         '<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7" fill="#93a49e"/></marker></defs>',
         "<style>text{font-family:Arial,sans-serif}.node{cursor:pointer}.node rect{fill:#fff;stroke:#d6dfda;stroke-width:1.2}.node:hover rect,.node:focus rect{stroke:#147d70;stroke-width:2}.node .label{fill:#243a32;font-weight:600}.node .meta{fill:#6c7b75}.relation{cursor:pointer}.edge{fill:none;stroke:#93a49e;stroke-width:1.7}.pending .edge{stroke-dasharray:5 4}.relation:focus .edge,.relation:hover .edge{stroke:#147d70;stroke-width:3}.lane-label{fill:#78877f;font-weight:600;font-size:11px;letter-spacing:1px}.year{fill:#7b8881;font-size:12px}.band{fill:#f5f8f5}.hidden{display:none}.dim{opacity:.15}.selected rect{stroke:#147d70;stroke-width:2.5;fill:#f2faf6}.selected .edge{stroke:#147d70;stroke-width:3}.route-node rect{stroke:#147d70;stroke-width:2}</style>",
         '<rect width="1240" height="100%" fill="#fcfdfb"/>',
@@ -121,7 +121,7 @@ def render_svg(data):
             f'<text class="meta" x="15" y="64" font-size="10.5">{work["first_published"][:4]} · {esc(result["kind"])} · {"draft" if result["review_status"] == "proposed" else "review recorded"}</text></g>'
         )
     svg.append(
-        f'<text x="30" y="{height - 14}" class="year">RESEARCH LINEAGE · Cutoff {data["scope"]["cutoff"]} · {sum(result["review_status"] == "proposed" for result in data["results"])} draft results · Consult the scope and evidence before reuse</text></svg>'
+        f'<text x="30" y="{height - 14}" class="year">LITDELTA · Cutoff {data["scope"]["cutoff"]} · {sum(result["review_status"] == "proposed" for result in data["results"])} draft results · Consult the scope and evidence before reuse</text></svg>'
     )
     return "".join(svg)
 
@@ -183,7 +183,11 @@ def render_story(data):
             f"<h3>{html.escape(point['title'])}</h3><p>{html.escape(point['summary'])}</p>"
             f'<div class="story-sources">{sources}</div></article>'
         )
-    heading = "The turning points" if narrative else "A few places to begin"
+    heading = (
+        ("Selected results" if len(works) == 1 else "The turning points")
+        if narrative
+        else "A few places to begin"
+    )
     note = (
         "A selected account, with the evidence one step away."
         if narrative
@@ -211,6 +215,7 @@ def render_html(data):
         "DATA": serialized,
         "SVG": render_svg(data),
         "STORY": render_story(data),
+        "COMPARISONS": render_comparison_cards(data),
         "EXPORT_NOTES": json.dumps(export_notes(data), ensure_ascii=False)
         .replace("<", "\\u003c")
         .replace(">", "\\u003e")
@@ -220,9 +225,29 @@ def render_html(data):
     import re
 
     return re.sub(
-        r"@@(TITLE|CSS|JS|DATA|SVG|EXPORT_NOTES|STORY)@@",
+        r"@@(TITLE|CSS|JS|DATA|SVG|EXPORT_NOTES|STORY|COMPARISONS)@@",
         lambda match: values[match[1]],
         template,
+    )
+
+
+def render_comparison_cards(data):
+    records = data.get("comparisons", [])
+    if not records:
+        return ""
+    esc = html.escape
+    cards = []
+    for record in records[:5]:
+        cards.append(
+            f'<article class="comparison-card"><h3>{esc(record["question"])}</h3>'
+            f'<p>{esc(record["summary"])}</p><p class="comparison-regime"><strong>When it applies:</strong> {esc(record["regime"])}</p>'
+            f'<button class="button small comparison-open" data-comparison="{record["id"]}">Why? Check the conditions →</button></article>'
+        )
+    return (
+        '<section class="comparison-overview" aria-labelledby="comparison-heading"><div class="story-heading">'
+        '<h2 id="comparison-heading">What actually changed?</h2><p>Gains, conditions, and the comparisons that do not hold.</p></div>'
+        '<div class="comparison-grid">' + "".join(cards) + "</div>"
+        '<button id="all-comparisons" class="inline-button">Browse all comparisons →</button></section>'
     )
 
 

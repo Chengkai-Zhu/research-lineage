@@ -32,6 +32,8 @@ jobs:
           python -m research_lineage build examples/surface-code/map.json --out output/surface-code
           python -m research_lineage evaluate examples/evaluation/gates.json --out output/gate-report.json
           python -m research_lineage study examples/evaluation/study-empty.json --out output/study-report.json
+          python scripts/verify_litdelta.py --out output/litdelta-acceptance
+          python scripts/build_preview.py --out output/litdelta-preview
       - run: python scripts/package_skill.py --out dist
       - run: python -m build
       - uses: codecov/codecov-action@v7.1.1

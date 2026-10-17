@@ -1,12 +1,29 @@
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-# Research Lineage
+# LitDelta
 
-**Start with a topic. Understand how the ideas developed.**
+**See how research moves forward.**
 
 [![CI](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml/badge.svg)](https://github.com/Chengkai-Zhu/research-lineage/actions/workflows/ci.yml)
 
-An **agent skill** that turns a research topic or one paper into a clear, source-grounded reading history. Give your agent one sentence; receive an interactive map you can keep, inspect and share offline.
+An **agent skill** that turns a research topic or one paper into a clear, source-grounded reading history. Explore what each result changes, under which conditions, and where the evidence comes from. Give your agent one sentence; receive an interactive map you can keep, inspect and share offline.
+
+LitDelta is the product name. Installation continues to use `research-lineage`;
+both `litdelta` and `research-lineage` invoke the same local tools. The existing
+skill name and `python -m research_lineage` remain supported.
+
+Try the new, explicitly scoped result-comparison example after installing the
+checkout (it is not a completed field-history search):
+
+```sh
+litdelta demo --example comparisons --out output/comparisons
+```
+
+Open `output/comparisons/map.html` to compare parallel layer depth, total work,
+generation dependencies, and translation quality. [Source notes and reader tasks](examples/attention-comparisons/README.md)
+explain the distinction. [Preview build and publication](docs/litdelta.md#browser-preview)
+documents the static browser entry; publication status must be checked before
+claiming a public demo is available.
 
 > Please trace the development of quantum signal processing.
 

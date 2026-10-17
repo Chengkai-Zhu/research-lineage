@@ -1,8 +1,12 @@
 """Single source of truth for the public JSON Schema and runtime validation."""
 
 import re
+from copy import deepcopy
 from datetime import date
 from urllib.parse import urlsplit
+
+from .anchors import anchor_report_errors
+from .comparisons import comparison_errors
 
 
 def text(limit=4000):
@@ -150,6 +154,77 @@ SCHEMA["properties"]["narrative"] = obj(
     ),
 )
 
+# The published 1.0 contract stays unchanged. New fields require explicit 1.1.
+SCHEMA_1_1 = deepcopy(SCHEMA)
+SCHEMA_1_1.update(
+    {
+        "$id": "https://github.com/Chengkai-Zhu/research-lineage/schema/map-v1.1.json",
+        "title": "LitDelta map 1.1",
+    }
+)
+SCHEMA_1_1["properties"]["schema_version"] = choice("1.1")
+NULLABLE_TEXT = {"type": ["string", "null"], "minLength": 1, "maxLength": 2000}
+SHA256 = {**text(64), "pattern": "^[a-f0-9]{64}$"}
+evidence_1_1 = SCHEMA_1_1["properties"]["evidence"]["items"]
+evidence_1_1["properties"].update(
+    quote=obj(
+        exact=text(1200),
+        prefix={"type": "string", "maxLength": 300},
+        suffix={"type": "string", "maxLength": 300},
+    ),
+    anchor_check=obj(
+        work_id=ID,
+        version_id=ID,
+        url=URL,
+        selector_sha256=SHA256,
+        text_sha256={**SHA256, "type": ["string", "null"]},
+        method=choice("nfc-whitespace-v1"),
+        outcome=choice("matched", "missing", "ambiguous", "unchecked"),
+    ),
+)
+condition_schema = obj(
+    dimension=text(80),
+    left=NULLABLE_TEXT,
+    right=NULLABLE_TEXT,
+    reason=text(),
+    left_unit=NULLABLE_TEXT,
+    right_unit=NULLABLE_TEXT,
+    left_evidence=array(ID, maximum=30),
+    right_evidence=array(ID, maximum=30),
+)
+SCHEMA_1_1["properties"]["comparisons"] = array(
+    obj(
+        id=ID,
+        left=ID,
+        right=ID,
+        question=text(500),
+        summary=text(),
+        regime=text(),
+        tradeoffs=text(),
+        rationale=text(),
+        assessment=choice("comparable", "conditional", "incomparable", "unknown"),
+        outcome=choice("improvement", "tradeoff", "equal", "not_assessed"),
+        improvement=NULLABLE_TEXT,
+        conditions=array(condition_schema, maximum=30),
+        conversion={
+            **obj(summary=text(), assumptions=text(), evidence=array(ID, 1)),
+            "type": ["object", "null"],
+        },
+        evidence=array(ID, maximum=1000),
+        basis=choice("author_explicit", "editorial_inference", "citation_only"),
+        review_status=STATUS,
+        reviews=REVIEWS,
+    ),
+    maximum=1000,
+)
+SCHEMA_1_1["required"].append("comparisons")
+relation_1_1 = SCHEMA_1_1["properties"]["relations"]["items"]
+del relation_1_1["properties"]["comparability"]
+relation_1_1["required"].remove("comparability")
+relation_1_1["properties"]["comparison_id"] = {**ID, "type": ["string", "null"]}
+relation_1_1["required"].append("comparison_id")
+SCHEMAS = {"1.0": SCHEMA, "1.1": SCHEMA_1_1}
+
 
 def safe_url(value):
     """Links are never fetched by the renderer; still reject executable schemes."""
@@ -220,12 +295,24 @@ def _structure(value, schema, path, errors):
 def validate(data):
     """Return actionable errors and non-fatal review warnings; never certify science."""
     errors, warnings = [], []
-    _structure(data, SCHEMA, "$", errors)
+    format_version = (
+        data.get("schema_version", "1.0") if isinstance(data, dict) else "1.0"
+    )
+    if not isinstance(format_version, str) or format_version not in SCHEMAS:
+        return {
+            "valid": False,
+            "errors": ["Unsupported schema_version; use 1.0 or 1.1."],
+            "warnings": [],
+        }
+    _structure(data, SCHEMAS[format_version], "$", errors)
     if errors:
         return {"valid": False, "errors": errors, "warnings": warnings}
 
     indexes = {}
-    for collection in ("lanes", "works", "results", "evidence", "relations"):
+    collections = ["lanes", "works", "results", "evidence", "relations"]
+    if format_version == "1.1":
+        collections.append("comparisons")
+    for collection in collections:
         indexes[collection] = {item["id"]: item for item in data[collection]}
         if len(indexes[collection]) != len(data[collection]):
             errors.append(f"{collection}: duplicate IDs")
@@ -262,6 +349,10 @@ def validate(data):
                 errors.append(
                     f"{item['id']}: evidence checked before source became available"
                 )
+        if item in data["evidence"]:
+            errors.extend(
+                f"{item['id']}: {message}" for message in anchor_report_errors(item)
+            )
 
     for item in data["results"] + data["relations"]:
         refs = [evidence[eid] for eid in item["evidence"] if eid in evidence]
@@ -324,14 +415,52 @@ def validate(data):
                     f"{item['id']}: author-explicit relationship needs target-version evidence"
                 )
             if item["type"] == "improves_bound":
-                if item["comparability"] != "comparable" or any(
-                    value is None
-                    for result in (source, target)
-                    for value in result["settings"].values()
+                if format_version == "1.0" and (
+                    item["comparability"] != "comparable"
+                    or any(
+                        value is None
+                        for result in (source, target)
+                        for value in result["settings"].values()
+                    )
                 ):
                     errors.append(
                         f"{item['id']}: improvement requires comparable, fully stated settings"
                     )
+            if format_version == "1.1":
+                comparison = indexes["comparisons"].get(item["comparison_id"])
+                if item["comparison_id"] is not None and not comparison:
+                    errors.append(
+                        f"{item['id']}: comparison reference does not resolve"
+                    )
+                if comparison and (comparison["left"], comparison["right"]) != (
+                    item["source"],
+                    item["target"],
+                ):
+                    errors.append(
+                        f"{item['id']}: comparison endpoints/direction do not match relation"
+                    )
+                if item["type"] == "improves_bound":
+                    if not comparison:
+                        errors.append(
+                            f"{item['id']}: improvement requires a persistent comparison"
+                        )
+                    else:
+                        errors.extend(
+                            f"{item['id']}: {message}"
+                            for message in comparison_errors(
+                                comparison, results, evidence, improvement=True
+                            )
+                        )
+
+    for record in data.get("comparisons", []):
+        errors.extend(
+            f"{record['id']}: {message}"
+            for message in comparison_errors(record, results, evidence)
+        )
+    if any("anchor_check" in item for item in data["evidence"]):
+        warnings.append(
+            "Stored anchor checks are recorded, not reproduced without the local text; matching does not establish scientific support."
+        )
 
     # Only proof-use dependencies must be a DAG; critiques and surveys need not be.
     graph = {key: [] for key in results}
@@ -370,17 +499,22 @@ def validate(data):
         )
     proposed = sum(
         item["review_status"] == "proposed"
-        for item in data["results"] + data["relations"]
+        for item in data["results"] + data["relations"] + data.get("comparisons", [])
     )
     if proposed:
-        warnings.append(f"{proposed} results/relationships await scholarly review.")
+        kinds = (
+            "results/relationships/comparisons"
+            if format_version == "1.1"
+            else "results/relationships"
+        )
+        warnings.append(f"{proposed} {kinds} await scholarly review.")
     if any(item["kind"] != "full_text" for item in data["evidence"]):
         warnings.append(
             "Some evidence is abstract/metadata level; no proof verification is implied."
         )
     if any(
         item["review_status"] == "reviewed"
-        for item in data["results"] + data["relations"]
+        for item in data["results"] + data["relations"] + data.get("comparisons", [])
     ):
         warnings.append(
             "Review references are recorded, not authenticated by this validator."

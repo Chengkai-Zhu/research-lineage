@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "research-lineage"
 version = "0.2.0"
-description = "Evidence-linked research maps, setting comparisons, and an offline-first agent skill."
+description = "LitDelta: understand research changes, conditions, and evidence in a portable reading map."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
@@ -24,6 +24,7 @@ dev = [
 
 [project.scripts]
 research-lineage = "research_lineage.cli:main"
+litdelta = "research_lineage.cli:main"
 
 [project.urls]
 Repository = "https://github.com/Chengkai-Zhu/research-lineage"

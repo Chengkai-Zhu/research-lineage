@@ -1,6 +1,17 @@
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-# Research Lineage
+# LitDelta
+
+**看懂研究如何推进：改变了什么、在什么条件下成立、证据在哪里。**
+
+产品名为 LitDelta；安装包和 skill 继续使用 `research-lineage`。`litdelta`、
+`research-lineage` 和 `python -m research_lineage` 使用同一套本地工具。
+
+安装当前 checkout 后，可运行 `litdelta demo --example comparisons --out output/comparisons`，
+打开 `output/comparisons/map.html`。这个限定范围的例子展示同一论文中的层级并行性、
+总工作量、生成依赖和翻译质量；它是结果比较阅读案例，完整研究流程另由 #14/#12 验证。
+查看[来源与阅读任务](examples/attention-comparisons/README.md)及
+[浏览器预览构建与发布](docs/litdelta.md#browser-preview)。公开预览是否已部署须以实际可访问链接为准。
 
 **从一个方向出发，读懂研究如何发展。**
 

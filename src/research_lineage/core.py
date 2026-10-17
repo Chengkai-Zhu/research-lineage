@@ -63,7 +63,7 @@ def same_file(left, right):
     )
 
 
-def compare(data, left, right):
+def compare(data, left, right, comparison_id=None):
     results = {result["id"]: result for result in data["results"]}
     if left not in results or right not in results:
         raise MapError("Comparison needs two existing result IDs.")
@@ -82,11 +82,40 @@ def compare(data, left, right):
                 else "different",
             }
         )
+    choices = [
+        record
+        for record in data.get("comparisons", [])
+        if (record["left"], record["right"]) == (left, right)
+    ]
+    chosen = None
+    if comparison_id:
+        chosen = next(
+            (record for record in choices if record["id"] == comparison_id), None
+        )
+        if chosen is None:
+            raise MapError(
+                "Comparison ID does not match these ordered result endpoints."
+            )
+    elif len(choices) == 1:
+        chosen = choices[0]
     return {
         "left": left,
         "right": right,
         "fields": rows,
-        "verdict": "Comparability is not established by text matching. Check the source assumptions and cost units.",
+        "assessment": chosen["assessment"] if chosen else "unknown",
+        "comparison": chosen,
+        "choices": [
+            {
+                "id": record["id"],
+                "question": record["question"],
+                "regime": record["regime"],
+            }
+            for record in choices
+        ],
+        "selection_required": len(choices) > 1 and chosen is None,
+        "verdict": chosen["rationale"]
+        if chosen
+        else "Comparability is not established by text matching. Check the source assumptions and cost units.",
     }
 
 
@@ -94,9 +123,16 @@ def diff_maps(before, after):
     if before["id"] != after["id"]:
         raise MapError("Map IDs differ; compare revisions of the same map.")
     changes = {}
-    for collection in ("lanes", "works", "results", "evidence", "relations"):
+    for collection in (
+        "lanes",
+        "works",
+        "results",
+        "evidence",
+        "relations",
+        "comparisons",
+    ):
         a, b = (
-            {item["id"]: item for item in source[collection]}
+            {item["id"]: item for item in source.get(collection, [])}
             for source in (before, after)
         )
         changes[collection] = {
@@ -115,15 +151,22 @@ def diff_maps(before, after):
                 if a[key] != b[key]
             ],
             "order": {
-                "before": [item["id"] for item in before[collection]],
-                "after": [item["id"] for item in after[collection]],
+                "before": [item["id"] for item in before.get(collection, [])],
+                "after": [item["id"] for item in after.get(collection, [])],
             }
             if list(a) != list(b)
             else None,
         }
     metadata = {
         key: {"before": before.get(key), "after": after.get(key)}
-        for key in ("title", "question", "scope", "reading_route", "narrative")
+        for key in (
+            "schema_version",
+            "title",
+            "question",
+            "scope",
+            "reading_route",
+            "narrative",
+        )
         if before.get(key) != after.get(key)
     }
     return {
@@ -185,7 +228,12 @@ def review_sections(data):
             )
         else:
             queue.append(
-                f"{item['target']} {item['type']} {item['source']} | basis: {item['basis']} | comparability: {item['comparability']}"
+                f"{item['target']} {item['type']} {item['source']} | basis: {item['basis']} | "
+                + (
+                    f"legacy comparability: {item['comparability']}"
+                    if "comparability" in item
+                    else f"comparison: {item['comparison_id'] or 'not assessed'}"
+                )
             )
         queue.append("Evidence: " + ", ".join(item["evidence"]))
         queue.extend(
@@ -193,6 +241,34 @@ def review_sections(data):
             for review in item["reviews"]
         )
     sections.append(("Review queue", queue))
+    comparisons = []
+    for record in data.get("comparisons", []):
+        comparisons.extend(
+            [
+                f"{record['id']}: {record['left']} → {record['right']} | {record['assessment']} | {record['review_status']} | basis: {record['basis']}",
+                f"Question: {record['question']}",
+                f"What changed: {record['summary']}",
+                f"When it applies: {record['regime']}",
+                f"Tradeoffs/gaps: {record['tradeoffs']}",
+                f"Assessment reason: {record['rationale']} | Outcome: {record['outcome']}",
+                f"Improvement statement: {record['improvement'] or 'None asserted'}",
+                "Evidence: " + ", ".join(record["evidence"]),
+            ]
+        )
+        comparisons.extend(
+            f"{row['dimension']}: {row['left']} [{row['left_unit']}] vs {row['right']} [{row['right_unit']}] — {row['reason']} | Left evidence: {', '.join(row['left_evidence'])} | Right evidence: {', '.join(row['right_evidence'])}"
+            for row in record["conditions"]
+        )
+        if record["conversion"]:
+            comparisons.append(
+                "Conversion: " + json.dumps(record["conversion"], ensure_ascii=False)
+            )
+        comparisons.extend(
+            f"Recorded review (identity not authenticated): {review['name']} — {review['url']}"
+            for review in record["reviews"]
+        )
+    if comparisons:
+        sections.append(("Result comparisons", comparisons))
     sections.append(
         (
             "Evidence",
@@ -205,6 +281,19 @@ def review_sections(data):
     sections.append(
         ("Reading route", [" → ".join(data["reading_route"]) or "No route recorded."])
     )
+    anchors = []
+    for item in data["evidence"]:
+        if "quote" in item:
+            anchors.append(
+                f"{item['id']}: Source excerpt: {item['quote']['exact']} | Prefix: {item['quote']['prefix']} | Suffix: {item['quote']['suffix']}"
+            )
+        if "anchor_check" in item:
+            anchors.append(
+                "Recorded local check (not reproduced): "
+                + json.dumps(item["anchor_check"], ensure_ascii=False)
+            )
+    if anchors:
+        sections.append(("Source excerpts and local checks", anchors))
     sections.append(
         ("Diagnostics", validate(data)["warnings"] or ["No structural warnings."])
     )
